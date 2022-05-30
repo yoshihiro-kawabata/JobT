@@ -1,0 +1,8 @@
+<h1>スケジュール詳細</h1>
+
+<p>日時：<%= @schedule.schedule_date %></p>
+<p>名前：<%= @user.name %></p>
+<p>業務予定：<%= @schedule.start_time %> ～ <%= @schedule.end_time %></p>
+<p>ステータス：<%= @schedule.status %></p>
+
+<%= link_to t('common.back'), schedules_path %>

@@ -1,0 +1,23 @@
+<h1><%= t('.title') %></h1>
+
+<% if @user.errors.any? %>
+  <div id="error_explanation">
+    <ul>
+    <% @user.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= form_with(model: @user, local: true) do |f| %>
+  <p>  <%= f.label :社員番号 %> : <%= @user.number %> </p>
+  <p>  <%= f.label :名前 %> : 
+       <%= f.text_field :name, :size => 32, :placeholder => "30文字以内" %></p>
+  <p>  <%= f.label :メールアドレス %>  : 
+       <%= f.email_field :email, :size => 32 %></p>
+  <p>  <%= f.label :パスワード %></p>
+  <p>  <%= f.password_field :password,:size => 32, :placeholder => "半角英数字6文字以上" %></p>
+  <p>  <%= f.password_field :password_confirmation,:size => 32, :placeholder => "確認のためもう一度入力をお願いします" %>
+  <p>  <%= f.submit "更新する" %>　<%= link_to t('common.back'), user_path(@user.id) %>  </p>
+<% end %>

@@ -1,0 +1,22 @@
+<h1>送信一覧</h1>
+
+<table style="width:1000px; border:3px solid; margin:auto; text-align: center;">
+    <thead>
+      <tr>
+        <th style="width:300px;">名前</th>
+        <th style="width:600px;">内容</th>
+        <th style="width:100px;">確認</th>
+      </tr>
+    </thead>
+  
+    <tbody>
+      <% @messages.each do |message| %>
+        <tr>
+          <td style="border:2px solid"><%= message.user_name %>さんへのメッセージ</td>
+          <td style="border:2px solid; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; "><%= message.content %></td>
+          <td style="border:2px solid"><%= link_to '確認', message_path(message.id) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= paginate @messages %>

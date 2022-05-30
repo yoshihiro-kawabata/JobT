@@ -1,0 +1,11 @@
+<h1>申請詳細</h1>
+
+<p>作成日：<%= @request.created_at.strftime("%m月%d日") %></p>
+<p>申請種類：<%= @request.request_type %></p>
+<p>修正日時：<%= @request.period.strftime("%m月%d日") %> <% unless @request.start_time == "" %> <%= @request.start_time %> ～ <%= @request.end_time %> <% end %> </p>
+<% unless @request.status == "" %> <p>修正ステータス：<%= @request.status %></p> <% end %> 
+<p>理由：<%= @request.reason %></p>
+
+<%= link_to '取消', @request, method: :delete, data: { confirm: '申請を取消します' } %>
+<%= link_to t('common.back'), requests_path %>
+

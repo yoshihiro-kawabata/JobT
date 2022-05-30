@@ -1,0 +1,21 @@
+<h1>日報詳細</h1>
+
+<p>作成日：<%= @report.createdate %></p>
+<p>作成者：<%= @report.user_name %></p>
+<p>内容：</p>
+<p>「事実」何があったか：<%= @report.daytask %></p>
+<p>「感情」どう思ったか：<%= @report.emotion %></p>
+<p>「事実」何があったか：<%= @report.learn %></p>
+<p>「変化」何を変えるか：<%= @report.transition %></p>
+<p>管理者コメント：</p>
+<% unless @report.admincom.blank? %><%= @report.admincom %><% else %>コメント無し<% end %>
+
+
+<% unless admin_user? %>
+<%= link_to t('common.edit'), edit_report_path(@report) %>
+<% else %>
+<%= link_to 'コメント', edit_report_path(@report) %>
+<% end %>
+
+<%= link_to t('common.back'), reports_path %>
+

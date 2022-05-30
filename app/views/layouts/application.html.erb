@@ -7,9 +7,87 @@
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'nav' %>
+
+    <script  src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js"
+    integrity="sha512-VMsZqo0ar06BMtg0tPsdgRADvl0kDHpTbugCBBrL55KmucH6hP9zWdLIWY//OTfMnzz6xWQRxQqsUFefwHuHyg=="crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@next/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+
   </head>
 
-  <body>
-    <%= yield %>
+  <body>  
+  <nav>
+  <% if logged_in? %>
+  <ul>
+  <li><%= link_to "JobT", jobs_home_path %></li>
+  <% if admin_user? %>
+  <li class="has-child"><a>スケジュール・実績</a>
+    <ul>
+    <li><%= link_to "スケジュール", schedules_path %></li>
+    <li><%= link_to "勤怠状況", jobs_manage_path %></li>
+    <li><%= link_to "勤怠表（自分）", attendances_path %></li>
+    <li><%= link_to "勤怠表（グループ）", attendance_path(current_user.group) %></li>
+  </ul>
+  </li>
+  <li class="has-child"><%= link_to "承認一覧", consents_path %></li>
+  <li class="has-child"><a>お知らせ</a>
+    <ul>
+    <li><%= link_to "受信一覧", messages_path %></li>
+    <li><%= link_to "送信一覧", ship_messages_path %></li>
+    <li><%= link_to "メッセージ作成", new_message_path %></li>
+    <li><%= link_to "日報確認", reports_path %></li>
+    <li><%= link_to "日報出力", jobs_post_path %></li>
+    </ul>
+  </li>
+  <li class="has-child"><a>アカウント</a>
+    <ul>
+    <li><%= link_to "確認", user_path(current_user.id) %></li>
+    <li><%= link_to "登録", new_user_path %></li>
+    <li><%= link_to "編集", edit_user_path(current_user.id) %></li>
+    <li><%= link_to "ログアウト", session_path(current_user.id), method: :delete %></li>
+    </ul>
+  </li>
+
+  <% else %>
+
+    <li class="has-child"><a>スケジュール・実績</a>
+      <ul>
+      <li><%= link_to "スケジュール", schedules_path %></li>
+      <li><%= link_to "勤怠表（自分）", attendances_path %></li>
+      <li><%= link_to "勤怠表（グループ）", attendance_path(current_user.group) %></li>
+      </ul>
+    </li>
+    <li class="has-child"><a>申請</a>
+      <ul>
+      <li><%= link_to "作成", new_request_path %></li>
+      <li><%= link_to "一覧", requests_path %></li>
+      </ul>
+    </li>
+    <li class="has-child"><a>お知らせ</a>
+      <ul>
+      <li><%= link_to "受信一覧", messages_path %></li>
+      <li><%= link_to "送信一覧", ship_messages_path %></li>
+      <li><%= link_to "メッセージ作成", new_message_path %></li>
+      <li><%= link_to "日報作成", new_report_path %></li>
+      <li><%= link_to "日報確認", reports_path %></li>
+      </ul>
+    </li>
+    <li class="has-child"><a>アカウント</a>
+      <ul>
+      <li><%= link_to "確認", user_path(current_user.id) %></li>
+      <li><%= link_to "編集", edit_user_path(current_user.id) %></li>
+      <li><%= link_to "ログアウト", session_path(current_user.id), method: :delete %></li>
+      </ul>
+    </li>
+  <% end %>
+
+  <% end %>
+  </ul>
+  </nav>
+  <% flash.each do |key, value| %>
+    <%= content_tag(:div, value, class: "#{key}") %>
+  <% end %>
+  <%= yield %>
   </body>
+
 </html>

@@ -1,0 +1,28 @@
+<h1>申請一覧</h1>
+
+<%= link_to "申請作成", new_request_path %>
+
+<table style="width:1000px; border:3px solid; margin:auto; text-align: center;">
+    <thead>
+      <tr>
+      <th style="width:100px;">作成日</th>
+      <th style="width:200px;">申請種類</th>
+      <th style="width:200px;">申請修正日時</th>
+      <th style="width:200px;">理由</th>
+      <th style="width:100px;">詳細</th>
+      </tr>
+    </thead>
+  
+    <tbody>
+      <% @requests.each do |request| %>
+        <tr>
+          <td style="border:2px solid"><%= request.created_at.strftime("%m月%d日") %></td>
+          <td style="border:2px solid"><%= request.request_type %></td>
+          <td style="border:2px solid"><%= request.period.strftime("%m月%d日") %> <% unless request.start_time == "" %> <%= request.start_time %> ～ <%= request.end_time %> <% end %> </td>
+          <td style="border:2px solid; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; max-width:200px;"><%= request.reason %></td>
+          <td style="border:2px solid"><%= link_to '詳細', request_path(request.id) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= paginate @requests %>

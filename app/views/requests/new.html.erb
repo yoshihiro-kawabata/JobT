@@ -1,0 +1,30 @@
+<h1>申請作成</h1>
+
+<% if @request.errors.any? %>
+    <ul>
+    <% @request.errors.full_messages.each do |request| %>
+      <li><%= request %></li>
+    <% end %>
+    </ul>
+<% end %>
+
+<% documentA = []  %>
+
+<% @documents.each do |document| %>
+  <% documentA << [document.name, document.number]  %>
+<% end %>
+
+<%= form_with(model: @request, local: true) do |f| %>
+
+<p><%= f.label :申請種類 %>：<%= f.select :request_type, documentA %></p>
+
+<p>  <%= f.label :修正日時 %></p>
+<p><%= f.date_field :period %></p>
+<p><%= f.label :開始 %>：<%= f.time_field :start_time, value:f.object.start_time.try(:strftime,'%H:%M') %> ～
+<%= f.label :終了 %>：<%= f.time_field :end_time,value:f.object.end_time.try(:strftime,'%H:%M') %></p>
+<p>  <%= f.label :ステータス %>：<%= f.text_field :status %></p>
+
+<p>  <%= f.label :理由 %>：<%= f.text_field :reason %></p>
+
+<p>  <%= f.submit "申請", data: { confirm: '送信してもよろしいですか？' } %> </p>
+<% end %>

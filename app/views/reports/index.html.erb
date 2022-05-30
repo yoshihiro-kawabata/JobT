@@ -1,0 +1,51 @@
+<h1>日報一覧</h1>
+
+<%= search_form_for @q, url: search_reports_path do |f| %>
+  <% if admin_user? %>
+  <%= f.label :created_at, '作成者' %>
+  <%= f.text_field :user_name_cont,  include_blank: true, class: 'form-control'%>
+  <% end %>
+  <%= f.label :created_at, '作成日' %>
+  <%= f.date_field :created_at_eq,  include_blank: true, class: 'form-control'%>
+  <%= f.label :created_at, '期間検索' %>
+  <%= f.date_field :created_at_gteq,  include_blank: true, class: 'form-control'%>〜
+  <%= f.date_field :created_at_lteq,  include_blank: true, class: 'form-control'%>
+    <br>
+    <%= f.submit '検索' %>
+    <% end %>
+  
+<table>
+  <thead>
+    <tr>
+      <th>日付</th>
+      <th>作成者</th>
+      <th>内容</th>
+      <th>確認</th>
+      <% unless admin_user? %>
+      <th>編集</th>
+      <% else %>
+      <th>コメント</th>
+    <% end %>
+      </tr>
+  </thead>
+
+  <tbody>
+    <% @reports.each do |report| %>
+      <tr>
+        <td style="border:2px solid;"><%= report.created_at.strftime("%m月%d日") %></td>
+        <td style="border:2px solid;"><%= report.user_name %></td>
+        <td style="border:2px solid; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; max-width: 800px;  "><%= report.daytask %><%= report.emotion %><%= report.learn %><%= report.transition %><%= report.admincom %></td>
+        <td style="border:2px solid;"><%= link_to '確認', report %></td>
+        <% unless admin_user? %>
+        <td style="border:2px solid;"><%= link_to '編集', edit_report_path(report) %></td>
+        <% else %>
+        <td style="border:2px solid;"><%= link_to 'コメント', edit_report_path(report) %></td>
+        <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+<% unless admin_user? %>
+<%= link_to "日報作成", new_report_path %>
+<% end %>
+

@@ -1,0 +1,93 @@
+ja:
+  activerecord:
+    models:
+      attendance: 勤怠
+      consent: 承認
+      message: メッセージ
+      report: 日報
+      request: 申請
+      schedule: スケジュール
+      user: ユーザ
+    attributes:
+      attendance: 
+        title: タイトル
+      consent: 
+        title: タイトル
+      message: 
+        title: タイトル
+      report: 
+        title: タイトル
+      request: 
+        title: タイトル
+        period: 修正日時
+        reason: 理由
+        start_time: 開始時間
+        end_time: 終了時間
+        status: ステータス
+        attendance: 勤怠表
+        schedule: スケジュール
+        paid_count: 有給休暇日数
+        trans_count: 振替休日日数
+      schedule: 
+        title: タイトル
+      user:
+        name: 名前
+        email: メールアドレス
+        password: パスワード
+        password_confirmation: パスワード（確認）
+  errors:
+    format: "%{attribute}%{message}"
+    messages:
+      blank: を入力してください
+      too_short: は6文字以上で入力してください
+      invalid: は正しくありません
+      taken: はすでに使用されています
+      confirmation: とパスワードの入力が一致しません
+  helpers:
+    submit:
+      create: 登録する
+      update: 更新する
+  common:
+    new: 新規作成
+    show: 詳細
+    edit: 編集
+    destroy: 削除
+    back: 戻る
+    confirm_destroy: 本当に削除してもよろしいですか？
+  recipe: 
+    index:
+      title: レシピ一覧ページ
+    create:
+      created: レシピを登録しました
+    update:
+      updated: レシピを更新しました
+    destroy:
+      destroyed: レシピを削除しました
+  tasks:
+    index:
+      title: タスク一覧ページ
+    new:
+      title: タスク登録ページ
+    edit:
+      title: タスク編集ページ
+    show:
+      title: タスク詳細ページ
+    create:
+      created: タスクを登録しました
+    update:
+      updated: タスクを更新しました
+    destroy:
+      destroyed: タスクを削除しました
+  users:
+    new:
+      title: アカウント登録ページ
+    edit:
+      title: アカウント編集ページ
+    show:
+      title: アカウント詳細ページ
+    create:
+      created: アカウントを登録しました
+    update:
+      updated: アカウントを更新しました
+    destroy:
+      destroyed: アカウントを削除しました

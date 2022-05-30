@@ -1,0 +1,22 @@
+<h1>日報作成</h1>
+
+<% if @report.errors.any? %>
+  <div id="error_explanation">
+    <ul>
+    <% @report.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= form_with(model: @report, local: true) do |f| %>
+<p><%= f.label :内容 %></p>
+<p>  <%= f.label :「事実」何があったか %> ： <%= f.text_field :daytask %></p>
+<p>  <%= f.label :「感情」どう思ったか %> ： <%= f.text_field :emotion %></p>
+<p>  <%= f.label :「学習」何を学んだか %> ： <%= f.text_field :learn %></p>
+<p>  <%= f.label :「変化」何を変えるか %> ： <%= f.text_field :transition %></p>
+<%= f.hidden_field :createdate, :value => DateTime.now.strftime("%m月%d日") %>
+
+<p>  <%= f.submit "作成" %> </p>
+<% end %>

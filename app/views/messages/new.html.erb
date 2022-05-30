@@ -1,0 +1,28 @@
+<h1>メッセージ作成</h1>
+
+<% if @message.errors.any? %>
+  <div id="error_explanation">
+    <ul>
+    <% @message.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<% userA = []  %>
+
+<% @users.each do |user| %>
+  <% userA << [user.name, user.id]  %>
+<% end %>
+
+<%= form_with(model: @message, local: true) do |f| %>
+
+<p><%= f.label :送信先 %>
+<%= f.select :user_id, userA %></p>
+
+<p>  <%= f.label :内容 %></p>
+<p><%= f.text_field :content %></p>
+
+<p>  <%= f.submit "送信", data: { confirm: '送信してもよろしいですか？' } %> </p>
+<% end %>

@@ -1,0 +1,31 @@
+<h1>日報編集</h1>
+
+<% if @report.errors.any? %>
+  <div id="error_explanation">
+    <ul>
+    <% @report.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= form_with(model: @report, local: true) do |f| %>
+  <p><%= f.label :内容 %></p>
+    <% unless admin_user? %>
+      <p>  <%= f.label :「事実」何があったか %> ： <%= f.text_field :daytask %></p>
+      <p>  <%= f.label :「感情」どう思ったか %> ： <%= f.text_field :emotion %></p>
+      <p>  <%= f.label :「学習」何を学んだか %> ： <%= f.text_field :learn %></p>
+      <p>  <%= f.label :「変化」何を変えるか %> ： <%= f.text_field :transition %></p>
+      <p>  <%= f.submit "編集" %> </p>
+      <% else %>
+      <p>「事実」何があったか：<%= @report.daytask %></p>
+      <p>「感情」どう思ったか：<%= @report.emotion %></p>
+      <p>「学習」何を学んだか：<%= @report.learn %></p>
+      <p>「変化」何を変えるか：<%= @report.transition %></p>
+      <p>  <%= f.label :管理者コメント %> ： <%= f.text_field :admincom %></p>
+      <p>  <%= f.submit "コメント" %> </p>
+      <% end %>
+<% end %>
+
+<%= link_to t('common.back'), reports_path %>

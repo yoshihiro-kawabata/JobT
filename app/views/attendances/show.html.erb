@@ -1,0 +1,26 @@
+<h1>勤怠表（グループ）</h1>
+  
+<div class="example">
+ <table>
+    <tr>
+      <th>名前</th>
+      <% (Date.today.beginning_of_month..Date.today.end_of_month).each do |date| %>
+        <th><%= date.strftime("%m月%d日") %></th>
+      <% end %>
+    </tr>
+  <% @users.each do |user| %>
+      <tr>
+        <th>
+         <%= user.name %>
+        </th>
+        <% attcount = @attendances[user.id].length %>
+            <% attcount.times do |s| %>
+         <td>
+          <p>実績：<%= @attendances[user.id]["#{s}".to_i].start_time %> ～ <%= @attendances[user.id]["#{s}".to_i].end_time %></p>
+         </td>
+        <% end %>
+      </tr>
+    <% end %>
+</table>
+</div>
+

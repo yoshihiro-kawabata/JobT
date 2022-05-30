@@ -1,0 +1,92 @@
+<div style="display: flex;">
+<div style="width: 500px; height: 500px; margin-right:200px">
+<%= pie_chart @attend_ratio, donut: true, suffix: "人", id: "users-chartA", width: "500px", height: "500px", colors: ["#a22041", "#7b7c7d"], legend: false %>
+<%= pie_chart @report_ratio, donut: true, suffix: "人", id: "users-chartB", width: "300px", height: "300px", colors: ["#99ab4e", "#7b7c7d"], legend: false %>
+<%= pie_chart @leave_ratio, suffix: "人", id: "users-chartC", width: "120px", height: "120px", colors: ["#1e50a2", "#7b7c7d"], legend: false %>
+</div>
+
+<div style="width: 400px; height: 500px;">
+   <div style="display: flex;">
+      <div style="width: 200px;">
+      <h3>今日の日付</h3>
+      <h4><%= Date.today.strftime('%Y年%m月%d日') %></h4>
+      </div>
+      <div style="width: 200px;">
+      <h3>現在時刻<h3>
+      <h4><p id="RealtimeClockArea2"><%= Time.current.strftime('%H時%M分%S秒').to_s %></p></h4>
+      </div>
+   </div>
+
+   <div style="display: flex;">
+      <h4>本日の出席人数：<%= @user_count_att %>人<h4>
+   </div>
+
+   <div style="display: flex;">
+      <div style="width: 100px;">
+      <h5>出勤〇</h5>
+      <h5>日報〇</h5>
+      <h5>退勤〇</h5>
+      </div>
+      <div style="width: 300px;">
+         <% @leave.size.times do |n| %>
+            <%= @leave["#{n}".to_i] %>　
+         <% end %>
+      </div>
+   </div>
+
+   <div style="display: flex;">
+      <div style="width: 100px;">
+      <h5>出勤〇</h5>
+      <h5>日報〇</h5>
+      <h5>退勤×</h5>
+      </div>
+      <div style="width: 300px;">
+         <% @report.size.times do |n| %>
+            <%= @report["#{n}".to_i] %>　
+         <% end %>
+      </div>
+   </div>
+
+   <div style="display: flex;">
+      <div style="width: 100px;">
+      <h5>出勤〇</h5>
+      <h5>日報×</h5>
+      <h5>退勤×</h5>
+      </div>
+      <div style="width: 300px;">
+      <% @attend.size.times do |n| %>
+         <%= @attend["#{n}".to_i] %>　
+      <% end %>
+   </div>
+   </div>
+
+   <div style="display: flex;">
+      <div style="width: 100px;">
+      <h5>未出勤</h5>
+      </div>
+      <div style="width: 300px;">
+      <% @fulluser.size.times do |n| %>
+         <%= @fulluser["#{n}".to_i] %>　
+      <% end %>
+      </div>
+   </div>
+
+<script>
+function set2fig(num) {
+    var ret;
+    if( num < 10 ) { ret = "0" + num; }
+    else { ret = num; }
+    return ret;
+ }
+ function showClock2() {
+    var nowTime = new Date();
+    var nowHour = set2fig( nowTime.getHours() );
+    var nowMin  = set2fig( nowTime.getMinutes() );
+    var nowSec  = set2fig( nowTime.getSeconds() );
+    var msg = "<h4>" + nowHour + "時" + nowMin + "分" + nowSec + "秒</h4>";
+    document.getElementById("RealtimeClockArea2").innerHTML = msg;
+ }
+ setInterval('showClock2()',1000);
+</script>
+</div>
+</div>
