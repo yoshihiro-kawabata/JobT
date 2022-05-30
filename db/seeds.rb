@@ -352,8 +352,8 @@ Document.create!(
   Request.create!(
     request_type: documentA.name,
     period: Date.today.since(1.days),
-    start_time: Time.current.ago(9.hour).strftime("%H:%M"),
-    end_time: Time.current.strftime("%H:%M"),
+    start_time: Date.today.since(13.hour).strftime("%H:%M"),
+    end_time: Date.today.since(18.hour).strftime("%H:%M"),
     status: "午後出勤",
     reason: "午前半休のため。",
     create_name: userA.name,
@@ -392,8 +392,8 @@ Document.create!(
   Request.create!(
     request_type: documentA.name,
     period: Date.today.since(1.days),
-    start_time: Time.current.ago(9.hour).strftime("%H:%M"),
-    end_time: Time.current.strftime("%H:%M"),
+    start_time: Date.today.since(9.hour).strftime("%H:%M"),
+    end_time: Date.today.since(18.hour).strftime("%H:%M"),
     status: "",
     reason: "研修期間のため。",
     create_name: userA.name,
@@ -512,8 +512,8 @@ Document.create!(
   Request.create!(
     request_type: documentA.name,
     period: Date.today.since(2.days),
-    start_time: Time.current.ago(9.hour).strftime("%H:%M"),
-    end_time: Time.current.strftime("%H:%M"),
+    start_time: Date.today.since(9.hour).strftime("%H:%M"),
+    end_time: Date.today.since(21.hour).strftime("%H:%M"),
     status: "",
     reason: "リリースのため。",
     create_name: userA.name,
