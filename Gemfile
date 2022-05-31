@@ -43,6 +43,8 @@ gem 'jquery-rails'
 
 gem 'ransack'
 
+gem 'sendgrid-ruby'
+
 # rails consoleの文字化けを解消する
 gem 'irb', '>= 1.3.6'
 

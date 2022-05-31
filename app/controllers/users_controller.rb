@@ -10,11 +10,6 @@ class UsersController < ApplicationController
   
       def create
         @user = User.new(user_params)
-        if @user.admin == "manage"
-          @user.admin = true
-        else
-          @user.admin = false
-        end
 
         if @user.save
 
@@ -67,7 +62,6 @@ class UsersController < ApplicationController
         )
       }
           flash[:notice] = 'ユーザーを作成しました'
-#          UserMailer.with(to: @user.email, name: @user.name).welcome.deliver_now
           redirect_to jobs_home_path
 
         else
@@ -92,14 +86,7 @@ class UsersController < ApplicationController
               render :edit
           end
       end
-  
-#      def destroy
-#        RecipesUser.find_by(user_id:params[:user_id],recipe_id:params[:recipe_id]).destroy
-#        redirect_to user_path(current_user.id)
-#        flash[:notice] = 'レシピを削除しました'
-#      end
-  
-  
+    
     private
       def set_user
         @user = User.find(params[:id])

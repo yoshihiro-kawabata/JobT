@@ -6,6 +6,7 @@
     <% userA << [user.name, user.id]  %>
   <% end %>
 
+  ※日付を指定しない場合、ユーザの全ての日報が出力されます。
   <%= search_form_for @q, url: jobs_data_path do |f| %>
     <p><%= f.label :ユーザ %> <%= f.select :user_id, userA %></p>
     <p><%= f.label :日付指定 %>
@@ -14,8 +15,7 @@
     <%= f.date_field :created_at_gteq, include_blank: true, class: 'form-control'%>〜
     <%= f.date_field :created_at_lteq, include_blank: true, class: 'form-control'%>
     <br>
-    ※日付を指定しない場合、ユーザの全ての日報が出力されます。
-    <p>  <%= f.submit "日報出力" %> </p>
+    <p>  <%= f.submit "日報出力", data: { confirm: "日報を出力します" }  %> </p>
     <% end %>
     
     <%= link_to t('common.back'), jobs_home_path %>

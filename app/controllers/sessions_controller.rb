@@ -8,7 +8,8 @@ class SessionsController < ApplicationController
         user = User.find_by(email: params[:session][:email].downcase)
         if user && user.authenticate(params[:session][:password])
           log_in(user)
-          redirect_to  user_path(user.id)
+          params[:session][:remember_me] == '1' ? remember(user) : forget(user)
+          redirect_to  jobs_home_path
           flash[:notice] = 'ログインしました'
         else
           flash[:danger] = 'ログインに失敗しました'
@@ -17,8 +18,8 @@ class SessionsController < ApplicationController
     end
 
     def destroy
-        session.delete(:user_id)
-        flash[:notice] = 'ログアウトしました'
-        redirect_to  new_session_path
+      log_out if logged_in? #この行を修正
+      flash[:notice] = 'ログアウトしました'
+      redirect_to  new_session_path
     end
 end

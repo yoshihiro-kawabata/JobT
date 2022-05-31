@@ -1,8 +1,8 @@
 class MessagesController < ApplicationController
-    skip_before_action :login_required
+    before_action :login_required
 
     def index
-        @messages = Message.where(user_id: current_user.id).order("created_at ASC").page params[:page]        
+        @messages = Message.where(user_id: current_user.id).order("created_at DESC").page params[:page]        
     end
 
     def new
@@ -19,7 +19,6 @@ class MessagesController < ApplicationController
         @message.user_name = touser.name
         if @message.save
           flash[:notice] = 'メッセージを作成しました'
-#          UserMailer.with(to: @user.email, name: @user.name).welcome.deliver_now
           redirect_to ship_messages_path
         else
           @users = User.all 
@@ -32,7 +31,7 @@ class MessagesController < ApplicationController
     end
 
     def ship
-      @messages = Message.where(create_id:current_user.id).order("created_at ASC").page params[:page]        
+      @messages = Message.select(:id,:user_name,:content).where(create_id:current_user.id).order("created_at DESC").page params[:page]        
     end
 
 

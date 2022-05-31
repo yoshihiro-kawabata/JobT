@@ -1,36 +1,46 @@
-<div style="display: flex;">
-<div style="width: 500px; height: 500px; margin-right:200px">
-   <%= link_to "出勤", jobs_attend_path %>
-   <%= link_to "退勤", jobs_leave_path %>
-   <% if admin_user? %>
-      <%= link_to "勤怠状況", jobs_manage_path %>
-   <% else %>
-      <%= link_to "日報作成", new_report_path %>
-   <% end %>
-</div>
-
-<div style="width: 400px; height: 500px;">
-   <div style="display: flex;">
-      <div style="width: 200px;">
-      <h3>今日の日付</h3>
-      <h4><%= Date.today.strftime('%Y年%m月%d日') %></h4>
-      </div>
-      <div style="width: 200px;">
-      <h3>現在時刻<h3>
-      <h4><p id="RealtimeClockArea2"><%= Time.current.strftime('%H時%M分%S秒').to_s %></p></h4>
+<div class="d-flex flex-wrap">
+   <div class="col-sm-12 col-lg-6">
+      <div style="width: 500px; height: 600px;">
+         <div class="d-flex flex-wrap">
+            <div style="width: 250px; height: 350px; text-align: center;">
+               <%= link_to "出勤", jobs_attend_path, class: "link_button1" %>
+            </div>
+            <div style="width: 250px; height: 350px; text-align: center;">
+               <%= link_to "退勤", jobs_leave_path, class: "link_button2" %>
+            </div>
+         </div>
+         <div style="width: 500px; height: 300px; text-align: center;">
+            <% if admin_user? %>
+                  <%= link_to "勤怠状況", jobs_manage_path, class: "link_button3" %>
+            <% else %>
+                  <%= link_to "日報作成", new_report_path, class: "link_button3" %>
+            <% end %>
+         </div>
       </div>
    </div>
 
-   <div>
-   <h4>名前：<%= @user.name %><h4>
-   <h4>ステータス：<%= @schedule.status %><h4>
-   <p/>
-   <h3>スケジュール<h3>
-   <h4>開始予定：<%= @schedule.start_time %><h4>
-   <h4>終了予定：<%= @schedule.end_time %><h4>
-   <h3>実績<h3>
-   <h4>開始時間：<%= @attendance.start_time %><h4>
-   <h4>終了時間：<%= @attendance.end_time %><h4>
+   <div class="col-sm-12 col-lg-6">
+         <div style="width: 400px; height: 600px; margin-left: 20px;">
+            <div style="display: flex;">
+               <div style="width: 200px;">
+                  <h3>今日の日付</h3>
+                  <h4><%= Date.today.strftime('%Y年%m月%d日') %></h4>
+               </div>
+               <div style="width: 200px;">
+                  <h3>現在時刻<h3>
+                  <h4><p id="RealtimeClockArea2"><%= Time.current.strftime('%H時%M分%S秒').to_s %></p></h4>
+               </div>
+            </div>
+            <div>
+               <h4>名前：<%= @user.name %><h4>
+               <h4>ステータス：<%= @schedule.status %><h4>
+               <p/>
+               <h3>スケジュール<h3>
+               <h4>開始予定：<%= @schedule.start_time %><h4>
+               <h4>終了予定：<%= @schedule.end_time %><h4>
+               <h3>実績<h3>
+               <h4>開始時間：<%= @attendance.start_time %><h4>
+               <h4>終了時間：<%= @attendance.end_time %><h4>
 
    <script>
    function set2fig(num) {
@@ -49,6 +59,7 @@
    }
    setInterval('showClock2()',1000);
    </script>
+         </div>
+      </div>
    </div>
-</div>
 </div>

@@ -1,0 +1,7 @@
+<h1>お探しのページは存在しませんでした。</h1>
+<p>以下よりお戻りください。</p>
+<% if logged_in? %>
+<%= link_to "戻る", jobs_home_path %>
+<% else %>
+<%= link_to "戻る", root_path %>
+<% end%>

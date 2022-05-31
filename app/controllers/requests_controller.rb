@@ -19,7 +19,6 @@ class RequestsController < ApplicationController
       error_message = []
 
       userA = User.find(current_user.id)
-      userB = User.find_by(group: userA.group, admin: true)
       documentA = Document.find(@request.request_type)
 
      case @request.request_type
@@ -111,7 +110,6 @@ class RequestsController < ApplicationController
       @request.create_name = userA.name
       @request.create_id = userA.id
       @request.consent_flg = true
-      @request.user_id = userB.id
 
     if error_count.size > 0
       @request.errors.messages.store(@request.request_type, ["は申請できませんでした。"])
@@ -138,35 +136,47 @@ class RequestsController < ApplicationController
         @documents = Document.all
         render :new
     else
-      if @request.save
-        requestA = Request.find(@request.id)
-        requestA.documents << documentA
+      @users = User.where(group: userA.group, admin: true)
 
-       case documentA.number
-        when 1 then #スケジュール変更申請
-          contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日時：' + requestA.period.strftime("%m月%d日") + '\n修正後時刻：'  + requestA.start_time  + '～' + requestA.end_time + '\n修正後ステータス：' + requestA.status + '\n理由：'+ requestA.reason
-        when 2 then #勤怠変更申請
-          contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日時：' + requestA.period.strftime("%m月%d日") + '\n修正後時刻：'  + requestA.start_time  + '～' + requestA.end_time + '\n理由：'+ requestA.reason
-        when 3 then #有給休暇申請
-          contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日時：' + requestA.period.strftime("%m月%d日") + '\n理由：'+ requestA.reason
-        when 4 then #振替休日申請
-          contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日時：' + requestA.period.strftime("%m月%d日") + '\n理由：'+ requestA.reason
-        when 5 then #休日出勤申請
-          contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日時：' + requestA.period.strftime("%m月%d日") + '\n修正後時刻：'  + requestA.start_time  + '～' + requestA.end_time + '\n理由：'+ requestA.reason
-       end
+      @users.each do |user|
+        @request.user_id = user.id
+        if @request.save
+          requestA = Request.find(@request.id)
+          requestA.documents << documentA
+
+         case documentA.number
+          when 1 then #スケジュール変更申請
+            contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日時：' + requestA.period.strftime("%m月%d日") + '\n修正後時刻：'  + requestA.start_time  + '～' + requestA.end_time + '\n修正後ステータス：' + requestA.status + '\n理由：'+ requestA.reason
+          when 2 then #勤怠変更申請
+            contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日時：' + requestA.period.strftime("%m月%d日") + '\n修正後時刻：'  + requestA.start_time  + '～' + requestA.end_time + '\n理由：'+ requestA.reason
+          when 3 then #有給休暇申請
+            contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日時：' + requestA.period.strftime("%m月%d日") + '\n理由：'+ requestA.reason
+          when 4 then #振替休日申請
+            contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日時：' + requestA.period.strftime("%m月%d日") + '\n理由：'+ requestA.reason
+          when 5 then #休日出勤申請
+            contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日時：' + requestA.period.strftime("%m月%d日") + '\n修正後時刻：'  + requestA.start_time  + '～' + requestA.end_time + '\n理由：'+ requestA.reason
+         end
   
-        Consent.create!(
-          request_content: contentA,
-                request_flg: true,
-          user_id: userB.id,
-          request_id: requestA.id
-        )
+          Consent.create!(
+            request_content: contentA,
+                  request_flg: true,
+            user_id: user.id,
+            request_id: requestA.id
+          )
 
-        redirect_to requests_path, notice: '申請しました。'
-      else
-        @documents = Document.all
-        render :new
+          @message = Message.new
+          @message.content = "申請しました。申請種類：" + @request.request_type + "　作成日：" + @request.created_at.strftime('%m月%d日%H時%M分')
+          @message.create_name = current_user.name
+          @message.create_id = current_user.id
+          @message.user_name = user.name
+          @message.user_id = user.id
+          @message.save
+        else
+          @documents = Document.all
+          render :new
       end
+      end
+        redirect_to requests_path, notice: '申請しました。'
     end
   end
 

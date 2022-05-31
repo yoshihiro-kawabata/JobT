@@ -1,4 +1,5 @@
 class ConsentsController < ApplicationController
+    before_action :login_required
     before_action :set_consent, only: [:show,:update, :destroy]
         
     def index
@@ -46,7 +47,16 @@ class ConsentsController < ApplicationController
           
            @request.update(consent_flg: false)
 
-           redirect_to consents_path, notice: '申請は承認されました'
+           @user = User.find(@request.create_id)
+           @message = Message.new
+           @message.content = "申請は承認されました。申請種類：" + @request.request_type + "　作成日：" + @request.created_at.strftime('%m月%d日%H時%M分')
+           @message.create_name = current_user.name
+           @message.create_id = current_user.id
+           @message.user_name = @user.name
+           @message.user_id = @user.id
+           @message.save
+   
+           redirect_to consents_path, notice: '申請を承認しました'
         else
            redirect_to consents_path, notice: '承認できませんでした'
         end      
@@ -54,6 +64,14 @@ class ConsentsController < ApplicationController
 
     def destroy
         @request = Request.find_by(id:@consent.request_id)
+        @user = User.find(@request.create_id)
+        @message = Message.new
+        @message.content = "申請は取り消されました。申請種類：" + @request.request_type + "　作成日：" + @request.created_at.strftime('%m月%d日%H時%M分')
+        @message.create_name = current_user.name
+        @message.create_id = current_user.id
+        @message.user_name = @user.name
+        @message.user_id = @user.id
+        @message.save
 
         @request.destroy    
         @consent.destroy

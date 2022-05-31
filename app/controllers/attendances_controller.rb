@@ -1,5 +1,5 @@
 class AttendancesController < ApplicationController
-    skip_before_action :login_required
+    before_action :login_required
 
     def index
         @user = User.find(current_user.id)

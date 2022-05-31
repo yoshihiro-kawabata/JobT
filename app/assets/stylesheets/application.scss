@@ -1,5 +1,9 @@
 @charset "utf-8";
 
+body{
+  margin: auto;
+}
+
 nav{
   background:#333;
   color:#fff;
@@ -221,12 +225,75 @@ section:nth-child(2n){
 
 #users-chartB{
   position: absolute;
-  margin: 100px;
+  margin: 125px;
 }
 
 #users-chartC{
   position: absolute;
   margin: 190px;
+}
+
+.link_button1 {
+  display: block;
+  font-weight: bold;
+  text-decoration: none;
+  background: rgb(235, 135, 135);
+  color:white;
+  padding:150px 100px;
+  margin: auto;
+  border-radius: 20px;
+  font-family: 'Avenir','Arial';
+}
+
+.link_button1:hover {
+  background: silver;
+  text-decoration: none;
+}
+
+.link_button1:visited {
+  color: gray;
+}
+
+.link_button2 {
+  display: block;
+  font-weight: bold;
+  text-decoration: none;
+  background: skyblue;
+  color:white;
+  padding:150px 100px;
+  margin: auto;
+  border-radius: 20px;
+  font-family: 'Avenir','Arial';
+}
+
+.link_button2:hover {
+  background: silver;
+  text-decoration: none;
+}
+
+.link_button2:visited {
+  color: gray;
+}
+
+.link_button3 {
+  display: block;
+  font-weight: bold;
+  text-decoration: none;
+  background: rgb(235, 193, 135);
+  color:white;
+  padding:50px 200px;
+  margin: auto;
+  border-radius: 20px;
+  font-family: 'Avenir','Arial';
+}
+
+.link_button3:hover {
+  background: silver;
+  text-decoration: none;
+}
+
+.link_button3:visited {
+  color: gray;
 }
 
 @import "bootstrap";

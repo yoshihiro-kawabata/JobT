@@ -1,4 +1,5 @@
 class ReportsController < ApplicationController
+    before_action :login_required
     before_action :set_report, only: [:show, :edit, :update]
     before_action :set_q, only: [:index, :search]
         
@@ -35,6 +36,17 @@ class ReportsController < ApplicationController
       @report.group = userA.group
 
       if @report.save
+
+        @users = User.where(group: current_user.group, admin:true)
+        @users.each do |user|
+          @message = Message.new
+          @message.content = "日報を作成しました。　作成日：" + @report.createdate
+          @message.create_name = current_user.name
+          @message.create_id = current_user.id
+          @message.user_name = user.name
+          @message.user_id = user.id
+          @message.save
+        end
         redirect_to @report, notice: '日報を作成しました。'
       else
         render :new
@@ -43,6 +55,16 @@ class ReportsController < ApplicationController
       
     def update
       if @report.update(report_params)
+        if admin_user?
+          @user = User.find(@report.user_id)
+          @message = Message.new
+          @message.content = "管理者コメントを追記しました。　追記日：" + @report.createdate
+          @message.create_name = current_user.name
+          @message.create_id = current_user.id
+          @message.user_name = @user.name
+          @message.user_id = @user.id
+          @message.save
+        end
         redirect_to @report, notice: '日報を編集しました。'
       else
         render :edit

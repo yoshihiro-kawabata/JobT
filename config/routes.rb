@@ -6,7 +6,6 @@ Rails.application.routes.draw do
   resources :attendances
   resources :consents
   resources :requests
-  resources :post_pdf, only: :index
 
   resources :messages do
     collection do
@@ -35,8 +34,10 @@ Rails.application.routes.draw do
   get 'jobs/attend'
   get 'jobs/leave'
   get 'jobs/data'
-
   get 'jobs/post'
+
+  get '*path', controller: 'application', action: 'render_404'
+  
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

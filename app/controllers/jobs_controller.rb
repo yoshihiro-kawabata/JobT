@@ -12,9 +12,21 @@ class JobsController < ApplicationController
         @attendance = Attendance.find_by(user_id: current_user.id, attendance_date: Date.today)
         if @attendance.start_time.nil?
             @attendance.update(start_time: DateTime.current.strftime('%H:%M'))
-            flash[:notice] = '出勤打刻しました'        
+            flash[:notice] = '出勤打刻しました'
+
+            @users = User.where(group: current_user.group).where.not(id: current_user.id)
+            @users.each do |user|
+                @message = Message.new
+                @message.content = DateTime.current.strftime('%H時%M分') + "に出勤しました。"
+                @message.create_name = current_user.name
+                @message.create_id = current_user.id
+                @message.user_name = user.name
+                @message.user_id = user.id
+                @message.save
+            end
             redirect_to jobs_home_path
-            else
+
+        else
             flash[:alert] = '既に出勤打刻しています。'
             redirect_to jobs_home_path        
         end
@@ -25,6 +37,16 @@ class JobsController < ApplicationController
         if @attendance.end_time.nil?
             @attendance.update(end_time: DateTime.current.strftime('%H:%M'))
             flash[:notice] = '退勤打刻しました'        
+            @users = User.where(group: current_user.group).where.not(id: current_user.id)
+            @users.each do |user|
+                @message = Message.new
+                @message.content = DateTime.current.strftime('%H時%M分') + "に退勤しました。"
+                @message.create_name = current_user.name
+                @message.create_id = current_user.id
+                @message.user_name = user.name
+                @message.user_id = user.id
+                @message.save
+            end
             redirect_to jobs_home_path
         else
             flash[:alert] = '既に退勤打刻しています。'        
@@ -49,7 +71,7 @@ class JobsController < ApplicationController
         @attend_ratio.store("未出勤", @user_count_att - @attend_countA)
 
         #日報提出者
-        @reports = Report.where(group: current_user.group, created_at: Date.today)
+        @reports = Report.where(group: current_user.group, createdate: Date.today.strftime("%m月%d日"))
         @report_countA = @reports.count
         @report_ratio = {}
         @report_ratio.store("提出済", @report_countA)
@@ -114,7 +136,18 @@ class JobsController < ApplicationController
         user = User.find(params[:q][:user_id])
         group = Group.find(user.group)
         data = @q.result.where(user_id: user.id)
-        send_data PracticePdf::PostPdf.new(data,user,group).render, filename: "post_pdf.pdf", type: 'application/pdf',disposition: 'inline'
+        if params[:q][:created_at_eq].present?
+            filenameA = user.name + "_" + params[:q][:created_at_eq] + ".pdf"
+        elsif params[:q][:created_at_gteq].present? and params[:q][:created_at_lteq].present?
+            filenameA = user.name + "_" + params[:q][:created_at_gteq] + "～" + params[:q][:created_at_lteq] + ".pdf"
+        elsif params[:q][:created_at_gteq].present?
+            filenameA = user.name + "_" + params[:q][:created_at_gteq] + "～.pdf"
+        elsif params[:q][:created_at_lteq].present?
+            filenameA = user.name + "_～" + params[:q][:created_at_lteq] + ".pdf"
+        else
+            filenameA = user.name + ".pdf"
+        end
+        send_data PracticePdf::PostPdf.new(data,user,group).render, filename: filenameA, type: 'application/pdf',disposition: 'inline'
 
     end
 

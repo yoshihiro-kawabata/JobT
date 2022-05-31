@@ -3,6 +3,8 @@
   <%= f.label :メールアドレス %><br>
   <%= f.text_field :email %><br>
   <%= f.label :パスワード %><br>
-  <%= f.password_field :password %><br><br>
+  <%= f.password_field :password %><br>
+  <%= f.check_box :remember_me %>
+  <span>自動ログインを許可します</span><br><br><br>
   <%= f.submit "ログイン" %>
 <% end %>
