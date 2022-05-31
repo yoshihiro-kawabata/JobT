@@ -39,16 +39,24 @@
                <h4>開始予定：<%= @schedule.start_time %><h4>
                <h4>終了予定：<%= @schedule.end_time %><h4>
                <h3>実績<h3>
-               <% if @attendance.start_time > @schedule.start_time %>
-               <h4 style="color:red;">開始時間：<%= @attendance.start_time %>　予定より遅いです<h4>
+               <% unless @attendance.start_time.blank? %>
+                  <% if @attendance.start_time > @schedule.start_time %>
+                  <h4 style="color:red;">開始時間：<%= @attendance.start_time %>　予定より遅いです<h4>
+                  <% else %>
+                  <h4>開始時間：<%= @attendance.start_time %><h4>
+                  <% end %>
                <% else %>
-               <h4>開始時間：<%= @attendance.start_time %><h4>
+                  <h4>開始時間：<%= @attendance.start_time %><h4>
                <% end %>
 
-               <% if @attendance.end_time < @schedule.end_time %>
-               <h4 style="color:red;" >終了時間：<%= @attendance.end_time %>　予定より早いです<h4>
+               <% unless @attendance.end_time.blank? %>
+                  <% if @attendance.end_time < @schedule.end_time %>
+                     <h4 style="color:red;" >終了時間：<%= @attendance.end_time %>　予定より早いです<h4>
+                  <% else %>
+                     <h4>終了時間：<%= @attendance.end_time %><h4>
+                  <% end %>
                <% else %>
-               <h4>終了時間：<%= @attendance.end_time %><h4>
+                  <h4>開始時間：<%= @attendance.start_time %><h4>
                <% end %>
    <script>
    function set2fig(num) {
