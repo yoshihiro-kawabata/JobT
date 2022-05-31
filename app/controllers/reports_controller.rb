@@ -13,9 +13,14 @@ class ReportsController < ApplicationController
     end
       
     def show
+      user = User.find(@report.user_id)
+      @group = Group.find(user.group)
     end
       
     def new
+      user = User.find(current_user.id)
+      @group = Group.find(user.group)
+
       repo_check = Report.find_by(user_id:current_user.id, createdate: Date.today.strftime("%m月%d日"))
       if repo_check.nil?
         @report = Report.new
@@ -25,6 +30,8 @@ class ReportsController < ApplicationController
     end
       
     def edit
+      user = User.find(@report.user_id)
+      @group = Group.find(user.group)
     end
       
     def create

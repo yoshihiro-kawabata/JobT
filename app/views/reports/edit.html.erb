@@ -10,22 +10,98 @@
   </div>
 <% end %>
 
+<div class="report_box">
 <%= form_with(model: @report, local: true) do |f| %>
-  <p><%= f.label :内容 %></p>
-    <% unless admin_user? %>
-      <p>  <%= f.label :「事実」何があったか %> ： <%= f.text_field :daytask %></p>
-      <p>  <%= f.label :「感情」どう思ったか %> ： <%= f.text_field :emotion %></p>
-      <p>  <%= f.label :「学習」何を学んだか %> ： <%= f.text_field :learn %></p>
-      <p>  <%= f.label :「変化」何を変えるか %> ： <%= f.text_field :transition %></p>
-      <p>  <%= f.submit "編集" %> </p>
-      <% else %>
-      <p>「事実」何があったか：<%= @report.daytask %></p>
-      <p>「感情」どう思ったか：<%= @report.emotion %></p>
-      <p>「学習」何を学んだか：<%= @report.learn %></p>
-      <p>「変化」何を変えるか：<%= @report.transition %></p>
-      <p>  <%= f.label :管理者コメント %> ： <%= f.text_field :admincom %></p>
-      <p>  <%= f.submit "コメント" %> </p>
-      <% end %>
-<% end %>
+  <table style="border:2px solid; width: 1100px">
+    <thead>
+      <tr>
+      <th colspan="3" style="height: 50px; padding: 2px;margin: 20px; background-color:#ee827c; text-align:center;">日報</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td style="width: 100px; border:2px solid">部署</td>
+          <td style="width: 700px; border:2px solid"><%= @group.name %></td>
+          <td style="width: 300px; border:2px solid">日付</td>
+        </tr>
+        <tr>
+          <td style="border:2px solid">氏名</td>
+          <td style="border:2px solid"><%= @report.user_name %></td>
+          <td style="border:2px solid"><%= @report.createdate %></td>
+        </tr>
+        <% unless admin_user? %>
+        <tr>
+        <td colspan="3" style="height: 50px; padding: 2px;margin: 20px; background-color:#e8d3c7; text-align:center;">「事実」何があったか</th>
+        </tr>
+        <tr>
+          <td colspan="3" style="border:2px solid"><%= f.text_area :daytask, style: "width: 100%; height:100px; wrap:hard;" %></td>
+        </tr>
+        <tr>
+        <td colspan="3" style="height: 50px; padding: 2px;margin: 20px; background-color:#84b9cb; text-align:center;">「感情」何があったか</th>
+        </tr>
+        <tr>
+          <td colspan="3" style="border:2px solid"><%= f.text_area :emotion, style: "width: 100%; height:100px; wrap:hard;" %></td>
+        </tr>
+        <tr>
+        <td colspan="3" style="height: 50px; padding: 2px;margin: 20px; background-color:#ada250; text-align:center;">「学習」何を学んだか</th>
+        </tr>
+        <tr>
+          <td colspan="3" style="border:2px solid"><%= f.text_area :learn, style: "width: 100%; height:100px; wrap:hard;" %></td>
+        </tr>
+        <tr>
+        <td colspan="3" style="height: 50px; padding: 2px;margin: 20px; background-color:#c7dc68; text-align:center;">「変化」何を変えるか</th>
+        </tr>
+        <tr>
+          <td colspan="3" style="border:2px solid"><%= f.text_area :transition, style: "width: 100%; height:100px; wrap:hard;" %></td>
+        </tr>
+        <tr>
+        <td colspan="3" style="height: 50px; padding: 2px;margin: 20px; background-color:#c8c2be; text-align:center;">管理者コメント</th>
+        </tr>
+        <tr>
+          <td colspan="3" style="border:2px solid;">なし</td>
+        </tr>
+        <% else %>
+        <tr>
+        <td colspan="3" style="height: 50px; padding: 2px;margin: 20px; background-color:#e8d3c7; text-align:center;">「事実」何があったか</th>
+        </tr>
+        <tr>
+          <td colspan="3" style="border:2px solid"><%= @report.daytask %></td>
+        </tr>
+        <tr>
+        <td colspan="3" style="height: 50px; padding: 2px;margin: 20px; background-color:#84b9cb; text-align:center;">「感情」何があったか</th>
+        </tr>
+        <tr>
+          <td colspan="3" style="border:2px solid"><%= @report.emotion %></td>
+        </tr>
+        <tr>
+        <td colspan="3" style="height: 50px; padding: 2px;margin: 20px; background-color:#ada250; text-align:center;">「学習」何を学んだか</th>
+        </tr>
+        <tr>
+          <td colspan="3" style="border:2px solid"><%= @report.learn %></td>
+        </tr>
+        <tr>
+        <td colspan="3" style="height: 50px; padding: 2px;margin: 20px; background-color:#c7dc68; text-align:center;">「変化」何を変えるか</th>
+        </tr>
+        <tr>
+          <td colspan="3" style="border:2px solid"><%= @report.transition %></td>
+        </tr>
+        <tr>
+        <td colspan="3" style="height: 50px; padding: 2px;margin: 20px; background-color:#c8c2be; text-align:center;">管理者コメント</th>
+        </tr>
+        <tr>
+          <td colspan="3" style="border:2px solid;"><%= f.text_area :admincom, style: "width: 100%; height:100px; wrap:hard;" %></td>
+        </tr>
+        <% end %>
+    </tbody>
+  </table>
+<br>
+  <p>  <% unless admin_user? %>
+        <%= f.submit "修正",class: "btn btn-primary btn-lg" %>
+       <% else %>
+       <%= f.submit "コメント",class: "btn btn-primary btn-lg" %>
+       <% end %>
+       　<%= link_to t('common.back'), reports_path %>
+  </p>
+  <% end %>
+  </div>
 
-<%= link_to t('common.back'), reports_path %>

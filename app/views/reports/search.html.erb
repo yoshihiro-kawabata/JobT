@@ -1,19 +1,40 @@
 <h1>日報一覧</h1>
+  <div class="col-sm-12 col-lg-12">
+    <%= search_form_for @q, url: search_reports_path do |f| %>
+      <div class="d-flex flex-wrap">
+      <% if admin_user? %>
+      <div class="col-sm-12 col-lg-1">
+        <%= f.label :created_at, '作成者' %>
+      </div>
+      <div class="col-sm-12 col-lg-1">
+        <%= f.text_field :user_name_cont,  include_blank: true, class: 'form-control'%>
+      </div>
+      <% else %>
+      <div class="col-sm-12 col-lg-2">
+        <%= link_to "日報作成", new_report_path %>
+      </div>      
+      <% end %>
+      <div class="col-sm-12 col-lg-1">
+        <%= f.label :created_at, '期間検索' %>
+      </div>
+      <div class="col-sm-12 col-lg-2">
+        <%= f.date_field :created_at_gteq,  include_blank: true, class: 'form-control'%>
+      </div>
+      <div class="col-sm-12 col-lg-1">
+      ～
+      </div>
+      <div class="col-sm-12 col-lg-2">
+        <%= f.date_field :created_at_lteq,  include_blank: true, class: 'form-control'%>
+      </div>
+      <div class="col-sm-12 col-lg-1">
+        <%= f.submit '検索' , class: "btn btn-primary"  %>
+      </div>
+    <% end %>
+    </div>
+    </div>
+    <br>
 
-<%= search_form_for @q, url: search_reports_path do |f| %>
-  <% if admin_user? %>
-  <%= f.label :created_at, '作成者' %>
-  <%= f.text_field :user_name_cont,  include_blank: true, class: 'form-control'%>
-  <% end %>
-  <%= f.label :created_at, '作成日' %>
-  <%= f.date_field :created_at_eq,  include_blank: true, class: 'form-control'%>
-  <%= f.label :created_at, '期間検索' %>
-  <%= f.date_field :created_at_gteq,  include_blank: true, class: 'form-control'%>〜
-  <%= f.date_field :created_at_lteq,  include_blank: true, class: 'form-control'%>
-  <br>
-  <%= f.submit '検索' %>
-  <% end %>
-  
+    <div class="example">
 
   <table>
   <thead>
@@ -45,7 +66,4 @@
     <% end %>
   </tbody>
 </table>
-
-<% unless admin_user? %>
-<%= link_to "日報作成", new_report_path %>
-<% end %>
+</div>

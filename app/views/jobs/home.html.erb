@@ -1,6 +1,6 @@
 <div class="d-flex flex-wrap">
    <div class="col-sm-12 col-lg-6">
-      <div style="width: 500px; height: 600px;">
+      <div style="width: 500px; height: 460px;">
          <div class="d-flex flex-wrap">
             <div style="width: 250px; height: 350px; text-align: center;">
                <%= link_to "出勤", jobs_attend_path, class: "link_button1" %>
@@ -9,7 +9,7 @@
                <%= link_to "退勤", jobs_leave_path, class: "link_button2" %>
             </div>
          </div>
-         <div style="width: 500px; height: 300px; text-align: center;">
+         <div style="width: 500px; height: 160px; text-align: center;">
             <% if admin_user? %>
                   <%= link_to "勤怠状況", jobs_manage_path, class: "link_button3" %>
             <% else %>
@@ -20,7 +20,7 @@
    </div>
 
    <div class="col-sm-12 col-lg-6">
-         <div style="width: 400px; height: 600px; margin-left: 20px;">
+         <div style="width: 400px; height: 460px; margin-left: 20px;">
             <div style="display: flex;">
                <div style="width: 200px;">
                   <h3>今日の日付</h3>
@@ -39,9 +39,17 @@
                <h4>開始予定：<%= @schedule.start_time %><h4>
                <h4>終了予定：<%= @schedule.end_time %><h4>
                <h3>実績<h3>
+               <% if @attendance.start_time > @schedule.start_time %>
+               <h4 style="color:red;">開始時間：<%= @attendance.start_time %>　予定より遅いです<h4>
+               <% else %>
                <h4>開始時間：<%= @attendance.start_time %><h4>
-               <h4>終了時間：<%= @attendance.end_time %><h4>
+               <% end %>
 
+               <% if @attendance.end_time < @schedule.end_time %>
+               <h4 style="color:red;" >終了時間：<%= @attendance.end_time %>　予定より早いです<h4>
+               <% else %>
+               <h4>終了時間：<%= @attendance.end_time %><h4>
+               <% end %>
    <script>
    function set2fig(num) {
     var ret;

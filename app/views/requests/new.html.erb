@@ -1,5 +1,6 @@
 <h1>申請作成</h1>
 
+<div class="user_box">
 <% if @request.errors.any? %>
     <ul>
     <% @request.errors.full_messages.each do |request| %>
@@ -18,13 +19,14 @@
 
 <p><%= f.label :申請種類 %>：<%= f.select :request_type, documentA %></p>
 
-<p>  <%= f.label :修正日時 %></p>
-<p><%= f.date_field :period %></p>
+<p>  <%= f.label :修正日時 %>：<%= f.date_field :period %></p>
 <p><%= f.label :開始 %>：<%= f.time_field :start_time, value:f.object.start_time.try(:strftime,'%H:%M') %> ～
 <%= f.label :終了 %>：<%= f.time_field :end_time,value:f.object.end_time.try(:strftime,'%H:%M') %></p>
 <p>  <%= f.label :ステータス %>：<%= f.text_field :status %></p>
 
-<p>  <%= f.label :理由 %>：<%= f.text_field :reason %></p>
-
-<p>  <%= f.submit "申請", data: { confirm: '送信してもよろしいですか？' } %> </p>
+<p>  <%= f.label :理由 %>：
+<%= f.text_area :reason,class: "form-control",id: "exampleFormControlTextarea1", style: "height:120px; wrap:hard;" %>
+</p>
+<p>  <%= f.submit "申請", class: "btn btn-primary btn-lg", data: { confirm: '送信してもよろしいですか？' } %> </p>
 <% end %>
+</div>

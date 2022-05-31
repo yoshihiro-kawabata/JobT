@@ -6,17 +6,25 @@
     <% userA << [user.name, user.id]  %>
   <% end %>
 
-  ※日付を指定しない場合、ユーザの全ての日報が出力されます。
+  <div class="user_box">
+  <p>※期間を指定しない場合、</p>
+  <p>選択したユーザの全ての日報が出力されます。</p>
   <%= search_form_for @q, url: jobs_data_path do |f| %>
-    <p><%= f.label :ユーザ %> <%= f.select :user_id, userA %></p>
-    <p><%= f.label :日付指定 %>
-    <%= f.date_field :created_at_eq, include_blank: true, class: 'form-control'%>
-    <%= f.label :期間指定 %></p>
-    <%= f.date_field :created_at_gteq, include_blank: true, class: 'form-control'%>〜
+    <p><%= f.label :ユーザ %>： <%= f.select :user_id, userA %></p>
+    <p><%= f.label :期間指定 %></p>
+    <div class="d-flex flex-wrap">
+    <div class="col-sm-12 col-lg-5">
+    <%= f.date_field :created_at_gteq, include_blank: true, class: 'form-control'%>
+    </div>
+    <div class="col-sm-12 col-lg-2"><%= f.label :～ %>
+    </div>
+    <div class="col-sm-12 col-lg-5">
     <%= f.date_field :created_at_lteq, include_blank: true, class: 'form-control'%>
+    </div>
+    </div>
     <br>
-    <p>  <%= f.submit "日報出力", data: { confirm: "日報を出力します" }  %> </p>
+    <p>  <%= f.submit "日報出力", class: "btn btn-primary btn-lg", data: { confirm: "日報を出力します" }  %>　
+    <%= link_to t('common.back'), jobs_home_path %></p>
     <% end %>
     
-    <%= link_to t('common.back'), jobs_home_path %>
-    
+</div>    

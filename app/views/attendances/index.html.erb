@@ -1,8 +1,8 @@
 <h1>勤怠表（自分）</h1>
 
-有給日数：<%= @vacation.paid_count %>
-振替休暇日数：<%= @vacation.trans_count %>
+<h2>有給日数：<%= @vacation.paid_count %>　振替休暇日数：<%= @vacation.trans_count %></h2>
 
+<div class="example">
 <table style="width:1000px; border:3px solid; margin:auto; text-align: center;">
     <thead>
       <tr>
@@ -24,3 +24,4 @@
       <% end %>
     </tbody>
   </table>
+</div>

@@ -1,4 +1,5 @@
 <h1>申請詳細</h1>
+<div class="user_box">
 
 <p>作成日：<%= @request.created_at.strftime("%m月%d日") %></p>
 <p>申請種類：<%= @request.request_type %></p>
@@ -9,3 +10,4 @@
 <%= link_to '取消', @request, method: :delete, data: { confirm: '申請を取消します' } %>
 <%= link_to t('common.back'), requests_path %>
 
+</div>

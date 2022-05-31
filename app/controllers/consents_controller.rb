@@ -3,7 +3,7 @@ class ConsentsController < ApplicationController
     before_action :set_consent, only: [:show,:update, :destroy]
         
     def index
-        @consents = Consent.where(user_id: current_user.id, request_flg: true).page params[:page]
+        @consents = Consent.where(user_id: current_user.id, request_flg: true)
     end
       
     def show

@@ -1,5 +1,5 @@
 <h1>メッセージ作成</h1>
-
+<div class="new_box">
 <% if @message.errors.any? %>
   <div id="error_explanation">
     <ul>
@@ -18,11 +18,17 @@
 
 <%= form_with(model: @message, local: true) do |f| %>
 
-<p><%= f.label :送信先 %>
+<p><%= f.label :送信先 %>：
 <%= f.select :user_id, userA %></p>
 
-<p>  <%= f.label :内容 %></p>
-<p><%= f.text_field :content %></p>
+<p>  <%= f.label :内容 %>：</p>
 
-<p>  <%= f.submit "送信", data: { confirm: '送信してもよろしいですか？' } %> </p>
+<div class="form-group">
+<%= f.text_area :content,class: "form-control",id: "exampleFormControlTextarea1", style: "height:200px; wrap:hard;" %>
+</div>
+
+
+
+<p>  <%= f.submit "送信",class: "btn btn-primary btn-lg", data: { confirm: '送信してもよろしいですか？' } %> </p>
 <% end %>
+</div>

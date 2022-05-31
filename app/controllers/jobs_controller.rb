@@ -136,9 +136,7 @@ class JobsController < ApplicationController
         user = User.find(params[:q][:user_id])
         group = Group.find(user.group)
         data = @q.result.where(user_id: user.id)
-        if params[:q][:created_at_eq].present?
-            filenameA = user.name + "_" + params[:q][:created_at_eq] + ".pdf"
-        elsif params[:q][:created_at_gteq].present? and params[:q][:created_at_lteq].present?
+        if params[:q][:created_at_gteq].present? and params[:q][:created_at_lteq].present?
             filenameA = user.name + "_" + params[:q][:created_at_gteq] + "～" + params[:q][:created_at_lteq] + ".pdf"
         elsif params[:q][:created_at_gteq].present?
             filenameA = user.name + "_" + params[:q][:created_at_gteq] + "～.pdf"

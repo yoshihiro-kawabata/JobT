@@ -13,7 +13,7 @@
       <% @messages.each do |message| %>
         <tr>
           <td style="border:2px solid"><%= message.user_name %>さんへのメッセージ</td>
-          <td style="border:2px solid; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; "><%= message.content %></td>
+          <td style="border:2px solid; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; max-width: 600px; "><%= message.content %></td>
           <td style="border:2px solid"><%= link_to '確認', message_path(message.id) %></td>
         </tr>
       <% end %>
