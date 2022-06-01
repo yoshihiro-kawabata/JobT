@@ -6,11 +6,11 @@
       <div class="col-sm-12 col-lg-1">
         <%= f.label :created_at, '作成者' %>
       </div>
-      <div class="col-sm-12 col-lg-1">
+      <div class="col-sm-12 col-lg-2">
         <%= f.text_field :user_name_cont,  include_blank: true, class: 'form-control'%>
       </div>
       <% else %>
-      <div class="col-sm-12 col-lg-2">
+      <div class="col-sm-12 col-lg-3">
         <%= link_to "日報作成", new_report_path %>
       </div>      
       <% end %>

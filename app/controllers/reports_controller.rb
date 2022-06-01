@@ -23,10 +23,16 @@ class ReportsController < ApplicationController
       @group = Group.find(user.group)
 
       repo_check = Report.find_by(user_id:current_user.id, createdate: Date.today.strftime("%m月%d日"))
-      if repo_check.nil?
-        @report = Report.new
+      attend_check = Attendance.find_by(user_id: current_user.id, attendance_date: Date.today)
+
+      if attend_check.start_time.nil?
+         redirect_to jobs_home_path, notice: 'まだ出勤していません。'
       else
-        redirect_to edit_report_path(repo_check.id), notice: '今日の日報は既に作成しています。'
+        if repo_check.nil?
+           @report = Report.new
+        else
+          redirect_to edit_report_path(repo_check.id), notice: '今日の日報は既に作成しています。'
+        end
       end
     end
       

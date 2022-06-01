@@ -9,7 +9,7 @@ class AttendancesController < ApplicationController
     end
 
     def show
-        @users = User.all
+        @users = User.all.order("id ASC")
         users = User.all.count
         @attendances = []
 

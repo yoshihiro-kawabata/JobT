@@ -249,7 +249,7 @@ numbA = 0
 
   numbA = "#{n}".to_i
   @attendance = Attendance.find_by(attendance_date:start_day, user_id: userA.id)
-  if numbA % 8 != 0
+  if numbA % 4 != 0
   @attendance.update(start_time: start_timeA.strftime("%H:%M"))
   end
   if numbA % 2 != 0 
@@ -299,7 +299,7 @@ end
   19.times do |n|
     numbA = "#{n}".to_i
     userA = User.find("#{n}")
-    if numbA % 4 != 0 and userA.admin == false
+    if numbA % 3 != 0 and userA.admin == false
       Report.create!(
         daytask: "テスト日報" +  start_day.strftime("%m月%d日") +  "の事実です。",
         emotion: "テスト日報" +  start_day.strftime("%m月%d日") +  "の感情です。",

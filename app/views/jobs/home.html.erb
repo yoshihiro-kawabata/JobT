@@ -23,12 +23,12 @@
          <div style="width: 400px; height: 460px; margin-left: 20px;">
             <div style="display: flex;">
                <div style="width: 200px;">
-                  <h3>今日の日付</h3>
-                  <h4><%= Date.today.strftime('%Y年%m月%d日') %></h4>
+                  <h5>今日の日付</h5>
+                  <h5><%= Date.today.strftime('%Y年%m月%d日') %></h5>
                </div>
                <div style="width: 200px;">
-                  <h3>現在時刻<h3>
-                  <h4><p id="RealtimeClockArea2"><%= Time.current.strftime('%H時%M分%S秒').to_s %></p></h4>
+                  <h5>現在時刻</h5>
+                  <h5><p id="RealtimeClockArea2"><%= Time.current.strftime('%H時%M分%S秒').to_s %></p></h5>
                </div>
             </div>
             <div>
@@ -70,7 +70,7 @@
     var nowHour = set2fig( nowTime.getHours() );
     var nowMin  = set2fig( nowTime.getMinutes() );
     var nowSec  = set2fig( nowTime.getSeconds() );
-    var msg = "<h4>" + nowHour + "時" + nowMin + "分" + nowSec + "秒</h4>";
+    var msg = "<h5>" + nowHour + "時" + nowMin + "分" + nowSec + "秒</h5>";
     document.getElementById("RealtimeClockArea2").innerHTML = msg;
    }
    setInterval('showClock2()',1000);

@@ -8,7 +8,7 @@ class MessagesController < ApplicationController
 
     def new
           @message = Message.new
-          @users = User.all 
+          @users = User.where.not(id: current_user.id).order("id ASC")
     end
   
     def create
@@ -22,7 +22,7 @@ class MessagesController < ApplicationController
           flash[:notice] = 'メッセージを作成しました'
           redirect_to ship_messages_path
         else
-          @users = User.all 
+          @users = User.where.not(id: current_user.id).order("id ASC")
           render :new
         end
     end

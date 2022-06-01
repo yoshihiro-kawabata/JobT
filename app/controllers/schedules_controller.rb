@@ -5,7 +5,7 @@ class SchedulesController < ApplicationController
     before_action :set_q, only: [:index, :search]
         
     def index
-      @users = User.all
+      @users = User.all.order("id ASC")
       users = User.all.count
       @schedules = []
 
@@ -20,7 +20,7 @@ class SchedulesController < ApplicationController
     end
                   
     def search
-        @users = User.all
+        @users = User.all.order("id ASC")
         users = User.all.count
         @schedules = []
   

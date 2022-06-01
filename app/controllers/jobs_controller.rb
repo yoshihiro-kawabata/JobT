@@ -28,30 +28,35 @@ class JobsController < ApplicationController
             redirect_to jobs_home_path
 
         else
-            flash[:alert] = '既に出勤打刻しています。'
+            flash[:notice] = '既に出勤打刻しています。'
             redirect_to jobs_home_path        
         end
     end
 
     def leave
         @attendance = Attendance.find_by(user_id: current_user.id, attendance_date: Date.today)
-        if @attendance.end_time.nil?
-            @attendance.update(end_time: DateTime.current.strftime('%H:%M'))
-            flash[:notice] = '退勤打刻しました'        
-            @users = User.where(group: current_user.group).where.not(id: current_user.id)
-            @users.each do |user|
-                @message = Message.new
-                @message.content = DateTime.current.strftime('%H時%M分') + "に退勤しました。"
-                @message.create_name = current_user.name
-                @message.create_id = current_user.id
-                @message.user_name = user.name
-                @message.user_id = user.id
-                @message.save
-            end
+        if @attendance.start_time.nil?
+            flash[:notice] = 'まだ出勤していません。'        
             redirect_to jobs_home_path
         else
-            flash[:alert] = '既に退勤打刻しています。'        
-            redirect_to jobs_home_path        
+            if @attendance.end_time.nil?
+                @attendance.update(end_time: DateTime.current.strftime('%H:%M'))
+                flash[:notice] = '退勤打刻しました'        
+                @users = User.where(group: current_user.group).where.not(id: current_user.id)
+                @users.each do |user|
+                    @message = Message.new
+                    @message.content = DateTime.current.strftime('%H時%M分') + "に退勤しました。"
+                    @message.create_name = current_user.name
+                    @message.create_id = current_user.id
+                    @message.user_name = user.name
+                    @message.user_id = user.id
+                    @message.save
+                end
+                redirect_to jobs_home_path
+            else
+                flash[:notice] = '既に退勤打刻しています。'        
+                redirect_to jobs_home_path        
+            end
         end
     end
 
@@ -85,11 +90,23 @@ class JobsController < ApplicationController
         @leave_ratio.store("退勤済", @leave_countA)
         @leave_ratio.store("未退勤", @user_count_att - @leave_countA)
 
+        #日報未提出退勤打刻者
+        @forgetuser = []
+
         #退勤者数
         @leave = []
         @leave_members.each do |leave|
             user = User.find(leave.user_id)
-            @leave << user.name
+            unless user.admin?
+                report = Report.find_by(createdate: Date.today.strftime("%m月%d日"), user_id:user.id)
+                if report.nil?
+                    @forgetuser << user.name
+                else
+                    @leave << user.name
+                end
+            else
+                @leave << user.name
+            end
         end
 
         #日報提出者数
@@ -113,7 +130,13 @@ class JobsController < ApplicationController
             user = User.find(fulluser.user_id)
             @fulluser << user.name
         end
-        
+
+        @forgetuser.size.times do |n|
+            delforge = @forgetuser["#{n}".to_i]
+            @attend.delete(delforge)
+            @fulluser.delete(delforge)
+        end
+
         @leave.size.times do |n|
             deleave = @leave["#{n}".to_i]
             @report.delete(deleave)
@@ -152,7 +175,7 @@ class JobsController < ApplicationController
 
     def post
         @user = User.find(current_user.id)
-        @users = User.where(group: @user.group, admin:false)
+        @users = User.where(group: @user.group, admin:false).order("id ASC")
     end  
 
     private
