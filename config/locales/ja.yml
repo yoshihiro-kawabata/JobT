@@ -54,30 +54,6 @@ ja:
     destroy: 削除
     back: 戻る
     confirm_destroy: 本当に削除してもよろしいですか？
-  recipe: 
-    index:
-      title: レシピ一覧ページ
-    create:
-      created: レシピを登録しました
-    update:
-      updated: レシピを更新しました
-    destroy:
-      destroyed: レシピを削除しました
-  tasks:
-    index:
-      title: タスク一覧ページ
-    new:
-      title: タスク登録ページ
-    edit:
-      title: タスク編集ページ
-    show:
-      title: タスク詳細ページ
-    create:
-      created: タスクを登録しました
-    update:
-      updated: タスクを更新しました
-    destroy:
-      destroyed: タスクを削除しました
   users:
     new:
       title: アカウント登録ページ
@@ -89,5 +65,3 @@ ja:
       created: アカウントを登録しました
     update:
       updated: アカウントを更新しました
-    destroy:
-      destroyed: アカウントを削除しました
