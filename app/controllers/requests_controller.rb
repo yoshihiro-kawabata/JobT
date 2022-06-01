@@ -1,5 +1,7 @@
 class RequestsController < ApplicationController
     before_action :set_request, only: [:show, :destroy]
+    skip_before_action :admin_required
+
         
   def index
       @requests = Request.where(create_id: current_user.id, consent_flg: true).page params[:page]

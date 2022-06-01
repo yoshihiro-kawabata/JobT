@@ -1,5 +1,6 @@
 class ConsentsController < ApplicationController
     before_action :login_required
+    before_action :admin_required
     before_action :set_consent, only: [:show,:update, :destroy]
         
     def index

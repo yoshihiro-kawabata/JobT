@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
     include SessionsHelper
     before_action :login_required
+    before_action :admin_required
     rescue_from ActiveRecord::RecordNotFound, with: :render_404
     rescue_from ActionController::RoutingError, with: :render_404
     rescue_from Exception, with: :render_500
@@ -16,6 +17,11 @@ class ApplicationController < ActionController::Base
     private
 
     def login_required
-      redirect_to new_session_path unless current_user
+      redirect_to new_session_path, notice: 'ログインしてください。' unless current_user
     end
+
+    def admin_required
+      redirect_to jobs_home_path, notice: '権限がありません。' unless admin_user?
+    end
+
 end

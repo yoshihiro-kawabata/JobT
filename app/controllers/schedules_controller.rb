@@ -1,5 +1,6 @@
 class SchedulesController < ApplicationController
     before_action :login_required
+    skip_before_action :admin_required
     before_action :set_schedule, only: [:show]
     before_action :set_q, only: [:index, :search]
         

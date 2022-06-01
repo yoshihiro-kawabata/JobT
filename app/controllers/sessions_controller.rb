@@ -1,7 +1,12 @@
 class SessionsController < ApplicationController
     skip_before_action :login_required, only: [:new, :create]
+    skip_before_action :admin_required
 
     def new
+      if logged_in?
+        redirect_to  jobs_home_path
+        flash[:notice] = 'まだログインしています'
+      end        
     end
 
     def create

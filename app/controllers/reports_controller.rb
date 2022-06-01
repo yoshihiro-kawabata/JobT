@@ -1,5 +1,6 @@
 class ReportsController < ApplicationController
     before_action :login_required
+    skip_before_action :admin_required
     before_action :set_report, only: [:show, :edit, :update]
     before_action :set_q, only: [:index, :search]
         

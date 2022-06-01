@@ -1,5 +1,6 @@
 class JobsController < ApplicationController
     before_action :login_required
+    before_action :admin_required, only: [:manage, :data, :post]
     before_action :set_q, only: [:post, :data]
 
     def home
