@@ -316,6 +316,13 @@ end
     end
   end
 
+  userA = User.find(6)
+  scheduleA = Schedule.find_by(schedule_date:start_day, user_id: userA.id)
+  vacationA = Vacation.find_by(user_id: userA.id)
+  paid_countA = vacationA.paid_count - 1
+  scheduleA.update(start_time: "",end_time: "",status: "休み",offday: true)
+  vacationA.update(paid_count: paid_countA)
+
 #document
 Document.create!(
   number: 1,

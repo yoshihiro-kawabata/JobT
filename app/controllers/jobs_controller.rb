@@ -61,13 +61,26 @@ class JobsController < ApplicationController
     end
 
     def manage
-        @attendances = Attendance.where(group: current_user.group, attendance_date: Date.today)
         @schedules = Schedule.where(group: current_user.group, schedule_date: Date.today)
 
         #出席予定者数
         @user_count_att = @schedules.where(offday: false).count
+
+
         #欠席予定者数
-        @user_count_holi = @schedules.where(offday: true).count
+        @user_members_holi = @schedules.where(offday: true)
+        @user_count_holi = @user_members_holi.count
+        @holi_user_box = []
+
+        #休暇者
+        @holiuser = []
+        @user_members_holi.each do |holi|
+            user = User.find(holi.user_id)
+            @holiuser << user.name
+            @holi_user_box << user.id
+        end
+        
+        @attendances = Attendance.where(group: current_user.group, attendance_date: Date.today).where.not(user_id: @holi_user_box)
 
         #出勤者
         @attend_members = @attendances.where.not(start_time: nil)

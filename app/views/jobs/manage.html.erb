@@ -8,20 +8,20 @@
    </div>
 
    <div class="col-sm-12 col-lg-6">
-      <div style="width: 400px; height: 500px; margin-left: 20px;">
+      <div style="width: 500px; height: 500px; margin-left: 20px;">
          <div style="display: flex;">
-            <div style="width: 200px;">
+            <div style="width: 175px;">
                <h5>今日の日付</h5>
                <h5><%= Date.today.strftime('%Y年%m月%d日') %></h5>
             </div>
-            <div style="width: 200px;">
+            <div style="width: 175px;">
                <h5>現在時刻</h5>
                <h5><p id="RealtimeClockArea2"><%= Time.current.strftime('%H時%M分%S秒').to_s %></p></h5>
             </div>
-         </div>
-
-         <div style="display: flex;">
-            <h5>本日の出席人数：<%= @user_count_att %>人<h5>
+            <div style="width: 150px;">
+               <h5>出席人数：<%= @user_count_att %>人</h5>
+               <h5>欠席人数：<%= @user_count_holi %>人</h5>
+            </div>
          </div>
 
          <div style="display: flex; border: 2px solid;">
@@ -73,6 +73,17 @@
                <% end %>
             </div>
          </div>
+
+         <div style="display: flex;  border: 2px solid;">
+         <div style="width: 100px;">
+            <h6 style="font-weight: bold;">欠席者</h6>
+         </div>
+         <div style="width: 300px;">
+            <% @holiuser.size.times do |n| %>
+               <%= @holiuser["#{n}".to_i] %>　
+            <% end %>
+         </div>
+      </div>
 
          <div style="display: flex;  border: 2px solid;">
             <div style="width: 100px;">

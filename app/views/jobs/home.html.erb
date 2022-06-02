@@ -20,18 +20,18 @@
    </div>
 
    <div class="col-sm-12 col-lg-6">
-         <div style="width: 400px; height: 460px; margin-left: 20px;">
-            <div style="display: flex;">
-               <div style="width: 200px;">
-                  <h5>今日の日付</h5>
-                  <h5><%= Date.today.strftime('%Y年%m月%d日') %></h5>
-               </div>
-               <div style="width: 200px;">
-                  <h5>現在時刻</h5>
-                  <h5><p id="RealtimeClockArea2"><%= Time.current.strftime('%H時%M分%S秒').to_s %></p></h5>
-               </div>
+      <div style="width: 500px; height: 500px; margin-left: 20px;">
+         <div style="display: flex;">
+            <div style="width: 175px;">
+               <h5>今日の日付</h5>
+               <h5><%= Date.today.strftime('%Y年%m月%d日') %></h5>
             </div>
-            <div>
+            <div style="width: 175px;">
+               <h5>現在時刻</h5>
+               <h5><p id="RealtimeClockArea2"><%= Time.current.strftime('%H時%M分%S秒').to_s %></p></h5>
+            </div>
+         </div>
+         <div>
                <h4>名前：<%= @user.name %><h4>
                <h4>ステータス：<%= @schedule.status %><h4>
                <p/>

@@ -28,14 +28,14 @@ class ConsentsController < ApplicationController
               @schedule = Schedule.find_by(schedule_date:@request.period, user_id: @request.create_id)
               @vacation = Vacation.find_by(user_id: @request.create_id)
               paid_countA = @vacation.paid_count - 1
-              @schedule.update(start_time: @request.start_time,end_time: @request.end_time,status: "休み",offday: true)
+              @schedule.update(start_time: "",end_time: "",status: "休み",offday: true)
               @vacation.update(paid_count: paid_countA)
 
             when 4 then #振替休日申請
                 @schedule = Schedule.find_by(schedule_date:@request.period, user_id: @request.create_id)
                 @vacation = Vacation.find_by(user_id: @request.create_id)
                 trans_countA = @vacation.trans_count - 1
-                @schedule.update(start_time: @request.start_time,end_time: @request.end_time,status: "休み",offday: true)
+                @schedule.update(start_time: "",end_time: "",status: "休み",offday: true)
                 @vacation.update(trans_count: trans_countA)
 
             when 5 then #休日出勤申請
