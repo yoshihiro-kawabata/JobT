@@ -248,9 +248,10 @@ numbA = 0
   )
 
   numbA = "#{n}".to_i
-  @attendance = Attendance.find_by(attendance_date:start_day, user_id: userA.id)
-  if numbA % 4 != 0
-  @attendance.update(start_time: start_timeA.strftime("%H:%M"))
+
+  unless userA.admin? 
+    @attendance = Attendance.find_by(attendance_date:start_day, user_id: userA.id)
+    @attendance.update(start_time: start_timeA.strftime("%H:%M"))
   end
   if numbA % 2 != 0 
     @attendance.update(start_time: start_timeA.strftime("%H:%M"), end_time: end_timeA.strftime("%H:%M"))
