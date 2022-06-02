@@ -1,14 +1,14 @@
-<h1>承認一覧</h1>
+<h1>承認済み</h1>
 
 <div class="example">
-<table style="width:1000px; border:3px solid; margin:auto; text-align: center;">
+  <table style="width:1000px; border:3px solid; margin:auto; text-align: center;">
     <thead>
       <tr>
       <th style="width:100px;">作成日</th>
       <th style="width:600px;">申請種類</th>
-      <th style="width:100px;">承認</th>
+      <th style="width:100px;">承認日</th>
       <th style="width:100px;">詳細</th>
-      <th style="width:100px;">取消</th>
+      <th style="width:100px;">承認者</th>
       </tr>
     </thead>
   
@@ -17,9 +17,9 @@
         <tr>
           <td style="border:2px solid"><%= consent.created_at.strftime("%m月%d日") %><br><%= consent.created_at.strftime("%H時%M分") %></td>
           <td style="border:2px solid; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; max-width: 700px; "><%= html_newline(consent.request_content) %></td>
-          <td style="border:2px solid"><%= link_to '承認', consent, method: :patch, data: { confirm: '申請を承認します' } %></td>
+          <td style="border:2px solid"><%= consent.updated_at.strftime("%m月%d日") %><br><%= consent.updated_at.strftime("%H時%M分") %></td>
           <td style="border:2px solid"><%= link_to '詳細', consent_path(consent.id) %></td>
-          <td style="border:2px solid"><%= link_to '取消', consent, method: :delete, data: { confirm: '申請を却下します' } %></td>
+          <td style="border:2px solid"><%= consent.name %></td>
         </tr>
       <% end %>
     </tbody>

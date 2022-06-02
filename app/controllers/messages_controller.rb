@@ -1,4 +1,5 @@
 class MessagesController < ApplicationController
+    before_action :set_message, only: [:show, :destroy]
     before_action :login_required
     skip_before_action :admin_required
 
@@ -28,19 +29,33 @@ class MessagesController < ApplicationController
     end
 
     def show
-      @message = Message.find(params[:id])
     end
 
     def ship
       @messages = Message.select(:id,:user_name,:content).where(create_id:current_user.id).order("created_at DESC").page params[:page]        
     end
 
+    def destroy
+      @message.destroy
+      redirect_to messages_path, notice: 'メッセージを削除しました'
+    end  
+
+    def alldel
+      @messages = Message.where(id: params[:mes]).delete_all
+      redirect_to messages_path, notice: '受信メッセージを削除しました'
+    end  
+
+    def alldel_ship
+      @messages = Message.where(id: params[:mes]).delete_all
+      redirect_to ship_messages_path, notice: '送信メッセージを削除しました'
+    end  
 
     private  
       def message_params
         params.require(:message).permit(:user_id, :content)
       end
-  
 
-
+      def set_message
+        @message = Message.find(params[:id])        
+      end
   end

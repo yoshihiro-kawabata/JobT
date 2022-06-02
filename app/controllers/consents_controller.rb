@@ -4,14 +4,18 @@ class ConsentsController < ApplicationController
     before_action :set_consent, only: [:show,:update, :destroy]
         
     def index
-        @consents = Consent.where(user_id: current_user.id, request_flg: true)
+        @consents = Consent.where(group: current_user.group, request_flg: true, request_flg: true)
+    end
+
+    def done
+      @consents = Consent.where(group: current_user.group, request_flg: true, request_flg: false)
     end
       
     def show
     end
 
     def update
-        if @consent.update(request_flg: false)
+        if @consent.update(name: current_user.name,request_flg: false)
             @request = Request.find_by(id:@consent.request_id)
             documentA = Document.find_by(name:@request.request_type)
 

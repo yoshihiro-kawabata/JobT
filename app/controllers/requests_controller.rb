@@ -19,6 +19,7 @@ class RequestsController < ApplicationController
       @request = Request.new(request_params)
       error_count = []
       error_message = []
+      errorA = 0
 
       userA = User.find(current_user.id)
       documentA = Document.find(@request.request_type)
@@ -56,6 +57,10 @@ class RequestsController < ApplicationController
           error_count << "e"
           error_message << ["を入力してください"]
         end
+        if @request.period > Date.today
+          error_count << "fut"
+          error_message << ["の修正はできません"]
+        end
       when "3" then #有給休暇申請
         @schedule = Schedule.find_by(schedule_date:@request.period, user_id: userA.id)
         @vacation = Vacation.find_by(user_id: userA.id)
@@ -70,7 +75,7 @@ class RequestsController < ApplicationController
         end
         if @request.period.wday == 0 or @request.period.wday == 6 or HolidayJp.holiday?(@request.period)
           error_count << "hol"
-          error_message << ["は休みです。"]
+          error_message << ["は休みです"]
         end    
       when "4" then #振替休日申請
         @schedule = Schedule.find_by(schedule_date:@request.period, user_id: userA.id)
@@ -86,7 +91,7 @@ class RequestsController < ApplicationController
         end
         if @request.period.wday == 0 or @request.period.wday == 6 or HolidayJp.holiday?(@request.period)
           error_count << "hol"
-          error_message << ["は休みです。"]
+          error_message << ["は休みです"]
         end    
       when "5" then #休日出勤申請
         @schedule = Schedule.find_by(schedule_date:@request.period, user_id: userA.id)
@@ -104,17 +109,18 @@ class RequestsController < ApplicationController
         end
         if @request.period.wday.between?(1, 5) and !(HolidayJp.holiday?(@request.period))
           error_count << "hol"
-          error_message << ["は平日です。"]
+          error_message << ["は平日です"]
         end    
-     end
+      end
     
       @request.request_type = documentA.name
       @request.create_name = userA.name
       @request.create_id = userA.id
       @request.consent_flg = true
+      @request.user_id = userA.id
 
-    if error_count.size > 0
-      @request.errors.messages.store(@request.request_type, ["は申請できませんでした。"])
+      if error_count.size > 0
+        @request.errors.messages.store(@request.request_type, ["は申請できませんでした。"])
         error_count.size.times do |n|
           case error_count[n]
           when "sch" then #スケジュール
@@ -131,17 +137,14 @@ class RequestsController < ApplicationController
             @request.errors.messages.store(:trans_count, error_message[n])
           when "hol" then #休日判定
             @request.errors.messages.store(@request.period.strftime("%m月%d日"), error_message[n])
+          when "fut" then #未来打刻判定
+            @request.errors.messages.store(:future, error_message[n])
           else          #ステータス
             @request.errors.messages.store(:status, error_message[n])
           end
         end
-        @documents = Document.all
-        render :new
-    else
-      @users = User.where(group: userA.group, admin: true)
-
-      @users.each do |user|
-        @request.user_id = user.id
+        errorA = 1
+      else
         if @request.save
           requestA = Request.find(@request.id)
           requestA.documents << documentA
@@ -158,28 +161,34 @@ class RequestsController < ApplicationController
           when 5 then #休日出勤申請
             contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日時：' + requestA.period.strftime("%m月%d日") + '\n修正後時刻：'  + requestA.start_time  + '～' + requestA.end_time + '\n理由：'+ requestA.reason
          end
-  
-          Consent.create!(
-            request_content: contentA,
-                  request_flg: true,
-            user_id: user.id,
-            request_id: requestA.id
-          )
 
+         Consent.create!(
+            request_content: contentA,
+                request_flg: true,
+                group: userA.group,
+                user_id: userA.id,
+                request_id: requestA.id
+          )
+        else
+          errorA = 1
+        end
+      end
+
+      if errorA == 1
+        back_page
+      else
+        @users = User.where(group: userA.group, admin: true)
+        @users.each do |user|
           @message = Message.new
-          @message.content = "申請しました。申請種類：" + @request.request_type + "　作成日：" + @request.created_at.strftime('%m月%d日%H時%M分')
+          @message.content = "申請しました。申請種類：" + requestA.request_type + "　作成日：" + requestA.created_at.strftime('%m月%d日%H時%M分')
           @message.create_name = current_user.name
           @message.create_id = current_user.id
           @message.user_name = user.name
           @message.user_id = user.id
           @message.save
-        else
-          @documents = Document.all
-          render :new
-      end
-      end
+        end
         redirect_to requests_path, notice: '申請しました。'
-    end
+      end
   end
 
   def destroy
@@ -197,6 +206,11 @@ class RequestsController < ApplicationController
       
       def request_params
         params.require(:request).permit(:request_type, :period, :start_time, :end_time, :status, :reason)
+      end
+
+      def back_page
+        @documents = Document.all
+        render :new  
       end
 
 end

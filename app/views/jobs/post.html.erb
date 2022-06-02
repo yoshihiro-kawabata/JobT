@@ -21,10 +21,14 @@
     <div class="col-sm-12 col-lg-5">
     <%= f.date_field :created_at_lteq, include_blank: true, class: 'form-control'%>
     </div>
-    </div>
+    <div class="col-sm-12 col-lg-5">
     <br>
-    <p>  <%= f.submit "日報出力", class: "btn btn-primary btn-lg", data: { confirm: "日報を出力します" }  %>　
-    <%= link_to t('common.back'), jobs_home_path %></p>
+    <%= f.submit "日報出力", class: "btn btn-primary btn-lg", data: { confirm: "日報を出力します" }  %>　
+    </div>
+    <div class="col-sm-12 col-lg-5">
+    <br>
+    <h4 style="margin-top: 10px;"><%= link_to t('common.back'), jobs_home_path %></h4>
     <% end %>
-    
+    </div>
+    </div>    
 </div>    

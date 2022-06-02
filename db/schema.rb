@@ -29,6 +29,8 @@ ActiveRecord::Schema.define(version: 2022_05_31_075423) do
   create_table "consents", force: :cascade do |t|
     t.text "request_content"
     t.boolean "request_flg"
+    t.integer "group"
+    t.string "name"
     t.bigint "user_id", null: false
     t.bigint "request_id", null: false
     t.datetime "created_at", precision: 6, null: false

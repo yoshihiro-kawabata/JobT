@@ -4,6 +4,21 @@ body{
   margin: auto;
 }
 
+a{
+  padding: 0 10px;
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0) 50%, #f0908d 50%);
+  background-position: 0 0;
+  background-size: 200% auto;
+  transition: .2s;
+  display: block;
+  padding: auto;
+}
+
+a:hover{
+  background-position: -100% 0;
+  color: #fff;
+}
+
 nav{
   background:#333;
   color:#fff;

@@ -3,9 +3,10 @@
 
 <p>作成日：<%= @consent.created_at.strftime("%m月%d日") %></p>
 <p>申請内容：<%= html_newline(@consent.request_content) %></p>
-
+<% if @consent.request_flg? %>
 <%= link_to '承認', @consent, method: :patch, data: { confirm: '申請を承認します' } %>　
 <%= link_to '取消', @consent, method: :delete, data: { confirm: '申請を却下します' } %>　
+<% end %>
 <%= link_to t('common.back'), consents_path %>
 
 </div>

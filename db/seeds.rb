@@ -61,7 +61,7 @@ userA.templetes << templeteA
 groupA = Group.find(0)
 templeteA = Templete.find(1)
 
-10.times do |n|
+9.times do |n|
   User.create!(
     id: "#{n + 1}",
     name: "テスト太郎#{n + 1}",
@@ -77,6 +77,24 @@ templeteA = Templete.find(1)
   userA.groups << groupA
   userA.templetes << templeteA
 end
+
+#master_user
+User.create!(
+    id: 10,
+    name: "管理者花子0",
+    number: "10000",
+    email: "hanako@hanako.com",
+    password: "hanako",
+    password_confirmation: "hanako",
+    templete: Templete.find(1).id,
+    group: Group.find(0).id,
+    admin: true
+     )
+userA = User.find(10)
+groupA = Group.find(0)
+templeteA = Templete.find(1)
+userA.groups << groupA
+userA.templetes << templeteA
     
 #test_user
 groupA = Group.find(1)
@@ -389,7 +407,8 @@ Document.create!(
   Consent.create!(
     request_content: contentA,
     request_flg: true,
-    user_id: userB.id,
+    group: userA.group,
+    user_id: userA.id,
     request_id: requestA.id
     )
 
@@ -429,7 +448,8 @@ Document.create!(
   Consent.create!(
     request_content: contentA,
     request_flg: true,
-    user_id: userB.id,
+    group: userA.group,
+    user_id: userA.id,
     request_id: requestA.id
     )
 
@@ -469,7 +489,8 @@ Document.create!(
   Consent.create!(
     request_content: contentA,
     request_flg: true,
-    user_id: userB.id,
+    group: userA.group,
+    user_id: userA.id,
     request_id: requestA.id
     )
 
@@ -509,7 +530,8 @@ Document.create!(
   Consent.create!(
     request_content: contentA,
     request_flg: true,
-    user_id: userB.id,
+    group: userA.group,
+    user_id: userA.id,
     request_id: requestA.id
     )
 
@@ -549,7 +571,8 @@ Document.create!(
   Consent.create!(
     request_content: contentA,
     request_flg: true,
-    user_id: userB.id,
+    group: userA.group,
+    user_id: userA.id,
     request_id: requestA.id
     )
 

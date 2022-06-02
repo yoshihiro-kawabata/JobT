@@ -4,12 +4,19 @@ Rails.application.routes.draw do
   resources :sessions, only: [:new, :create, :destroy]
   resources :users
   resources :attendances
-  resources :consents
   resources :requests
+
+  resources :consents do
+    collection do
+      get 'done'
+    end
+  end
 
   resources :messages do
     collection do
       get 'ship'
+      get 'alldel'
+      get 'alldel_ship'
     end
   end
 
