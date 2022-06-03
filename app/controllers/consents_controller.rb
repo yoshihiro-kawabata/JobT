@@ -22,11 +22,11 @@ class ConsentsController < ApplicationController
             case documentA.number
             when 1 then #スケジュール変更申請
               @schedule = Schedule.find_by(schedule_date:@request.period, user_id: @request.create_id)
-              @schedule.update(start_time: @request.start_time,end_time: @request.end_time,status: @request.status)
+              @schedule.update(start_time: @request.start_time,end_time: @request.end_time,status: @request.status, comment: @request.reason)
 
             when 2 then #勤怠変更申請
                 @attendance = Attendance.find_by(attendance_date:@request.period, user_id: @request.create_id)
-                @attendance.update(start_time: @request.start_time,end_time: @request.end_time)
+                @attendance.update(start_time: @request.start_time,end_time: @request.end_time, comment: @request.reason ,edit_flg: true)
 
             when 3 then #有給休暇申請
               @schedule = Schedule.find_by(schedule_date:@request.period, user_id: @request.create_id)
@@ -70,17 +70,23 @@ class ConsentsController < ApplicationController
     def destroy
         @request = Request.find_by(id:@consent.request_id)
         @user = User.find(@request.create_id)
-        @message = Message.new
-        @message.content = "申請は取り消されました。申請種類：" + @request.request_type + "　作成日：" + @request.created_at.strftime('%m月%d日%H時%M分')
-        @message.create_name = current_user.name
-        @message.create_id = current_user.id
-        @message.user_name = @user.name
-        @message.user_id = @user.id
-        @message.save
 
-        @request.destroy    
-        @consent.destroy
-        redirect_to consents_path, notice: '申請は取り消されました'
+        if @consent.request_flg?
+          @message = Message.new
+          @message.content = "申請は取り消されました。申請種類：" + @request.request_type + "　作成日：" + @request.created_at.strftime('%m月%d日%H時%M分')
+          @message.create_name = current_user.name
+          @message.create_id = current_user.id
+          @message.user_name = @user.name
+          @message.user_id = @user.id
+          @message.save
+          @request.destroy    
+          @consent.destroy
+          redirect_to consents_path, notice: '申請は取り消されました'
+        else
+          @request.destroy    
+          @consent.destroy
+          redirect_to done_consents_path, notice: '承認済み申請を削除しました'
+        end
     end
 
     private

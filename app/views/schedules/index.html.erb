@@ -28,7 +28,7 @@
     <tr>
       <th>名前</th>
       <% (Date.today.beginning_of_month..Date.today.end_of_month).each do |date| %>
-        <th><%= date.strftime("%m月%d日") %></th>
+        <th><%= date.strftime("%Y年%m月%d日") %></th>
       <% end %>
     </tr>
   <% @users.each do |user| %>
@@ -39,9 +39,24 @@
         <% schecount = @schedules[user.id].length %>
             <% schecount.times do |s| %>
          <td>
-          <p>予定：<%= @schedules[user.id]["#{s}".to_i].start_time %> ～ <%= @schedules[user.id]["#{s}".to_i].end_time %>
-            　ステータス：<%= @schedules[user.id]["#{s}".to_i].status %><%= link_to "確認", schedule_path(@schedules[user.id]["#{s}".to_i].id) %></p>
-         </td>
+         <div class="DivLink">
+             <div class="d-flex flex-wrap">
+               <div class="col-sm-12 col-lg-12">
+                 予定：<%= @schedules[user.id]["#{s}".to_i].status %>
+               </div>
+               <div class="col-sm-12 col-lg-4">
+                 <%= @schedules[user.id]["#{s}".to_i].start_time %>
+               </div>
+               <div class="col-sm-12 col-lg-2">
+               ～ 
+               </div>
+               <div class="col-sm-12 col-lg-4">
+                 <%= @schedules[user.id]["#{s}".to_i].end_time %>
+               </div>
+            </div>           
+            <%= link_to "確認", schedule_path(@schedules[user.id]["#{s}".to_i].id), {class: "Link"} %>
+          </div>           
+           </td>
         <% end %>
       </tr>
     <% end %>

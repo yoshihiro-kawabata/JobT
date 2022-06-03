@@ -1,0 +1,39 @@
+<h2 style="margin: 20px;">勤怠表（グループ）</h2>
+  
+<div class="example">
+ <table>
+    <tr>
+      <th>名前</th>
+      <% (Date.today.beginning_of_month..Date.today.end_of_month).each do |date| %>
+        <th><%= date.strftime("%Y年%m月%d日") %></th>
+      <% end %>
+    </tr>
+  <% @users.each do |user| %>
+    <tr>
+        <th>
+         <%= user.name %>
+        </th>
+        <% attcount = @attendances[user.id].length %>
+            <% attcount.times do |s| %>
+         <td>
+            <% if admin_user? %>
+                <div class="DivLink">
+                    <% if @attendances[user.id]["#{s}".to_i].edit_flg? %>
+                        <font color=red> 
+                    <% end %>
+                    実績：
+                    <%= @attendances[user.id]["#{s}".to_i].start_time %> ～ <%= @attendances[user.id]["#{s}".to_i].end_time %>
+                    <% if @attendances[user.id]["#{s}".to_i].edit_flg? %>
+                        </font> 
+                    <% end %>                    
+                    <%= link_to "確認", attendance_path(@attendances[user.id]["#{s}".to_i].id), {class: "Link"} %>
+                </div>
+            <% else %>
+                実績：<%= @attendances[user.id]["#{s}".to_i].start_time %> ～ <%= @attendances[user.id]["#{s}".to_i].end_time %>　
+            <% end %>
+         </td>
+        <% end %>
+    </tr>
+    <% end %>
+</table>
+</div>

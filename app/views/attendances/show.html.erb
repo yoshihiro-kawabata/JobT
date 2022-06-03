@@ -1,26 +1,48 @@
-<h1>勤怠表（グループ）</h1>
-  
-<div class="example">
- <table>
-    <tr>
-      <th>名前</th>
-      <% (Date.today.beginning_of_month..Date.today.end_of_month).each do |date| %>
-        <th><%= date.strftime("%m月%d日") %></th>
+<h2 style="margin: 20px;">勤怠詳細（<%= @user.name %>：<%= @attendance.attendance_date.strftime("%Y年%m月%d日") %>）</h2>
+<div class="new_box">
+
+<div class="d-flex flex-wrap">
+    <div class="col-sm-6 col-lg-3">
+        日時：
+    </div>
+    <div class="col-sm-6 col-lg-9">
+     <%= @attendance.attendance_date.strftime("%Y年%m月%d日") %>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        名前：
+    </div>
+    <div class="col-sm-6 col-lg-9">
+     <%= @user.name %>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        実績：
+    </div>
+    <div class="col-sm-6 col-lg-9">
+      <% if @attendance.edit_flg? %>
+        <font color=red> <%= @attendance.start_time %> ～ <%= @attendance.end_time %>（修正済み）</font>
+      <% else %>
+        <%= @attendance.start_time %> ～ <%= @attendance.end_time %>
       <% end %>
-    </tr>
-  <% @users.each do |user| %>
-      <tr>
-        <th>
-         <%= user.name %>
-        </th>
-        <% attcount = @attendances[user.id].length %>
-            <% attcount.times do |s| %>
-         <td>
-          <p>実績：<%= @attendances[user.id]["#{s}".to_i].start_time %> ～ <%= @attendances[user.id]["#{s}".to_i].end_time %></p>
-         </td>
-        <% end %>
-      </tr>
+    </div>
+    <div class="col-sm-6 col-lg-5">
+        コメント：
+    </div>
+    <div class="col-sm-6 col-lg-7">
+    <% if @attendance.comment.blank? %>
+      コメントなし
+    <% else %>
+     <%= @attendance.comment %>
     <% end %>
-</table>
+    </div>
+        <% if admin_user? %>
+          <div class="col-sm-6 col-lg-4">
+            <%= link_to '修正', edit_attendance_path(@attendance.id) %>
+          </div>
+        <% end %>
+    <div class="col-sm-6 col-lg-8">
+        <%= link_to t('common.back'), attendances_path %>
+    </div>
 </div>
+</div>
+
 

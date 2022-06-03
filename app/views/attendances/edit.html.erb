@@ -1,0 +1,36 @@
+<h2 style="margin: 20px;">勤怠編集（<%= @user.name %>：<%= @attendance.attendance_date.strftime("%Y年%m月%d日") %>）</h2>
+<div class="user_box">
+
+<% if @attendance.errors.any? %>
+  <div id="error_explanation">
+    <ul>
+    <% @attendance.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= form_with(model: @attendance, local: true) do |f| %>
+<div class="d-flex flex-wrap">
+    <div class="col-sm-12 col-lg-4">
+        <%= f.label :開始 %>：<%= f.time_field :start_time, value:f.object.start_time.try(:strftime,'%H:%M') %>
+    </div>
+    <div class="col-sm-12 col-lg-1"> ～ </div>
+    <div class="col-sm-12 col-lg-4">
+        <%= f.label :終了 %>：<%= f.time_field :end_time,value:f.object.end_time.try(:strftime,'%H:%M') %>
+    </div>
+    <div class="col-sm-12 col-lg-12">
+        <%= f.label :コメント %>：<%= f.text_area :comment, class: "form-control",id: "exampleFormControlTextarea1", style: "height:120px; wrap:hard;" %>
+    </div>
+    <div class="col-sm-12 col-lg-4">
+    <br>
+        <%= f.submit "更新する", class: "btn btn-primary"  %>
+    </div>
+    <div class="col-sm-12 col-lg-4">
+       <h4 style="margin-top: 30px;"><%= link_to t('common.back'), attendances_path %></h4>
+    </div>
+</div>
+<% end %>
+</div>
+

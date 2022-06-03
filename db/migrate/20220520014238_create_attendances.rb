@@ -6,6 +6,8 @@ class CreateAttendances < ActiveRecord::Migration[6.0]
       t.text :end_time
       t.references :user, null: false, foreign_key: true
       t.integer :group
+      t.boolean :edit_flg, null: false, default: false 
+      t.text :comment
 
       t.timestamps
     end

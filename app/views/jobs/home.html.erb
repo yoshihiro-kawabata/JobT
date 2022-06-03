@@ -32,32 +32,39 @@
             </div>
          </div>
          <div>
-               <h4>名前：<%= @user.name %><h4>
-               <h4>ステータス：<%= @schedule.status %><h4>
-               <p/>
-               <h3>スケジュール<h3>
-               <h4>開始予定：<%= @schedule.start_time %><h4>
-               <h4>終了予定：<%= @schedule.end_time %><h4>
-               <h3>実績<h3>
+               <h5>名前：<%= @user.name %><h5>
+               <h5>ステータス：<%= @schedule.status %><h5>
+               <p>
+               <h5>スケジュール<h5>
+               <h5>開始予定：<%= @schedule.start_time %><h5>
+               <h5>終了予定：<%= @schedule.end_time %><h5>
+               <h5>実績<h5>
+
                <% unless @attendance.start_time.blank? %>
                   <% if @attendance.start_time > @schedule.start_time %>
-                  <h4 style="color:red;">開始時間：<%= @attendance.start_time %>　予定より遅いです<h4>
+                     <h5 style="color:blue;">開始時間：<%= @attendance.start_time %>　予定より遅いです<h5>
+                  <% elsif @attendance.edit_flg? %>
+                     <h5 style="color:red;">開始時間：<%= @attendance.start_time %>（修正済み）<h5>
                   <% else %>
-                  <h4>開始時間：<%= @attendance.start_time %><h4>
+                     <h5>開始時間：<%= @attendance.start_time %><h5>
                   <% end %>
                <% else %>
-                  <h4>開始時間：<%= @attendance.start_time %><h4>
+                  <h5>開始時間：<%= @attendance.start_time %><h5>
                <% end %>
 
                <% unless @attendance.end_time.blank? %>
                   <% if @attendance.end_time < @schedule.end_time %>
-                     <h4 style="color:red;" >終了時間：<%= @attendance.end_time %>　予定より早いです<h4>
+                     <h5 style="color:blue;" >終了時間：<%= @attendance.end_time %>　予定より早いです<h5>
+                  <% elsif @attendance.edit_flg? %>
+                     <h5 style="color:red;">終了時間：<%= @attendance.end_time %>（修正済み）<h5>
                   <% else %>
-                     <h4>終了時間：<%= @attendance.end_time %><h4>
+                     <h5>終了時間：<%= @attendance.end_time %><h5>
                   <% end %>
                <% else %>
-               <h4>終了時間：<%= @attendance.end_time %><h4>
+               <h5>終了時間：<%= @attendance.end_time %><h5>
                <% end %>
+
+
    <script>
    function set2fig(num) {
     var ret;

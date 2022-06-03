@@ -1,4 +1,4 @@
-<h1>スケジュール</h1>
+<h2 style="margin: 20px;">スケジュール</h2>
 
 <%= search_form_for @q, url: search_schedules_path do |f| %>
   <div class="d-flex flex-wrap">
@@ -30,7 +30,7 @@
     <tr>
       <th>名前</th>
       <% @schedules[0].each do |schedule| %>
-        <th><%= schedule.schedule_date.strftime("%m月%d日") %></th>
+        <th><%= schedule.schedule_date.strftime("%Y年%m月%d日") %></th>
       <% end %>
     </tr>
   <% @users.each do |user| %>
@@ -40,10 +40,25 @@
     </th>
     <% schecount = @schedules[user.id].length %>
         <% schecount.times do |s| %>
-     <td>
-      <p>予定：<%= @schedules[user.id]["#{s}".to_i].start_time %> ～ <%= @schedules[user.id]["#{s}".to_i].end_time %>
-        　ステータス：<%= @schedules[user.id]["#{s}".to_i].status %><%= link_to "確認", schedule_path(@schedules[user.id]["#{s}".to_i].id) %></p>
-     </td>
+         <td>
+         <div class="DivLink">
+             <div class="d-flex flex-wrap">
+               <div class="col-sm-12 col-lg-12">
+                 予定：<%= @schedules[user.id]["#{s}".to_i].status %>
+               </div>
+               <div class="col-sm-12 col-lg-4">
+                 <%= @schedules[user.id]["#{s}".to_i].start_time %>
+               </div>
+               <div class="col-sm-12 col-lg-2">
+               ～ 
+               </div>
+               <div class="col-sm-12 col-lg-4">
+                 <%= @schedules[user.id]["#{s}".to_i].end_time %>
+               </div>
+            </div>           
+            <%= link_to "確認", schedule_path(@schedules[user.id]["#{s}".to_i].id), {class: "Link"} %>
+          </div>           
+           </td>
     <% end %>
   </tr>
 <% end %>

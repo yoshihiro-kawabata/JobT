@@ -1,11 +1,45 @@
-<h1>スケジュール詳細</h1>
+<h2 style="margin: 20px;">スケジュール詳細（<%= @user.name %>：<%= @schedule.schedule_date.strftime("%Y年%m月%d日") %>）</h2>
 <div class="new_box">
 
-<p>日時：<%= @schedule.schedule_date %></p>
-<p>名前：<%= @user.name %></p>
-<p>業務予定：<%= @schedule.start_time %> ～ <%= @schedule.end_time %></p>
-<p>ステータス：<%= @schedule.status %></p>
+<div class="d-flex flex-wrap">
+    <div class="col-sm-6 col-lg-6">
+        日時：
+    </div>
+    <div class="col-sm-6 col-lg-6">
+     <%= @schedule.schedule_date.strftime("%Y年%m月%d日") %>
+    </div>
+    <div class="col-sm-6 col-lg-6">
+        名前：
+    </div>
+    <div class="col-sm-6 col-lg-6">
+     <%= @user.name %>
+    </div>
 
-<%= link_to t('common.back'), schedules_path %>
-
+    <div class="col-sm-6 col-lg-6">
+        業務予定：
+    </div>
+    <div class="col-sm-6 col-lg-6">
+     <%= @schedule.start_time %> ～ <%= @schedule.end_time %>
+    </div>
+    <div class="col-sm-6 col-lg-6">
+        コメント：
+    </div>
+    <div class="col-sm-6 col-lg-6">
+    <% if @schedule.comment.blank? %>
+      コメントなし
+    <% else %>
+     <%= @schedule.comment %>
+    <% end %>
+    </div>
+        <% if admin_user? %>
+          <div class="col-sm-6 col-lg-6">
+            <%= link_to '修正', edit_schedule_path(@schedule.id) %>
+          </div>
+        <% end %>
+    <div class="col-sm-6 col-lg-6">
+        <%= link_to t('common.back'), schedules_path %>
+    </div>
 </div>
+</div>
+
+

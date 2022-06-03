@@ -1,4 +1,8 @@
-<h1>承認一覧</h1>
+<h2 style="margin: 20px;">承認一覧</h2>
+
+<% unless @consents.present? %>
+  <h2 style="margin: 20px;">未承認申請はありません。</h2>
+<% else %>
 
 <div class="example">
 <table style="width:1000px; border:3px solid; margin:auto; text-align: center;">
@@ -25,3 +29,5 @@
     </tbody>
   </table>
 </div>
+
+<% end %>

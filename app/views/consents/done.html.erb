@@ -1,4 +1,8 @@
-<h1>承認済み</h1>
+<h2 style="margin: 20px;">承認済み</h2>
+
+<% unless @consents.present? %>
+<h2 style="margin: 20px;">承認済申請はありません。</h2>
+<% else %>
 
 <div class="example">
   <table style="width:1000px; border:3px solid; margin:auto; text-align: center;">
@@ -8,7 +12,9 @@
       <th style="width:600px;">申請種類</th>
       <th style="width:100px;">承認日</th>
       <th style="width:100px;">詳細</th>
+      <th style="width:100px;">削除</th>
       <th style="width:100px;">承認者</th>
+
       </tr>
     </thead>
   
@@ -19,9 +25,12 @@
           <td style="border:2px solid; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; max-width: 700px; "><%= html_newline(consent.request_content) %></td>
           <td style="border:2px solid"><%= consent.updated_at.strftime("%m月%d日") %><br><%= consent.updated_at.strftime("%H時%M分") %></td>
           <td style="border:2px solid"><%= link_to '詳細', consent_path(consent.id) %></td>
+          <td style="border:2px solid"><%= link_to '削除', consent, method: :delete, data: { confirm: '削除します' } %></td>
           <td style="border:2px solid"><%= consent.name %></td>
         </tr>
       <% end %>
     </tbody>
   </table>
 </div>
+
+<% end %>

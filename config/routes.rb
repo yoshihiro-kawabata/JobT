@@ -3,8 +3,14 @@ Rails.application.routes.draw do
 
   resources :sessions, only: [:new, :create, :destroy]
   resources :users
-  resources :attendances
   resources :requests
+
+  resources :attendances do
+    collection do
+      get 'group'
+    end
+  end
+
 
   resources :consents do
     collection do

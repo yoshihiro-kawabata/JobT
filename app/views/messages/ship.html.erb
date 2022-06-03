@@ -1,20 +1,20 @@
 <div style="width: 90%; display: flex; margin:auto; text-align: center; background-color: #fef4f4;">
   <div class="col-sm-12 col-lg-4">
-    <h3><%= link_to "メッセージ作成", new_message_path %></h3>
+    <h2 style="margin: 20px;"><%= link_to "メッセージ作成", new_message_path %></h2>
   </div>
   <div class="col-sm-12 col-lg-4">
-      <h2>送信一覧</h2>
+      <h2 style="margin: 20px;">送信一覧</h2>
   </div>
   <div class="col-sm-12 col-lg-4">
   <% mes = [] %>
   <% @messages.each do |me| %>
   <% mes << me.id %>
   <% end %>
-  <h3><%= link_to '一括削除', alldel_ship_messages_path(mes: mes), data: { confirm: '表示されているメッセージを一括削除します' }  %></h3>
+  <h2 style="margin: 20px;"><%= link_to '一括削除', alldel_ship_messages_path(mes: mes), data: { confirm: '表示されているメッセージを一括削除します' }  %></h2>
   </div>
 </div>
 <% unless @messages.present? %>
-<h2>送信メッセージはありません。</h2>
+<h2 style="margin: 20px;">送信メッセージはありません。</h2>
 <% else %>
 <table style="width:90%; border:3px solid; margin:auto; text-align: center;">
     <thead>
@@ -31,7 +31,7 @@
       <% @messages.each do |message| %>
         <tr>
           <td style="border:2px solid"><%= message.user_name %>さんへのメッセージ</td>
-          <td style="border:2px solid; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; max-width: 600px; "><%= message.content %></td>
+          <td style="border:2px solid; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; max-width: 600px; "><%= html_newline(message.content) %></td>
           <td style="border:2px solid"><%= link_to '確認', message_path(message.id) %></td>
           <td style="border:2px solid"><%= link_to '削除', message, method: :delete, data: { confirm: '送信メッセージを削除します' } %></td>
         </tr>

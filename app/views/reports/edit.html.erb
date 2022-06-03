@@ -1,4 +1,4 @@
-<h1>日報編集</h1>
+<h2 style="margin: 20px;">日報編集</h2>
 
 <% if @report.errors.any? %>
   <div id="error_explanation">
@@ -94,14 +94,19 @@
         <% end %>
     </tbody>
   </table>
-<br>
-  <p>  <% unless admin_user? %>
+  <div class="d-flex flex-wrap">
+    <div class="col-sm-12 col-lg-2">
+    <h4 style="margin: 10px;">
+      <% unless admin_user? %>
         <%= f.submit "修正",class: "btn btn-primary btn-lg" %>
        <% else %>
        <%= f.submit "コメント",class: "btn btn-primary btn-lg" %>
        <% end %>
-       　<%= link_to t('common.back'), reports_path %>
-  </p>
-  <% end %>
-  </div>
+      </h4>
+      </div>
+       <div class="col-sm-12 col-lg-9">
+       <h4 style="margin: 15px;"><%= link_to t('common.back'), reports_path %></h4>
+       </div>
+<% end %>
+</div>
 

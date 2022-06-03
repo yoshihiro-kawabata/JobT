@@ -1,13 +1,23 @@
-<h1>承認詳細</h1>
+<h2 style="margin: 20px;">承認詳細</h2>
 <div class="new_box">
 
 <p>作成日：<%= @consent.created_at.strftime("%m月%d日") %></p>
 <p>申請内容：<%= html_newline(@consent.request_content) %></p>
+<div class="d-flex flex-wrap">
 <% if @consent.request_flg? %>
-<%= link_to '承認', @consent, method: :patch, data: { confirm: '申請を承認します' } %>　
-<%= link_to '取消', @consent, method: :delete, data: { confirm: '申請を却下します' } %>　
+    <div class="col-sm-12 col-lg-4">
+        <%= link_to '承認', @consent, method: :patch, data: { confirm: '申請を承認します' } %>
+    </div>
+    <div class="col-sm-12 col-lg-4">
+        <%= link_to '取消', @consent, method: :delete, data: { confirm: '申請を却下します' } %>
+    </div>
+    <div class="col-sm-12 col-lg-4">
+        <%= link_to t('common.back'), consents_path %>
+    </div>
+<% else %>
+    <div class="col-sm-12 col-lg-12">
+        <%= link_to t('common.back'), done_consents_path %>
+    </div>
 <% end %>
-<%= link_to t('common.back'), consents_path %>
-
 </div>
-
+</div>

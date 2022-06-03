@@ -1,10 +1,18 @@
-<h1>メッセージ詳細</h1>
+<h2 style="margin: 20px;">メッセージ詳細</h2>
 <div class="new_box">
 
 <p>送信者：<%= @message.create_name %></p>
 <p>送信日時：<%= @message.created_at.strftime('%m月%d日%H時%M分') %></p>
 <p>内容：<%= @message.content %></p>
 
+<% if @message.create_name == current_user.name %>
+
+<%= link_to t('common.back'), ship_messages_path %>
+
+<% else %>
+
 <%= link_to t('common.back'), messages_path %>
+
+<% end %>
 
 </div>

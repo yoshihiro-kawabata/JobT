@@ -26,7 +26,7 @@
     <li><%= link_to "スケジュール", schedules_path %></li>
     <li><%= link_to "勤怠状況", jobs_manage_path %></li>
     <li><%= link_to "勤怠表（自分）", attendances_path %></li>
-    <li><%= link_to "勤怠表（グループ）", attendance_path(current_user.group) %></li>
+    <li><%= link_to "勤怠表（グループ）", group_attendances_path %></li>
     </ul>
   </li>
   <li class="has-child"><a>承認一覧</a>
@@ -59,7 +59,7 @@
       <ul>
       <li><%= link_to "スケジュール", schedules_path %></li>
       <li><%= link_to "勤怠表（自分）", attendances_path %></li>
-      <li><%= link_to "勤怠表（グループ）", attendance_path(current_user.group) %></li>
+      <li><%= link_to "勤怠表（グループ）", group_attendances_path %></li>
       </ul>
     </li>
     <li class="has-child"><a>申請</a>

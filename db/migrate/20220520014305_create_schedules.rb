@@ -8,6 +8,7 @@ class CreateSchedules < ActiveRecord::Migration[6.0]
       t.references :user, null: false, foreign_key: true
       t.integer :group
       t.boolean :offday, null: false, default: false 
+      t.text :comment
 
       t.timestamps
     end

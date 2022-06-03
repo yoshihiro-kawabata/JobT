@@ -21,6 +21,8 @@ ActiveRecord::Schema.define(version: 2022_05_31_075423) do
     t.text "end_time"
     t.bigint "user_id", null: false
     t.integer "group"
+    t.boolean "edit_flg", default: false, null: false
+    t.text "comment"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_attendances_on_user_id"
@@ -119,6 +121,7 @@ ActiveRecord::Schema.define(version: 2022_05_31_075423) do
     t.bigint "user_id", null: false
     t.integer "group"
     t.boolean "offday", default: false, null: false
+    t.text "comment"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_schedules_on_user_id"

@@ -1,4 +1,4 @@
-<h1>日報詳細</h1>
+<h2 style="margin: 20px;">日報詳細</h2>
 <div class="report_box">
   <table style="border:2px solid; width: 1100px">
     <thead>
@@ -50,11 +50,15 @@
     </tbody>
   </table>
 <br>
-  <p>  <% unless admin_user? %>
-         <%= link_to t('common.edit'), edit_report_path(@report) %>
-       <% else %>
-       <%= link_to 'コメント', edit_report_path(@report) %>
-       <% end %>
-       　<%= link_to t('common.back'), reports_path %>
-  </p>
-  </div>
+  <div class="d-flex flex-wrap">
+    <div class="col-sm-12 col-lg-5">
+      <% unless admin_user? %>
+      <h4 style="margin: 5px;"><%= link_to t('common.edit'), edit_report_path(@report) %></h4>
+      <% else %>
+      <h4 style="margin: 5px;"><%= link_to 'コメント', edit_report_path(@report) %></h4>
+      <% end %>
+      </div>
+      <div class="col-sm-12 col-lg-5">
+       <h4 style="margin: 5px;"><%= link_to t('common.back'), reports_path %></h4>
+      </div>
+</div>
