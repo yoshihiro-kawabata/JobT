@@ -25,10 +25,10 @@
     </div>
     <div class="col-sm-12 col-lg-4">
     <br>
-        <%= f.submit "更新する", class: "btn btn-primary"  %>
+        <%= f.submit "更新する", class: "btn btn-primary", data: { confirm: '勤怠を更新します。' }   %>
     </div>
     <div class="col-sm-12 col-lg-4">
-       <h4 style="margin-top: 30px;"><%= link_to t('common.back'), attendances_path %></h4>
+       <h4 style="margin-top: 30px;"><%= link_to t('common.back'), attendance_path(@attendance.id) %></h4>
     </div>
 </div>
 <% end %>

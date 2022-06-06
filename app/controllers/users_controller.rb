@@ -20,7 +20,7 @@ class UsersController < ApplicationController
           groupA = Group.find(@user.group)
           @user.groups << groupA        
 
-          start_day = Date.today.beginning_of_month
+          start_day = Date.today.months_ago(1).beginning_of_month
           end_day = Date.today.years_since(2).end_of_month
 
           holiboxs = HolidayJp.between(start_day, end_day)

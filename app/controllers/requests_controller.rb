@@ -180,7 +180,7 @@ class RequestsController < ApplicationController
         @users = User.where(group: userA.group, admin: true)
         @users.each do |user|
           @message = Message.new
-          @message.content = "申請しました。申請種類：" + requestA.request_type + "　作成日：" + requestA.created_at.strftime('%m月%d日%H時%M分')
+          @message.content = '申請しました。申請種類：' + requestA.request_type + '\n作成日：' + requestA.created_at.strftime('%m月%d日%H時%M分')
           @message.create_name = current_user.name
           @message.create_id = current_user.id
           @message.user_name = user.name

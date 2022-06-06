@@ -8,31 +8,34 @@
         <th><%= date.strftime("%Y年%m月%d日") %></th>
       <% end %>
     </tr>
+  <% uscount = 0 %>
   <% @users.each do |user| %>
     <tr>
         <th>
          <%= user.name %>
         </th>
-        <% attcount = @attendances[user.id].length %>
+        <% attcount = @attendances[uscount].length %>
             <% attcount.times do |s| %>
          <td>
             <% if admin_user? %>
                 <div class="DivLink">
-                    <% if @attendances[user.id]["#{s}".to_i].edit_flg? %>
+                    <% if @attendances[uscount]["#{s}".to_i].edit_flg? %>
                         <font color=red> 
                     <% end %>
                     実績：
-                    <%= @attendances[user.id]["#{s}".to_i].start_time %> ～ <%= @attendances[user.id]["#{s}".to_i].end_time %>
-                    <% if @attendances[user.id]["#{s}".to_i].edit_flg? %>
+                    <%= @attendances[uscount]["#{s}".to_i].start_time %> ～ <%= @attendances[uscount]["#{s}".to_i].end_time %>
+                    <% if @attendances[uscount]["#{s}".to_i].edit_flg? %>
                         </font> 
                     <% end %>                    
-                    <%= link_to "確認", attendance_path(@attendances[user.id]["#{s}".to_i].id), {class: "Link"} %>
+                    <%= link_to "確認", attendance_path(@attendances[uscount]["#{s}".to_i].id), {class: "Link"} %>
                 </div>
             <% else %>
-                実績：<%= @attendances[user.id]["#{s}".to_i].start_time %> ～ <%= @attendances[user.id]["#{s}".to_i].end_time %>　
+                実績：<%= @attendances[uscount]["#{s}".to_i].start_time %> ～ <%= @attendances[uscount]["#{s}".to_i].end_time %>　
             <% end %>
          </td>
         <% end %>
+          <% uscount += 1 %>
+
     </tr>
     <% end %>
 </table>

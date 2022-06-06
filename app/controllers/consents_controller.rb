@@ -54,7 +54,7 @@ class ConsentsController < ApplicationController
 
            @user = User.find(@request.create_id)
            @message = Message.new
-           @message.content = "申請は承認されました。申請種類：" + @request.request_type + "　作成日：" + @request.created_at.strftime('%m月%d日%H時%M分')
+           @message.content = '申請は承認されました。申請種類：' + @request.request_type + '\n作成日：' + @request.created_at.strftime('%m月%d日%H時%M分')
            @message.create_name = current_user.name
            @message.create_id = current_user.id
            @message.user_name = @user.name
@@ -73,7 +73,7 @@ class ConsentsController < ApplicationController
 
         if @consent.request_flg?
           @message = Message.new
-          @message.content = "申請は取り消されました。申請種類：" + @request.request_type + "　作成日：" + @request.created_at.strftime('%m月%d日%H時%M分')
+          @message.content = '申請は取り消されました。申請種類：' + @request.request_type + '\n作成日：' + @request.created_at.strftime('%m月%d日%H時%M分')
           @message.create_name = current_user.name
           @message.create_id = current_user.id
           @message.user_name = @user.name

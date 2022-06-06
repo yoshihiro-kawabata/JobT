@@ -71,7 +71,7 @@ class AttendancesController < ApplicationController
 
                 if @user.id != current_user.id
                     @message = Message.new
-                    @message.content = @attendance.attendance_date.strftime("%Y年%m月%d日") + 'の勤怠を更新しました。修正者：' + current_user.name + '\n修正日：' + Date.today.strftime('%m月%d日%H時%M分')  + '\n修正後勤怠時刻：' + @attendance.start_time + '～' + @attendance.end_time + '\nコメント：' + @attendance.comment
+                    @message.content = @attendance.attendance_date.strftime("%Y年%m月%d日") + 'の勤怠を更新しました。修正者：' + current_user.name + '\n修正日：' + Date.today.strftime('%m月%d日')  + '\n修正後勤怠時刻：' + @attendance.start_time + '～' + @attendance.end_time + '\nコメント：' + @attendance.comment
                     @message.create_name = current_user.name
                     @message.create_id = current_user.id
                     @message.user_name = @user.name
@@ -83,15 +83,13 @@ class AttendancesController < ApplicationController
         back_attendance
     end
 
-    
-
     def group
         @users = User.where(group: current_user.group).order("id ASC")
         users = User.where(group: current_user.group).count
         @attendances = []
 
-        users.times do |n|
-            @attendances << Attendance.where(user_id: n).where(attendance_date: (Date.today.beginning_of_month)..(Date.today.end_of_month)).order("attendance_date ASC")
+        @users.each do |user|
+            @attendances << Attendance.where(user_id: user.id).where(attendance_date: (Date.today.beginning_of_month)..(Date.today.end_of_month)).order("attendance_date ASC")
         end
     end
   

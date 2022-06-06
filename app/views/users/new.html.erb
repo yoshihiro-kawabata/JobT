@@ -14,7 +14,8 @@
 <% groupA = []  %>
 
 <% @templetes.each do |templete| %>
-  <% templeteA << [templete.name, templete.id]  %>
+  <% tempbox = templete.name + "(" + templete.start_time + "～" + templete.end_time + ")"  %>  
+  <% templeteA << [tempbox, templete.id]  %>
 <% end %>
 
 <% @groups.each do |group| %>
@@ -22,30 +23,75 @@
 <% end %>
 
 <%= form_with(model: @user, local: true) do |f| %>
-<p>  <%= f.label :社員番号 %>：
-<%= f.text_field :number, :size => 32, :placeholder => "30文字以内" %></p>  
-<p>  <%= f.label :名前 %>：
-<%= f.text_field :name, :size => 32, :placeholder => "30文字以内" %></p>
-<p>  <%= f.label :権限 %> ：
-<%= f.radio_button :admin, :true %>
-<%= f.label :admin, "管理者：", {value: :true, style: "display: inline-block;"} %>
-<%= f.radio_button :admin, :false %>
-<%= f.label :admin, "一般：", {value: :false, style: "display: inline-block;", checked: true }%>
-</p>
-<p><%= f.label :メールアドレス %>：
-<%= f.email_field :email, :size => 32 %></p>
+  <div class="d-flex flex-wrap">
+    <div class="col-sm-12 col-lg-4">
+        <%= f.label :社員番号： %>
+    </div>
+    <div class="col-sm-12 col-lg-8">
+        <%= f.text_field :number, :size => 32, :placeholder => "30文字以内" %>
+    </div>
 
-<p><%= f.label :勤怠テンプレート %>：
-<%= f.select :templete, templeteA %></p>
+    <div class="col-sm-12 col-lg-4">
+        <%= f.label :名前： %>
+    </div>
+    <div class="col-sm-12 col-lg-8">
+      <%= f.text_field :name, :size => 32, :placeholder => "30文字以内" %>
+    </div>
 
-<p><%= f.label :所属グループ %>：
-<%= f.select :group, groupA %></p>
+    <div class="col-sm-12 col-lg-4">
+        <%= f.label :権限： %>
+    </div>
+    <div class="col-sm-12 col-lg-8">
+      <%= f.label :admin, "管理者：", {value: :true, style: "display: inline-block;"} %>
+      <%= f.radio_button :admin, :false %>
+    </div>
+    <div class="col-sm-12 col-lg-4">
+    </div>
+    <div class="col-sm-12 col-lg-8">
+      <%= f.label :admin, "一般：", {value: :false, style: "display: inline-block;", checked: :true }%>
+      <%= f.radio_button :admin, :true %>
+    </div>
 
-<p><%= f.label :パスワード %>：
-<%= f.password_field :password, :placeholder => "半角英数字6文字以上" %>
-<%= f.password_field :password_confirmation, :placeholder => "確認のため再入力" %>
-</p>
+    <div class="col-sm-12 col-lg-4">
+      <%= f.label :メールアドレス： %>
+    </div>
+    <div class="col-sm-12 col-lg-8">
+      <%= f.email_field :email, :size => 32 %>
+    </div>
 
-<p>  <%= f.submit "登録", class: "btn btn-primary"  %> </p>
+    <div class="col-sm-12 col-lg-4">
+      <%= f.label :テンプレート： %>
+    </div>
+    <div class="col-sm-12 col-lg-8">
+      <%= f.select :templete, templeteA %>
+    </div>
+
+    <div class="col-sm-12 col-lg-4">
+      <%= f.label :所属グループ： %>
+    </div>
+    <div class="col-sm-12 col-lg-8">
+      <%= f.select :group, groupA %>
+    </div>
+
+    <div class="col-sm-12 col-lg-4">
+      <%= f.label :パスワード： %>
+    </div>
+    <div class="col-sm-12 col-lg-8">
+      <%= f.password_field :password, :placeholder => "半角英数字6文字以上" %>
+    </div>
+    <div class="col-sm-12 col-lg-4">
+    </div>
+    <div class="col-sm-12 col-lg-8">
+      <%= f.password_field :password_confirmation, :placeholder => "確認のため再入力" %>
+    </div>
+
+    <div class="col-sm-12 col-lg-4">
+      <h4 style="margin-top: 30px;"><%= f.submit "登録", class: "btn btn-primary"  %></h4>
+    </div>
+    <div class="col-sm-12 col-lg-8">
+      <h4 style="margin-top: 30px;"><%= link_to t('common.back'), jobs_manage_path %></h4>
+    </div>
+  </div>
 <% end %>
 </div>
+

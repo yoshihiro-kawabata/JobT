@@ -36,13 +36,16 @@
     </div>
         <% if admin_user? %>
           <div class="col-sm-6 col-lg-4">
-            <%= link_to '修正', edit_attendance_path(@attendance.id) %>
+            <h4 style="margin-top: 30px;"><%= link_to '修正', edit_attendance_path(@attendance.id) %></h4>
           </div>
         <% end %>
     <div class="col-sm-6 col-lg-8">
-        <%= link_to t('common.back'), attendances_path %>
+    <% if @user.id = current_user.id %>
+       <h4 style="margin-top: 30px;"><%= link_to t('common.back'), group_attendances_path %></h4>
+    <% else %>
+       <h4 style="margin-top: 30px;"><%= link_to t('common.back'), attendances_path %></h4>
+    <% end %>        
     </div>
 </div>
 </div>
-
 
