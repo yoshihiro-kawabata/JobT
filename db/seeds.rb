@@ -284,13 +284,17 @@ numbA = 0
     user_id: userA.id
   )
   
-  Message.create!(
+
+  unless userA.id == userB.id
+    Message.create!(
       content: "テストメッセージ#{n + 1}です",
       create_name: userA.name,
       create_id: userA.id,
       user_name: userB.name,
       user_id: userB.id
   )
+end
+
 end
 
 #report
@@ -377,7 +381,7 @@ Document.create!(
 
   Request.create!(
     request_type: documentA.name,
-    period: Date.today.since(1.days),
+    period: Date.today.end_of_week(:friday),
     start_time: Date.today.since(13.hour).strftime("%H:%M"),
     end_time: Date.today.since(18.hour).strftime("%H:%M"),
     status: "午後出勤",
@@ -418,7 +422,7 @@ Document.create!(
 
   Request.create!(
     request_type: documentA.name,
-    period: Date.today.since(1.days),
+    period: Date.today.ago(1.weeks),
     start_time: Date.today.since(9.hour).strftime("%H:%M"),
     end_time: Date.today.since(18.hour).strftime("%H:%M"),
     status: "",
@@ -459,7 +463,7 @@ Document.create!(
 
   Request.create!(
     request_type: documentA.name,
-    period: Date.today.since(1.days),
+    period: Date.today.end_of_week(:friday),
     start_time: "",
     end_time: "",
     status: "",
@@ -500,7 +504,7 @@ Document.create!(
 
   Request.create!(
     request_type: documentA.name,
-    period: Date.today.since(7.days),
+    period: Date.today.end_of_week(:friday),
     start_time: "",
     end_time: "",
     status: "",
@@ -541,7 +545,7 @@ Document.create!(
 
   Request.create!(
     request_type: documentA.name,
-    period: Date.today.since(2.days),
+    period: Date.today.end_of_week(:monday),
     start_time: Date.today.since(9.hour).strftime("%H:%M"),
     end_time: Date.today.since(21.hour).strftime("%H:%M"),
     status: "",

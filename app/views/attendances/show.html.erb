@@ -1,5 +1,5 @@
 <h2 style="margin: 20px;">勤怠詳細（<%= @user.name %>：<%= @attendance.attendance_date.strftime("%Y年%m月%d日") %>）</h2>
-<div class="new_box">
+<div class="user_box">
 
 <div class="d-flex flex-wrap">
     <div class="col-sm-6 col-lg-3">
@@ -24,10 +24,10 @@
         <%= @attendance.start_time %> ～ <%= @attendance.end_time %>
       <% end %>
     </div>
-    <div class="col-sm-6 col-lg-5">
+    <div class="col-sm-6 col-lg-3">
         コメント：
     </div>
-    <div class="col-sm-6 col-lg-7">
+    <div class="col-sm-6 col-lg-9">
     <% if @attendance.comment.blank? %>
       コメントなし
     <% else %>
@@ -35,16 +35,19 @@
     <% end %>
     </div>
         <% if admin_user? %>
-          <div class="col-sm-6 col-lg-4">
+          <div class="col-sm-6 col-lg-3">
             <h4 style="margin-top: 30px;"><%= link_to '修正', edit_attendance_path(@attendance.id) %></h4>
           </div>
         <% end %>
-    <div class="col-sm-6 col-lg-8">
-    <% if @user.id = current_user.id %>
-       <h4 style="margin-top: 30px;"><%= link_to t('common.back'), group_attendances_path %></h4>
-    <% else %>
-       <h4 style="margin-top: 30px;"><%= link_to t('common.back'), attendances_path %></h4>
-    <% end %>        
+    <div class="col-sm-6 col-lg-9">
+       <h4 style="margin-top: 30px;"><%= link_to '戻る（グループ勤怠）', group_attendances_path %></h4>
+    </div>
+        <% if admin_user? %>
+          <div class="col-sm-6 col-lg-3">
+          </div>
+        <% end %>
+    <div class="col-sm-6 col-lg-9">
+       <h4 style="margin-top: 10px;"><%= link_to '戻る（自分の勤怠）', attendances_path %></h4>
     </div>
 </div>
 </div>

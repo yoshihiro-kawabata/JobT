@@ -77,6 +77,7 @@ ActiveRecord::Schema.define(version: 2022_05_31_075423) do
     t.bigint "create_id"
     t.text "user_name"
     t.bigint "user_id", null: false
+    t.boolean "read_flg", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_messages_on_user_id"

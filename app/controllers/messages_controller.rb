@@ -29,10 +29,13 @@ class MessagesController < ApplicationController
     end
 
     def show
+      if @message.user_id == current_user.id
+          @message.update(read_flg: true)
+      end
     end
 
     def ship
-      @messages = Message.select(:id,:user_name,:content).where(create_id:current_user.id).order("created_at DESC").page params[:page]        
+      @messages = Message.select(:id,:user_name,:content,:read_flg).where(create_id:current_user.id).order("created_at DESC").page params[:page]        
     end
 
     def destroy

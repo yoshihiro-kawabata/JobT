@@ -45,7 +45,7 @@ class SchedulesController < ApplicationController
         noticeA += 'ほかの管理者のスケジュールは修正できません　'
       end
 
-      if params[:schedule][:start_time] > params[:schedule][:end_time]
+      if params[:schedule][:start_time] >= params[:schedule][:end_time]
         back_flg += 1
         noticeA += '開始時間が終了打刻より遅いです　'
       end

@@ -4,15 +4,24 @@
 <p>送信者：<%= @message.create_name %></p>
 <p>送信日時：<%= @message.created_at.strftime('%m月%d日%H時%M分') %></p>
 <p>内容：<%= html_newline(@message.content) %></p>
-
-<% if @message.create_name == current_user.name %>
-
-<%= link_to t('common.back'), ship_messages_path %>
-
+<% if @message.read_flg? %>
+    <h4 style="margin-top: 15px;"><font color=blue>受信者：既読</font></h4>
 <% else %>
-
-<%= link_to t('common.back'), messages_path %>
-
+    <h4 style="margin-top: 15px;"><font color=red>受信者：未読</font></h4>
 <% end %>
 
+<div class="d-flex flex-wrap">
+    <div class="col-sm-12 col-lg-6">
+        <h4 style="margin-top: 15px;"><%= link_to '削除', @message, method: :delete, data: { confirm: "メッセージを削除します。\n削除したメッセージは相手からも見えなくなります。\n既読であることを確認してください。" } %></h4>
+    </div>
+    <% if @message.create_name == current_user.name %>
+        <div class="col-sm-12 col-lg-6">
+            <h4 style="margin-top: 15px;"><%= link_to t('common.back'), ship_messages_path %></h4>
+        </div>
+    <% else %>
+        <div class="col-sm-12 col-lg-6">
+            <h4 style="margin-top: 15px;"><%= link_to t('common.back'), messages_path %></h4>
+        </div>
+    <% end %>
+</div>
 </div>

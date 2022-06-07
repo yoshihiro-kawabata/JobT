@@ -193,6 +193,18 @@ class RequestsController < ApplicationController
 
   def destroy
     @consent = Consent.find_by(request_id:@request.id)
+
+    @users = User.where(group: current_user.group, admin: true)
+    @users.each do |user|
+      @message = Message.new
+      @message.content = '申請を取り消しました。申請種類：' + @request.request_type + '\n作成日：' + @request.created_at.strftime('%m月%d日%H時%M分')
+      @message.create_name = current_user.name
+      @message.create_id = current_user.id
+      @message.user_name = user.name
+      @message.user_id = user.id
+      @message.save
+    end
+
     @request.destroy
     @consent.destroy
     redirect_to requests_path, notice: '申請は取り消されました'

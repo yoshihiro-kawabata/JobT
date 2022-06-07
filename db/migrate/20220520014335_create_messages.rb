@@ -6,7 +6,10 @@ class CreateMessages < ActiveRecord::Migration[6.0]
       t.bigint :create_id
       t.text :user_name
       t.references :user, null: false, foreign_key: true
+      t.boolean :read_flg, null: false, default: false 
       t.timestamps
     end
   end
 end
+
+
