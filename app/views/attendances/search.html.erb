@@ -1,6 +1,5 @@
 <h2 style="margin: 20px;">勤怠表（グループ）</h2>
 
-
 <%= search_form_for @q, url: search_attendances_path do |f| %>
   <div class="d-flex flex-wrap">
   <div class="col-sm-12 col-lg-1">
@@ -27,15 +26,15 @@
 <br>
 
 <% unless @attendances[0].present? %>
-<h2 style="margin: 20px;">表示できる勤怠データはありません。</h2>
+<h2 style="margin: 20px;">該当する勤怠データはありません。</h2>
 <% else %>
 
 <div class="example">
  <table>
     <tr>
       <th>名前</th>
-      <% (Date.today.beginning_of_month..Date.today.end_of_month).each do |date| %>
-        <th><%= date.strftime("%Y年%m月%d日") %></th>
+      <% @attendances[0].each do |attendance| %>
+        <th><%= attendance.attendance_date.strftime("%Y年%m月%d日") %></th>
       <% end %>
     </tr>
   <% uscount = 0 %>

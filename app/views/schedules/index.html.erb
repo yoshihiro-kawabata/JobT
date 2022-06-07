@@ -23,6 +23,11 @@
       </div>
   <% end %>
 <br>
+
+<% unless @schedules[0].present? %>
+<h2 style="margin: 20px;">表示できるスケジュールはありません。</h2>
+<% else %>
+
 <div class="example">
  <table>
     <tr>
@@ -65,3 +70,4 @@
 </table>
 </div>
 
+<% end %>

@@ -2,6 +2,7 @@ class AttendancesController < ApplicationController
     before_action :login_required
     before_action :admin_required, only: [:edit, :update]
     before_action :set_attendance, only: [:show, :edit, :update]
+    before_action :set_q, only: [:group, :search]
 
     def index
         @user = User.find(current_user.id)
@@ -89,10 +90,22 @@ class AttendancesController < ApplicationController
         @attendances = []
 
         @users.each do |user|
-            @attendances << Attendance.where(user_id: user.id).where(attendance_date: (Date.today.beginning_of_month)..(Date.today.end_of_month)).order("attendance_date ASC")
+            @attendances << @q.result.where(user_id: user.id).where(attendance_date: (Date.today.beginning_of_month)..(Date.today.end_of_month)).order("attendance_date ASC")
         end
     end
+
+            
+    def search
+        @users = User.where(group: current_user.group).order("id ASC")
+        users = User.where(group: current_user.group).count
+        @attendances = []
+    
+        @users.each do |user|
+            @attendances << @q.result.where(user_id: user.id).order("attendance_date ASC")
+        end  
+    end
   
+
     private
       def set_attendance
         @attendance = Attendance.find(params[:id])
@@ -106,4 +119,9 @@ class AttendancesController < ApplicationController
       def back_attendance
         redirect_to attendance_path(@attendance.id)
       end
+
+      def set_q
+        @q = Attendance.ransack(params[:q])
+      end
+
 end

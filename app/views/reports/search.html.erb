@@ -34,6 +34,10 @@
     </div>
     <br>
 
+<% unless @reports.present? %>
+<h2 style="margin: 20px;">該当する日報はありません。</h2>
+<% else %>
+
     <div class="example">
 
   <table>
@@ -67,3 +71,5 @@
   </tbody>
 </table>
 </div>
+
+<% end %>
