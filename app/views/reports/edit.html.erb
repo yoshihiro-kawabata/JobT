@@ -58,7 +58,7 @@
         <td colspan="3" style="height: 50px; padding: 2px;margin: 20px; background-color:#c8c2be; text-align:center;">管理者コメント</th>
         </tr>
         <tr>
-          <td colspan="3" style="border:2px solid;">なし</td>
+          <td colspan="3" style="border:2px solid;"><% if @report.admincom.present? %><%= @report.admincom %><% else %>なし<% end %></td>
         </tr>
         <% else %>
         <tr>

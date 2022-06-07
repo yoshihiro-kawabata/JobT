@@ -2,6 +2,10 @@
 
 <h2 style="margin: 20px;"><%= link_to "申請作成", new_request_path %></h2>
 
+<% unless @requests.present? %>
+<h2 style="margin: 20px;">申請はありません。</h2>
+<% else %>
+
 <table style="width:1000px; border:3px solid; margin:auto; text-align: center;">
     <thead>
       <tr>
@@ -26,3 +30,4 @@
     </tbody>
   </table>
   <%= paginate @requests %>
+<% end %>

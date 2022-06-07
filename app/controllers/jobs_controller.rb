@@ -173,17 +173,22 @@ class JobsController < ApplicationController
         user = User.find(params[:q][:user_id])
         group = Group.find(user.group)
         data = @q.result.where(user_id: user.id)
-        if params[:q][:created_at_gteq].present? and params[:q][:created_at_lteq].present?
-            filenameA = user.name + "_" + params[:q][:created_at_gteq] + "～" + params[:q][:created_at_lteq] + ".pdf"
-        elsif params[:q][:created_at_gteq].present?
-            filenameA = user.name + "_" + params[:q][:created_at_gteq] + "～.pdf"
-        elsif params[:q][:created_at_lteq].present?
-            filenameA = user.name + "_～" + params[:q][:created_at_lteq] + ".pdf"
-        else
-            filenameA = user.name + ".pdf"
-        end
-        send_data PracticePdf::PostPdf.new(data,user,group).render, filename: filenameA, type: 'application/pdf',disposition: 'inline'
 
+        unless data.present?
+            flash[:notice] = '出力できる日報がありません。'
+            redirect_to jobs_post_path
+        else
+            if params[:q][:created_at_gteq].present? and params[:q][:created_at_lteq].present?
+                filenameA = user.name + "_" + params[:q][:created_at_gteq] + "～" + params[:q][:created_at_lteq] + ".pdf"
+            elsif params[:q][:created_at_gteq].present?
+                filenameA = user.name + "_" + params[:q][:created_at_gteq] + "～.pdf"
+            elsif params[:q][:created_at_lteq].present?
+                filenameA = user.name + "_～" + params[:q][:created_at_lteq] + ".pdf"
+            else
+                filenameA = user.name + ".pdf"
+            end
+            send_data PracticePdf::PostPdf.new(data,user,group).render, filename: filenameA, type: 'application/pdf',disposition: 'inline'
+        end
     end
 
     def post
