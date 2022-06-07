@@ -61,8 +61,6 @@ class ConsentsController < ApplicationController
            @message.user_id = @user.id
            @message.save
 
-           binding.irb
-   
            redirect_to consents_path, notice: '申請を承認しました'
         else
            redirect_to consents_path, notice: '承認できませんでした'
