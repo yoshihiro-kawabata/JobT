@@ -27,7 +27,7 @@
         <tr>
           <td style="border:2px solid">氏名</td>
           <td style="border:2px solid"><%= current_user.name %></td>
-          <td style="border:2px solid"><%= f.hidden_field :createdate, :value => DateTime.now.strftime("%m月%d日") %><%= DateTime.now.strftime("%m月%d日") %></td>
+          <td style="border:2px solid"><%= f.hidden_field :createdate, :value => DateTime.current.strftime("%m月%d日") %><%= DateTime.now.strftime("%m月%d日") %></td>
         </tr>
         <tr>
         <td colspan="3" style="height: 50px; padding: 2px;margin: 20px; background-color:#e8d3c7; text-align:center;">「事実」何があったか</th>
