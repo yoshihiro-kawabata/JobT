@@ -36,18 +36,18 @@
     </div>
         <% if admin_user? %>
           <div class="col-sm-6 col-lg-3">
-            <h4 style="margin-top: 30px;"><%= link_to '修正', edit_attendance_path(@attendance.id) %></h4>
+            <h5 style="margin-top: 30px;"><%= link_to '修正', edit_attendance_path(@attendance.id) %></h5>
           </div>
         <% end %>
     <div class="col-sm-6 col-lg-9">
-       <h4 style="margin-top: 30px;"><%= link_to '戻る（自分の勤怠）', attendances_path %></h4>
+       <h5 style="margin-top: 30px;"><%= link_to '戻る（自分の勤怠）', attendances_path %></h5>
     </div>
         <% if admin_user? %>
           <div class="col-sm-6 col-lg-3">
           </div>
         <% end %>
     <div class="col-sm-6 col-lg-9">
-       <h4 style="margin-top: 10px;"><%= link_to '戻る（グループ勤怠）', group_attendances_path %></h4>
+       <h5 style="margin-top: 10px;"><%= link_to '戻る（グループ勤怠）', group_attendances_path %></h5>
     </div>
 </div>
 </div>
