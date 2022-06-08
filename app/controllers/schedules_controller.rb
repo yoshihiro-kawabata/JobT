@@ -69,6 +69,11 @@ class SchedulesController < ApplicationController
         noticeA += '開始時間が終了時間より遅いです　'
       end
 
+      if params[:schedule][:status].blank?
+        back_flg += 1
+        noticeA += 'ステータスが空白です　'
+      end
+
       if params[:schedule][:start_time].blank?
         back_flg += 1
         noticeA += '開始時間が空白です　'
