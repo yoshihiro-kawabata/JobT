@@ -62,7 +62,7 @@ class RequestsController < ApplicationController
           error_count << "e"
           error_message << ["を入力してください"]
         end
-        if @request.period > Date.today
+        if (@request.period > Date.today) or (@request.to_time > Time.current or @request.to_time > Time.current)
           error_count << "fut"
           error_message << ["の修正はできません"]
         end
@@ -72,7 +72,8 @@ class RequestsController < ApplicationController
         end    
       when "3" then #有給休暇申請
         @vacation = Vacation.find_by(user_id: userA.id)
-        paid_countA = @vacation.paid_count - 1
+        yukyu = Request.where(request_type: "有給休暇申請", create_id: userA.id, consent_flg: true).count
+        paid_countA = @vacation.paid_count - (yukyu + 1)
         if @schedule.nil?
           error_count << "sch"
           error_message << ["が存在しません"]
@@ -87,7 +88,8 @@ class RequestsController < ApplicationController
         end    
       when "4" then #振替休日申請
         @vacation = Vacation.find_by(user_id: userA.id)
-        trans_countA = @vacation.trans_count - 1
+        hurikae = Request.where(request_type: "振替休日申請", create_id: userA.id, consent_flg: true).count
+        trans_countA = @vacation.trans_count - (hurikae + 1)
         if @schedule.nil?
           error_count << "sch"
           error_message << ["が存在しません"]

@@ -28,7 +28,7 @@ ja:
         schedule: スケジュール
         paid_count: 有給休暇日数
         trans_count: 振替休日日数
-        future: 明日以降の勤怠打刻
+        future: 現時刻以降の打刻
       schedule: 
         title: タイトル
       user:
