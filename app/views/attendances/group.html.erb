@@ -60,14 +60,7 @@
                     <%= link_to "確認", attendance_path(@attendances[uscount]["#{s}".to_i].id), {class: "Link"} %>
                 </div>
             <% else %>
-                    <% if @attendances[uscount]["#{s}".to_i].edit_flg? %>
-                        <font color=red> 
-                    <% end %>
-                    実績：
-                    <%= @attendances[uscount]["#{s}".to_i].start_time %> ～ <%= @attendances[uscount]["#{s}".to_i].end_time %>　
-                    <% if @attendances[uscount]["#{s}".to_i].edit_flg? %>
-                        </font> 
-                    <% end %>                    
+                実績：<%= @attendances[uscount]["#{s}".to_i].start_time %> ～ <%= @attendances[uscount]["#{s}".to_i].end_time %>
             <% end %>
          </td>
         <% end %>
