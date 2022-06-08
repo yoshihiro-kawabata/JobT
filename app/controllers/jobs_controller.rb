@@ -10,26 +10,35 @@ class JobsController < ApplicationController
     end
 
     def attend
-        @attendance = Attendance.find_by(user_id: current_user.id, attendance_date: Date.today)
-        if @attendance.start_time.nil?
-            @attendance.update(start_time: DateTime.current.strftime('%H:%M'))
-            flash[:notice] = '出勤打刻しました'
-
-            @users = User.where(group: current_user.group).where.not(id: current_user.id)
-            @users.each do |user|
-                @message = Message.new
-                @message.content = DateTime.current.strftime('%H時%M分') + "に出勤しました。"
-                @message.create_name = current_user.name
-                @message.create_id = current_user.id
-                @message.user_name = user.name
-                @message.user_id = user.id
-                @message.save
+        @schedule = Schedule.find_by(user_id: current_user.id, schedule_date: Date.today)
+        if @schedule.offday?
+            if current_user.admin?
+                flash[:notice] = '今日の予定は欠席です。出勤する場合は「スケジュール」から今日の勤怠予定を「出席」に変更してください。'
+            else
+                flash[:notice] = '今日の予定は欠席です。出勤する場合は「休日出勤スケジュール変更申請」を申請してください。'
             end
-            redirect_to jobs_home_path
-
-        else
-            flash[:notice] = '既に出勤打刻しています。'
             redirect_to jobs_home_path        
+        else        
+            @attendance = Attendance.find_by(user_id: current_user.id, attendance_date: Date.today)
+            if @attendance.start_time.nil?
+                @attendance.update(start_time: DateTime.current.strftime('%H:%M'))
+                flash[:notice] = '出勤打刻しました'
+
+                @users = User.where(group: current_user.group).where.not(id: current_user.id)
+                @users.each do |user|
+                    @message = Message.new
+                    @message.content = DateTime.current.strftime('%H時%M分') + "に出勤しました。"
+                    @message.create_name = current_user.name
+                    @message.create_id = current_user.id
+                    @message.user_name = user.name
+                    @message.user_id = user.id
+                    @message.save
+                end
+                redirect_to jobs_home_path
+            else
+                flash[:notice] = '既に出勤打刻しています。'
+                redirect_to jobs_home_path        
+            end
         end
     end
 

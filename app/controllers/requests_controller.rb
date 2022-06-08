@@ -52,7 +52,7 @@ class RequestsController < ApplicationController
           error_count << "s"
           error_message << ["が終了時間と同じです"]
         end
-        if (@request.period.wday == 0 or @request.period.wday == 6 or HolidayJp.holiday?(@request.period)) and @schedule.offday?
+        if @schedule.offday?
           error_count << "hol"
           error_message << ["は休みです"]
         end    
@@ -84,7 +84,7 @@ class RequestsController < ApplicationController
           error_message << ["の修正はできません"]
         end
 
-        if (@request.period.wday == 0 or @request.period.wday == 6 or HolidayJp.holiday?(@request.period)) and @schedule.offday?
+        if @schedule.offday?
           error_count << "hol"
           error_message << ["は休みです"]
         end    
@@ -103,7 +103,7 @@ class RequestsController < ApplicationController
           error_count << "pc"
           error_message << ["が足りていません"]
         end
-        if (@request.period.wday == 0 or @request.period.wday == 6 or HolidayJp.holiday?(@request.period)) and @schedule.offday?
+        if @schedule.offday?
           error_count << "hol"
           error_message << ["は休みです"]
         end    
@@ -124,7 +124,7 @@ class RequestsController < ApplicationController
           error_count << "tc"
           error_message << ["が足りていません"]
         end
-        if (@request.period.wday == 0 or @request.period.wday == 6 or HolidayJp.holiday?(@request.period)) and @schedule.offday?
+        if @schedule.offday?
           error_count << "hol"
           error_message << ["は休みです"]
         end    
@@ -150,7 +150,12 @@ class RequestsController < ApplicationController
           error_count << "s"
           error_message << ["が終了時間と同じです"]
         end
-        if (@request.period.wday.between?(1, 5) and !(HolidayJp.holiday?(@request.period))) or !@schedule.offday?
+        if @request.status == ""
+          error_count << "st"
+          error_message << ["を入力してください"]
+        end
+
+        unless @schedule.offday?
           error_count << "hol"
           error_message << ["は出勤予定です"]
         end    

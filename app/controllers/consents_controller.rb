@@ -15,9 +15,42 @@ class ConsentsController < ApplicationController
     end
 
     def update
+      @request = Request.find_by(id:@consent.request_id)
+      documentA = Document.find_by(name:@request.request_type)
+      @schedule = Schedule.find_by(schedule_date:@request.period, user_id: @request.create_id)
+
+
+      back_flg = 0
+      noticeA = ""
+
+      if @schedule.offday?
+        case documentA.number
+          when 1 then #スケジュール変更申請
+            back_flg += 1
+            noticeA = "勤怠予定が欠席となっています。「スケジュール」から勤怠予定を変更して、再度承認してください。　"
+          when 2 then #勤怠変更申請
+            back_flg += 1
+            noticeA = "勤怠予定が欠席となっています。「スケジュール」から勤怠予定を変更して、再度承認してください。　"  
+          when 3 then #有給休暇申請
+            back_flg += 1
+            noticeA = "勤怠予定が欠席となっています。「スケジュール」から勤怠予定を変更して、再度承認してください。　"  
+          when 4 then #振替休日申請
+            back_flg += 1
+            noticeA = "勤怠予定が欠席となっています。「スケジュール」から勤怠予定を変更して、再度承認してください。　"
+        end
+    else
+        case documentA.number
+          when 5 then #休日出勤スケジュール変更申請
+            back_flg += 1
+            noticeA = "勤怠予定が出席となっています。「スケジュール」から勤怠予定を変更して、再度承認してください。　"
+        end
+      end    
+
+      if back_flg > 0
+           redirect_to consents_path
+           flash[:notice] = noticeA
+      else
         if @consent.update(name: current_user.name,request_flg: false)
-            @request = Request.find_by(id:@consent.request_id)
-            documentA = Document.find_by(name:@request.request_type)
 
             case documentA.number
             when 1 then #スケジュール変更申請
@@ -65,6 +98,7 @@ class ConsentsController < ApplicationController
         else
            redirect_to consents_path, notice: '承認できませんでした'
         end      
+      end
     end
 
     def destroy

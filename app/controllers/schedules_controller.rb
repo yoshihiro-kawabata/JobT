@@ -33,11 +33,6 @@ class SchedulesController < ApplicationController
       back_flg = 0
       noticeA = ""
 
-      if (@schedule.schedule_date.wday == 0 or @schedule.schedule_date.wday == 6 or HolidayJp.holiday?(@schedule.schedule_date)) and @schedule.offday?
-          back_flg += 1
-          noticeA += @schedule.schedule_date.strftime("%Y年%m月%d日") + 'は休みです　'
-      end
-
       if @user.id != current_user.id and @user.admin?
           back_flg += 1
           noticeA += 'ほかの管理者のスケジュールは修正できません　'
@@ -54,46 +49,48 @@ class SchedulesController < ApplicationController
       back_flg = 0
       noticeA = ""
 
-      if (@schedule.schedule_date.wday == 0 or @schedule.schedule_date.wday == 6 or HolidayJp.holiday?(@schedule.schedule_date)) and @schedule.offday?
-        back_flg += 1
-        noticeA += @schedule.schedule_date.strftime("%Y年%m月%d日") + 'は休みです　'
+      if params[:schedule][:offday] == "true"
+
+        if params[:schedule][:status].blank?
+          back_flg += 1
+          noticeA += 'ステータスが空白です　'
+        end
+
+        if params[:schedule][:comment].blank?
+          back_flg += 1
+          noticeA += 'コメントを入力してください　'
+        end
+
+      else
+  
+        if (params[:schedule][:start_time].present? and params[:schedule][:end_time].present?) and params[:schedule][:start_time] > params[:schedule][:end_time]
+          back_flg += 1
+          noticeA += '開始時間が終了時間より遅いです　'
+        end
+  
+        if params[:schedule][:status].blank?
+          back_flg += 1
+          noticeA += 'ステータスが空白です　'
+        end
+  
+        if params[:schedule][:start_time].blank?
+          back_flg += 1
+          noticeA += '開始時間が空白です　'
+        end
+  
+        if params[:schedule][:end_time].blank?
+          back_flg += 1
+          noticeA += '終了時間が空白です　'
+        end
+  
+        if (params[:schedule][:start_time].present? and params[:schedule][:end_time].present?) and params[:schedule][:start_time] == params[:schedule][:end_time]
+          back_flg += 1
+          noticeA += '開始時間と終了時間と同じです　'
+        end
+    
       end
 
-      if @user.id != current_user.id and @user.admin?
-        back_flg += 1
-        noticeA += 'ほかの管理者のスケジュールは修正できません　'
-      end
-
-      if (params[:schedule][:start_time].present? and params[:schedule][:end_time].present?) and params[:schedule][:start_time] > params[:schedule][:end_time]
-        back_flg += 1
-        noticeA += '開始時間が終了時間より遅いです　'
-      end
-
-      if params[:schedule][:status].blank?
-        back_flg += 1
-        noticeA += 'ステータスが空白です　'
-      end
-
-      if params[:schedule][:start_time].blank?
-        back_flg += 1
-        noticeA += '開始時間が空白です　'
-      end
-
-      if params[:schedule][:end_time].blank?
-        back_flg += 1
-        noticeA += '終了時間が空白です　'
-      end
-
-      if (params[:schedule][:start_time].present? and params[:schedule][:end_time].present?) and params[:schedule][:start_time] == params[:schedule][:end_time]
-        back_flg += 1
-        noticeA += '開始時間と終了時間と同じです　'
-      end
-
-      if params[:schedule][:comment].blank?
-        back_flg += 1
-        noticeA += 'コメントを入力してください　'
-      end
-
+      
       if back_flg > 0
         flash[:notice] = noticeA
       else
@@ -103,7 +100,11 @@ class SchedulesController < ApplicationController
  
             if @user.id != current_user.id
                 @message = Message.new
-                @message.content = @schedule.schedule_date.strftime("%Y年%m月%d日") + 'のスケジュールを更新しました。修正者：' + current_user.name + '\n修正日：' + Date.today.strftime('%m月%d日')  + '\n修正後スケジュール時刻：' + @schedule.start_time + '～' + @schedule.end_time + '\nコメント：' + @schedule.comment
+                if @schedule.offday?
+                  @message.content = @schedule.schedule_date.strftime("%Y年%m月%d日") + 'のスケジュールを更新しました。修正者：' + current_user.name + '\n修正日：' + Date.today.strftime('%m月%d日')  + '\n勤怠予定：欠席\nコメント：' + @schedule.comment
+                else
+                  @message.content = @schedule.schedule_date.strftime("%Y年%m月%d日") + 'のスケジュールを更新しました。修正者：' + current_user.name + '\n修正日：' + Date.today.strftime('%m月%d日')  + '\n勤怠予定：出席\n修正後スケジュール時刻：' + @schedule.start_time + '～' + @schedule.end_time + '\nコメント：' + @schedule.comment
+                end
                 @message.create_name = current_user.name
                 @message.create_id = current_user.id
                 @message.user_name = @user.name
@@ -122,7 +123,7 @@ class SchedulesController < ApplicationController
       end
 
       def schedule_params
-        params.require(:schedule).permit(:start_time, :end_time, :status, :comment)
+        params.require(:schedule).permit(:start_time, :end_time, :offday, :status, :comment)
       end        
 
       def set_q

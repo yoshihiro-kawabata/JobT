@@ -14,13 +14,14 @@
     <div class="col-sm-6 col-lg-6">
      <%= @user.name %>
     </div>
-
+    <% unless @schedule.offday? %>
     <div class="col-sm-6 col-lg-6">
         業務予定：
     </div>
     <div class="col-sm-6 col-lg-6">
-     <%= @schedule.start_time %> ～ <%= @schedule.end_time %>
+         <%= @schedule.start_time %> ～ <%= @schedule.end_time %>
     </div>
+    <% end %>
     <div class="col-sm-6 col-lg-6">
         ステータス：
     </div>
@@ -35,6 +36,16 @@
       コメントなし
     <% else %>
      <%= @schedule.comment %>
+    <% end %>
+    </div>
+    <div class="col-sm-6 col-lg-6">
+        勤怠予定：
+    </div>
+    <div class="col-sm-6 col-lg-6">
+    <% if @schedule.offday? %>
+      欠席
+    <% else %>
+     出席
     <% end %>
     </div>
         <% if admin_user? %>

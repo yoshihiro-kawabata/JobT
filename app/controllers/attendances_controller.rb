@@ -22,12 +22,10 @@ class AttendancesController < ApplicationController
             noticeA += '未来の打刻は修正できません　'
         end
 
-        if @attendance.attendance_date.wday == 0 or @attendance.attendance_date.wday == 6 or HolidayJp.holiday?(@attendance.attendance_date)
-            @schedule = Schedule.find_by(schedule_date: @attendance.attendance_date)
-            if @schedule.offday?
-                back_flg += 1
-                noticeA += @attendance.attendance_date.strftime("%Y年%m月%d日") + 'は休みです　'
-            end
+        @schedule = Schedule.find_by(schedule_date: @attendance.attendance_date)
+        if @schedule.offday?
+            back_flg += 1
+            noticeA += @attendance.attendance_date.strftime("%Y年%m月%d日") + 'は休みです　'
         end
 
         if @user.id != current_user.id and @user.admin?

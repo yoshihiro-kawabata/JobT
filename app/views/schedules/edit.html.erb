@@ -24,8 +24,24 @@
     <br>
         <%= f.label :ステータス %>：<%= f.text_field :status %>
     </div>
-    <div class="col-sm-12 col-lg-12">
+
+    <div class="col-sm-12 col-lg-3">
     <br>
+        <%= f.label :勤怠予定： %>
+    </div>
+    <div class="col-sm-12 col-lg-9">
+    <br>
+      <%= f.label :offday, "出席：", {value: :false, style: "display: inline-block;"} %>
+      <%= f.radio_button :offday, :false %>
+    </div>
+    <div class="col-sm-12 col-lg-3">
+    </div>
+    <div class="col-sm-12 col-lg-9">
+      <%= f.label :offday, "欠席：", {value: :true, style: "display: inline-block;", checked: :true }%>
+      <%= f.radio_button :offday, :true, checked: true %>
+    </div>
+
+    <div class="col-sm-12 col-lg-12">
         <%= f.label :コメント %>：<%= f.text_area :comment, maxlength: "200", class: "form-control",id: "exampleFormControlTextarea1", style: "height:120px; wrap:hard;" %>
     </div>
     <div class="col-sm-12 col-lg-4">
