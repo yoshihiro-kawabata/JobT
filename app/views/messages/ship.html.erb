@@ -1,11 +1,11 @@
 <div style="width: 90%; display: flex; margin:auto; text-align: center; background-color: #fef4f4;">
-  <div class="col-sm-12 col-lg-4">
-    <h2 style="margin: 20px;"><%= link_to "メッセージ作成", new_message_path %></h2>
-  </div>
-  <div class="col-sm-12 col-lg-4">
+  <div class="col-sm-12 col-lg-3">
       <h2 style="margin: 20px;">送信一覧</h2>
   </div>
-  <div class="col-sm-12 col-lg-4">
+  <div class="col-sm-12 col-lg-3">
+    <h2 style="margin: 20px;"><%= link_to "メッセージ", new_message_path %></h2>
+  </div>
+  <div class="col-sm-12 col-lg-3">
   <% mes = [] %>
   <% @messages.each do |me| %>
   <% mes << me.id %>

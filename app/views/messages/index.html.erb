@@ -1,16 +1,21 @@
 
-<div style="width: 90%; display: flex; margin:auto; text-align: center; background-color: #fef4f4;">
-  <div class="col-sm-12 col-lg-4">
-    <h2 style="margin: 20px;"><%= link_to "メッセージ作成", new_message_path %></h2>
-  </div>
-  <div class="col-sm-12 col-lg-4">
-      <h2 style="margin: 20px;">受信一覧</h2>
-  </div>
-  <div class="col-sm-12 col-lg-4">
   <% mes = [] %>
   <% @messages.each do |me| %>
   <% mes << me.id %>
   <% end %>
+
+
+<div style="width: 90%; display: flex; margin:auto; text-align: center; background-color: #fef4f4;">
+  <div class="col-sm-12 col-lg-3">
+      <h2 style="margin: 20px;">受信一覧</h2>
+  </div>
+  <div class="col-sm-12 col-lg-3">
+    <h2 style="margin: 20px;"><%= link_to "メッセージ", new_message_path %></h2>
+  </div>
+  <div class="col-sm-12 col-lg-3">
+  <h2 style="margin: 20px;"><%= link_to '一括既読', allshow_messages_path(mes: mes), data: { confirm: "表示されているメッセージをすべて既読にします。" }  %></h2>
+  </div>
+  <div class="col-sm-12 col-lg-3">
   <h2 style="margin: 20px;"><%= link_to '一括削除', alldel_messages_path(mes: mes), data: { confirm: "表示されているメッセージを一括削除します。\n削除したメッセージは相手からも見えなくなります。\nすべて既読であることを確認してください。" }  %></h2>
   </div>
 </div>

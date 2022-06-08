@@ -24,6 +24,7 @@ Rails.application.routes.draw do
       get 'ship'
       get 'alldel'
       get 'alldel_ship'
+      get 'allshow'
     end
   end
 

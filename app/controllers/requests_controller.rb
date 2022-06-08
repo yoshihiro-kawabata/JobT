@@ -23,10 +23,10 @@ class RequestsController < ApplicationController
 
       userA = User.find(current_user.id)
       documentA = Document.find(@request.request_type)
+      @schedule = Schedule.find_by(schedule_date:@request.period, user_id: userA.id)
 
      case @request.request_type
       when "1" then #スケジュール変更申請
-        @schedule = Schedule.find_by(schedule_date:@request.period, user_id: userA.id)
         if @schedule.nil?
           error_count << "sch"
           error_message << ["が存在しません"]
@@ -43,6 +43,11 @@ class RequestsController < ApplicationController
           error_count << "st"
           error_message << ["を入力してください"]
         end
+        if (@request.period.wday == 0 or @request.period.wday == 6 or HolidayJp.holiday?(@request.period)) and @schedule.offday?
+          error_count << "hol"
+          error_message << ["は休みです"]
+        end    
+
       when "2" then #勤怠変更申請
         @attendance = Attendance.find_by(attendance_date:@request.period, user_id: userA.id)
         if @attendance.nil?
@@ -61,8 +66,11 @@ class RequestsController < ApplicationController
           error_count << "fut"
           error_message << ["の修正はできません"]
         end
+        if (@request.period.wday == 0 or @request.period.wday == 6 or HolidayJp.holiday?(@request.period)) and @schedule.offday?
+          error_count << "hol"
+          error_message << ["は休みです"]
+        end    
       when "3" then #有給休暇申請
-        @schedule = Schedule.find_by(schedule_date:@request.period, user_id: userA.id)
         @vacation = Vacation.find_by(user_id: userA.id)
         paid_countA = @vacation.paid_count - 1
         if @schedule.nil?
@@ -73,12 +81,11 @@ class RequestsController < ApplicationController
           error_count << "pc"
           error_message << ["が足りていません"]
         end
-        if @request.period.wday == 0 or @request.period.wday == 6 or HolidayJp.holiday?(@request.period)
+        if (@request.period.wday == 0 or @request.period.wday == 6 or HolidayJp.holiday?(@request.period)) and @schedule.offday?
           error_count << "hol"
           error_message << ["は休みです"]
         end    
       when "4" then #振替休日申請
-        @schedule = Schedule.find_by(schedule_date:@request.period, user_id: userA.id)
         @vacation = Vacation.find_by(user_id: userA.id)
         trans_countA = @vacation.trans_count - 1
         if @schedule.nil?
@@ -89,12 +96,11 @@ class RequestsController < ApplicationController
           error_count << "tc"
           error_message << ["が足りていません"]
         end
-        if @request.period.wday == 0 or @request.period.wday == 6 or HolidayJp.holiday?(@request.period)
+        if (@request.period.wday == 0 or @request.period.wday == 6 or HolidayJp.holiday?(@request.period)) and @schedule.offday?
           error_count << "hol"
           error_message << ["は休みです"]
         end    
       when "5" then #休日出勤申請
-        @schedule = Schedule.find_by(schedule_date:@request.period, user_id: userA.id)
         if @schedule.nil?
           error_count << "sch"
           error_message << ["が存在しません"]
@@ -107,12 +113,19 @@ class RequestsController < ApplicationController
           error_count << "e"
           error_message << ["を入力してください"]
         end
-        if @request.period.wday.between?(1, 5) and !(HolidayJp.holiday?(@request.period))
+        if (@request.period.wday.between?(1, 5) and !(HolidayJp.holiday?(@request.period))) or !@schedule.offday?
           error_count << "hol"
-          error_message << ["は平日です"]
+          error_message << ["は出勤予定です"]
         end    
       end
-    
+
+      requestO = Request.find_by(period:@request.period, user_id: userA.id, consent_flg: true)
+
+      if requestO.present?
+        error_count << "exi"
+        error_message << ["は既に別の申請を提出しています。"]
+      end
+
       @request.request_type = documentA.name
       @request.create_name = userA.name
       @request.create_id = userA.id
@@ -139,6 +152,8 @@ class RequestsController < ApplicationController
             @request.errors.messages.store(@request.period.strftime("%m月%d日"), error_message[n])
           when "fut" then #未来打刻判定
             @request.errors.messages.store(:future, error_message[n])
+          when "exi" then #申請重複判定
+            @request.errors.messages.store(@request.period.strftime("%m月%d日"), error_message[n])
           else          #ステータス
             @request.errors.messages.store(:status, error_message[n])
           end

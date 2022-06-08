@@ -53,6 +53,11 @@ class MessagesController < ApplicationController
       redirect_to ship_messages_path, notice: '送信メッセージを削除しました'
     end  
 
+    def allshow
+      @messages = Message.where(id: params[:mes]).update_all(read_flg: true)
+      redirect_to messages_path, notice: 'すべて既読にしました'
+    end  
+
     private  
       def message_params
         params.require(:message).permit(:user_id, :content)
