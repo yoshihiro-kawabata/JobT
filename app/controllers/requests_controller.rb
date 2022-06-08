@@ -62,7 +62,7 @@ class RequestsController < ApplicationController
           error_count << "e"
           error_message << ["を入力してください"]
         end
-        if (@request.period > Date.today) or (@request.to_time > Time.current or @request.to_time > Time.current)
+        if (@request.period > Date.today) or (@request.start_time > Time.current or @request.end_time > Time.current)
           error_count << "fut"
           error_message << ["の修正はできません"]
         end
