@@ -47,6 +47,11 @@ class RequestsController < ApplicationController
           error_count << "st"
           error_message << ["を入力してください"]
         end
+
+        if (@request.start_time.present? and @request.end_time.present?) and @request.start_time == @request.end_time
+          error_count << "s"
+          error_message << ["が終了時間と同じです"]
+        end
         if (@request.period.wday == 0 or @request.period.wday == 6 or HolidayJp.holiday?(@request.period)) and @schedule.offday?
           error_count << "hol"
           error_message << ["は休みです"]
@@ -65,6 +70,10 @@ class RequestsController < ApplicationController
         if @request.end_time == ""
           error_count << "e"
           error_message << ["を入力してください"]
+        end
+        if (@request.start_time.present? and @request.end_time.present?) and @request.start_time == @request.end_time
+          error_count << "s"
+          error_message << ["が終了時間と同じです"]
         end
 
         start_timeA = "" + @request.period.to_s + " " + @request.start_time.to_s
@@ -95,6 +104,10 @@ class RequestsController < ApplicationController
           error_count << "hol"
           error_message << ["は休みです"]
         end    
+
+        @request.start_time = ""
+        @request.end_time = ""
+
       when "4" then #振替休日申請
         @vacation = Vacation.find_by(user_id: userA.id)
         hurikae = Request.where(request_type: "振替休日申請", create_id: userA.id, consent_flg: true).count
@@ -111,6 +124,10 @@ class RequestsController < ApplicationController
           error_count << "hol"
           error_message << ["は休みです"]
         end    
+
+        @request.start_time = ""
+        @request.end_time = ""
+
       when "5" then #休日出勤申請
         if @schedule.nil?
           error_count << "sch"
@@ -123,6 +140,10 @@ class RequestsController < ApplicationController
         if @request.end_time == ""
           error_count << "e"
           error_message << ["を入力してください"]
+        end
+        if (@request.start_time.present? and @request.end_time.present?) and @request.start_time == @request.end_time
+          error_count << "s"
+          error_message << ["が終了時間と同じです"]
         end
         if (@request.period.wday.between?(1, 5) and !(HolidayJp.holiday?(@request.period))) or !@schedule.offday?
           error_count << "hol"

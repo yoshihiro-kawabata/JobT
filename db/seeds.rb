@@ -364,7 +364,7 @@ Document.create!(
   
 Document.create!(
     number: 4,
-    name: "振替休暇申請"
+    name: "振替休日申請"
   )
 
 Document.create!(
