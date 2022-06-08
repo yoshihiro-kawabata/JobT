@@ -30,6 +30,11 @@ class AttendancesController < ApplicationController
             end
         end
 
+        if @user.id != current_user.id and @user.admin?
+            back_flg += 1
+            noticeA += 'ほかの管理者の勤怠打刻は修正できません　'
+        end
+
         if back_flg > 0
             back_attendance
             flash[:notice] = noticeA

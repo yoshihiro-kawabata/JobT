@@ -29,6 +29,25 @@ class SchedulesController < ApplicationController
     end
 
     def edit
+
+      back_flg = 0
+      noticeA = ""
+
+      if (@schedule.schedule_date.wday == 0 or @schedule.schedule_date.wday == 6 or HolidayJp.holiday?(@schedule.schedule_date)) and @schedule.offday?
+          back_flg += 1
+          noticeA += @schedule.schedule_date.strftime("%Y年%m月%d日") + 'は休みです　'
+      end
+
+      if @user.id != current_user.id and @user.admin?
+          back_flg += 1
+          noticeA += 'ほかの管理者のスケジュールは修正できません　'
+      end
+
+      if back_flg > 0
+        redirect_to schedule_path(@schedule.id)
+        flash[:notice] = noticeA
+      end
+
     end
   
     def update
@@ -37,7 +56,7 @@ class SchedulesController < ApplicationController
 
       if (@schedule.schedule_date.wday == 0 or @schedule.schedule_date.wday == 6 or HolidayJp.holiday?(@schedule.schedule_date)) and @schedule.offday?
         back_flg += 1
-        noticeA += @schedule.schedule_date.strftime("%Y年%m月%d日") + 'は休みです'
+        noticeA += @schedule.schedule_date.strftime("%Y年%m月%d日") + 'は休みです　'
       end
 
       if @user.id != current_user.id and @user.admin?
@@ -45,7 +64,7 @@ class SchedulesController < ApplicationController
         noticeA += 'ほかの管理者のスケジュールは修正できません　'
       end
 
-      if params[:schedule][:start_time] >= params[:schedule][:end_time]
+      if params[:schedule][:start_time] > params[:schedule][:end_time]
         back_flg += 1
         noticeA += '開始時間が終了打刻より遅いです　'
       end
@@ -62,7 +81,7 @@ class SchedulesController < ApplicationController
 
     if params[:schedule][:comment].blank?
         back_flg += 1
-        noticeA += 'コメントを入力してください'
+        noticeA += 'コメントを入力してください　'
     end
 
       if back_flg > 0
