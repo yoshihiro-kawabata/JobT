@@ -50,10 +50,20 @@ class SchedulesController < ApplicationController
         noticeA += '開始時間が終了打刻より遅いです　'
       end
 
-      if params[:schedule][:comment].blank?
+      if params[:schedule][:start_time].blank?
+        back_flg += 1
+        noticeA += '開始時間が空白です　'
+    end
+
+    if params[:schedule][:end_time].blank?
+        back_flg += 1
+        noticeA += '終了時間が空白です　'
+    end
+
+    if params[:schedule][:comment].blank?
         back_flg += 1
         noticeA += 'コメントを入力してください'
-      end
+    end
 
       if back_flg > 0
         flash[:notice] = noticeA

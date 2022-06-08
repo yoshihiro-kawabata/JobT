@@ -58,6 +58,16 @@ class AttendancesController < ApplicationController
             noticeA += '開始時間が終了打刻より遅いです　'
         end
 
+        if params[:attendance][:start_time].blank?
+            back_flg += 1
+            noticeA += '開始時間が空白です　'
+        end
+
+        if params[:attendance][:end_time].blank?
+            back_flg += 1
+            noticeA += '終了時間が空白です　'
+        end
+
         if params[:attendance][:comment].blank?
             back_flg += 1
             noticeA += 'コメントを入力してください'
