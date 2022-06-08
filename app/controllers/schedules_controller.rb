@@ -66,7 +66,7 @@ class SchedulesController < ApplicationController
 
       if (params[:schedule][:start_time].present? and params[:schedule][:end_time].present?) and params[:schedule][:start_time] > params[:schedule][:end_time]
         back_flg += 1
-        noticeA += '開始時間が終了打刻より遅いです　'
+        noticeA += '開始時間が終了時間より遅いです　'
       end
 
       if params[:schedule][:start_time].blank?
@@ -77,6 +77,11 @@ class SchedulesController < ApplicationController
       if params[:schedule][:end_time].blank?
         back_flg += 1
         noticeA += '終了時間が空白です　'
+      end
+
+      if (params[:schedule][:start_time].present? and params[:schedule][:end_time].present?) and params[:schedule][:start_time] == params[:schedule][:end_time]
+        back_flg += 1
+        noticeA += '開始時間と終了時間と同じです　'
       end
 
       if params[:schedule][:comment].blank?

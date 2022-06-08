@@ -60,7 +60,7 @@ class AttendancesController < ApplicationController
 
         if (params[:attendance][:start_time].present? and params[:attendance][:end_time].present?) and params[:attendance][:start_time] > params[:attendance][:end_time]
             back_flg += 1
-            noticeA += '開始時間が終了打刻より遅いです　'
+            noticeA += '開始時間が終了時間より遅いです　'
         end
 
         if params[:attendance][:start_time].blank?
@@ -73,6 +73,11 @@ class AttendancesController < ApplicationController
             noticeA += '終了時間が空白です　'
         end
 
+        if (params[:attendance][:start_time].present? and params[:attendance][:end_time].present?) and params[:attendance][:start_time] == params[:attendance][:end_time]
+            back_flg += 1
+            noticeA += '開始時間と終了時間と同じです　'
+        end
+    
         if params[:attendance][:comment].blank?
             back_flg += 1
             noticeA += 'コメントを入力してください　'

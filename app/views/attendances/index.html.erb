@@ -7,8 +7,9 @@
     <thead>
       <tr>
         <th style="width:200px;">日付</th>
-        <th style="width:300px;">開始時間</th>
-        <th style="width:300px;">終了時間</th>
+        <th style="width:250px;">開始時間</th>
+        <th style="width:250px;">終了時間</th>
+        <th style="width:100px;">打刻</th>
       <% if admin_user? %>
         <th style="width:100px;">詳細</th>
         <th style="width:100px;">修正</th>
@@ -24,11 +25,17 @@
           <td style="border:2px solid"><%= attendance.attendance_date.strftime("%Y年%m月%d日") %></td>
 
         <% if attendance.edit_flg? %>
-          <td style="border:2px solid;"><font color=red><%= attendance.start_time %>（修正済み）</font></td>
-          <td style="border:2px solid;"><font color=red><%= attendance.end_time %>（修正済み）</font></td>
+          <td style="border:2px solid;"><font color=red><%= attendance.start_time %></font></td>
+          <td style="border:2px solid;"><font color=red><%= attendance.end_time %></font></td>
         <% else %>
           <td style="border:2px solid"><%= attendance.start_time %></td>
           <td style="border:2px solid"><%= attendance.end_time %></td>
+        <% end %>
+
+        <% if attendance.edit_flg? %>
+          <td style="border:2px solid;"><font color=red>修正済</font></td>
+        <% else %>
+          <td style="border:2px solid">未修正</td>
         <% end %>
 
           <td style="border:2px solid"><%= link_to '詳細', attendance_path(attendance.id) %></td>
