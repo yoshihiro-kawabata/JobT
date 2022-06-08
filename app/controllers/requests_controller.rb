@@ -119,7 +119,7 @@ class RequestsController < ApplicationController
         end    
       end
 
-      requestO = Request.find_by(period:@request.period, user_id: userA.id, consent_flg: true)
+      requestO = Request.find_by(period:@request.period, create_id: userA.id, consent_flg: true)
 
       if requestO.present?
         error_count << "exi"

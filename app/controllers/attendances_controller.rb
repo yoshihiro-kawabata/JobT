@@ -26,7 +26,7 @@ class AttendancesController < ApplicationController
             @schedule = Schedule.find_by(schedule_date: @attendance.attendance_date)
             if @schedule.offday?
                 back_flg += 1
-                noticeA += @attendance.attendance_date.strftime("%Y年%m月%d日") + 'は休みです'
+                noticeA += @attendance.attendance_date.strftime("%Y年%m月%d日") + 'は休みです　'
             end
         end
 
@@ -58,7 +58,7 @@ class AttendancesController < ApplicationController
             noticeA += '未来の打刻は修正できません　'
         end
 
-        if params[:attendance][:start_time] > params[:attendance][:end_time]
+        if (params[:attendance][:start_time].present? and params[:attendance][:end_time].present?) and params[:attendance][:start_time] > params[:attendance][:end_time]
             back_flg += 1
             noticeA += '開始時間が終了打刻より遅いです　'
         end
@@ -75,7 +75,7 @@ class AttendancesController < ApplicationController
 
         if params[:attendance][:comment].blank?
             back_flg += 1
-            noticeA += 'コメントを入力してください'
+            noticeA += 'コメントを入力してください　'
         end
 
         if back_flg > 0

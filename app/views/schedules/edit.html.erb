@@ -33,7 +33,7 @@
         <%= f.submit "更新する", class: "btn btn-primary", data: { confirm: 'スケジュールを更新します。' }  %>
     </div>
     <div class="col-sm-12 col-lg-4">
-       <h4 style="margin-top: 30px;"><%= link_to t('common.back'), schedules_path %></h4>
+       <h4 style="margin-top: 30px;"><%= link_to t('common.back'), schedule_path(@schedule.id) %></h4>
     </div>
 </div>
 <% end %>
