@@ -88,6 +88,9 @@ class RequestsController < ApplicationController
           error_count << "hol"
           error_message << ["は休みです"]
         end    
+
+        @request.status = ""
+
       when "3" then #有給休暇申請
         @vacation = Vacation.find_by(user_id: userA.id)
         yukyu = Request.where(request_type: "有給休暇申請", create_id: userA.id, consent_flg: true).count
@@ -107,6 +110,7 @@ class RequestsController < ApplicationController
 
         @request.start_time = ""
         @request.end_time = ""
+        @request.status = ""
 
       when "4" then #振替休日申請
         @vacation = Vacation.find_by(user_id: userA.id)
@@ -127,8 +131,9 @@ class RequestsController < ApplicationController
 
         @request.start_time = ""
         @request.end_time = ""
+        @request.status = ""
 
-      when "5" then #休日出勤申請
+      when "5" then #休日出勤スケジュール変更申請
         if @schedule.nil?
           error_count << "sch"
           error_message << ["が存在しません"]
@@ -205,7 +210,7 @@ class RequestsController < ApplicationController
             contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日時：' + requestA.period.strftime("%m月%d日") + '\n理由：'+ requestA.reason
           when 4 then #振替休日申請
             contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日時：' + requestA.period.strftime("%m月%d日") + '\n理由：'+ requestA.reason
-          when 5 then #休日出勤申請
+          when 5 then #休日出勤スケジュール変更申請
             contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日時：' + requestA.period.strftime("%m月%d日") + '\n修正後時刻：'  + requestA.start_time  + '～' + requestA.end_time + '\n理由：'+ requestA.reason
          end
 

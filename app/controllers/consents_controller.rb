@@ -42,7 +42,7 @@ class ConsentsController < ApplicationController
                 @schedule.update(start_time: "",end_time: "",status: "休み",offday: true)
                 @vacation.update(trans_count: trans_countA)
 
-            when 5 then #休日出勤申請
+            when 5 then #休日出勤スケジュール変更申請
                 @schedule = Schedule.find_by(schedule_date:@request.period, user_id: @request.create_id)
                 @vacation = Vacation.find_by(user_id: @request.create_id)
                 trans_countA = @vacation.trans_count + 1
