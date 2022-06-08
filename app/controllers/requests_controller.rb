@@ -17,6 +17,10 @@ class RequestsController < ApplicationController
 
   def create
       @request = Request.new(request_params)
+      if @request.period.blank?
+        @request.errors.messages.store(:period, ["を指定してください"])
+        back_page
+      else
       error_count = []
       error_message = []
       errorA = 0
@@ -62,10 +66,15 @@ class RequestsController < ApplicationController
           error_count << "e"
           error_message << ["を入力してください"]
         end
-        if (@request.period > Date.today) or (@request.start_time > Time.current or @request.end_time > Time.current)
+
+        start_timeA = "" + @request.period.to_s + " " + @request.start_time.to_s
+        end_timeA = "" + @request.period.to_s + " " + @request.end_time.to_s
+
+        if (@request.period > Date.today) or (start_timeA.to_time > Time.current or end_timeA.to_time > Time.current)
           error_count << "fut"
           error_message << ["の修正はできません"]
         end
+
         if (@request.period.wday == 0 or @request.period.wday == 6 or HolidayJp.holiday?(@request.period)) and @schedule.offday?
           error_count << "hol"
           error_message << ["は休みです"]
@@ -125,7 +134,7 @@ class RequestsController < ApplicationController
 
       if requestO.present?
         error_count << "exi"
-        error_message << ["は既に別の申請を提出しています。"]
+        error_message << ["は既に別の申請を提出しています"]
       end
 
       @request.request_type = documentA.name
@@ -135,7 +144,7 @@ class RequestsController < ApplicationController
       @request.user_id = userA.id
 
       if error_count.size > 0
-        @request.errors.messages.store(@request.request_type, ["は申請できませんでした。"])
+        @request.errors.messages.store(@request.request_type, ["は申請できませんでした"])
         error_count.size.times do |n|
           case error_count[n]
           when "sch" then #スケジュール
@@ -206,6 +215,7 @@ class RequestsController < ApplicationController
         end
         redirect_to requests_path, notice: '申請しました。'
       end
+    end    
   end
 
   def destroy

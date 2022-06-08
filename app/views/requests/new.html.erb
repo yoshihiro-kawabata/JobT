@@ -17,16 +17,51 @@
 
 <%= form_with(model: @request, local: true) do |f| %>
 
-<p><%= f.label :申請種類 %>：<%= f.select :request_type, documentA %></p>
+<div class="d-flex flex-wrap">
+    <div class="col-sm-12 col-lg-5">
+        <%= f.label :申請種類 %>：
+    </div>
+    <div class="col-sm-12 col-lg-7">
+        <%= f.select :request_type, documentA %>
+    </div>
+    <div class="col-sm-12 col-lg-5">
+        <%= f.label :修正日時 %>：
+    </div>
+    <div class="col-sm-12 col-lg-7">
+        <%= f.date_field :period %>
+    </div>
 
-<p>  <%= f.label :修正日時 %>：<%= f.date_field :period %></p>
-<p><%= f.label :開始 %>：<%= f.time_field :start_time, value:f.object.start_time.try(:strftime,'%H:%M') %> ～
-<%= f.label :終了 %>：<%= f.time_field :end_time,value:f.object.end_time.try(:strftime,'%H:%M') %></p>
-<p>  <%= f.label :ステータス %>：<%= f.text_field :status %></p>
+    <div class="col-sm-12 col-lg-5">
+        <%= f.label :開始時間 %>：
+    </div>
+    <div class="col-sm-12 col-lg-7">
+      <%= f.label :終了時間 %>：
+    </div>
 
-<p>  <%= f.label :理由 %>：
-<%= f.text_area :reason, maxlength: "200",class: "form-control",id: "exampleFormControlTextarea1", style: "height:120px; wrap:hard;" %>
-</p>
-<p>  <%= f.submit "申請", class: "btn btn-primary btn-lg", data: { confirm: '送信してもよろしいですか？' } %> </p>
+    <div class="col-sm-12 col-lg-1">
+    </div>
+    <div class="col-sm-12 col-lg-5">
+        <%= f.time_field :start_time, value:f.object.start_time.try(:strftime,'%H:%M') %>
+    </div>
+    <div class="col-sm-12 col-lg-6">
+        <%= f.time_field :end_time,value:f.object.end_time.try(:strftime,'%H:%M') %>
+    </div>
+
+    <div class="col-sm-12 col-lg-5">
+        <%= f.label :ステータス %>：
+    </div>
+    <div class="col-sm-12 col-lg-7">
+        <%= f.text_field :status %>
+    </div>
+    <div class="col-sm-12 col-lg-4">
+        <%= f.label :理由 %>：
+    </div>
+    <div class="col-sm-12 col-lg-8">
+        <%= f.text_area :reason, maxlength: "200",class: "form-control",id: "exampleFormControlTextarea1", style: "height:120px; wrap:hard;" %>
+    </div>
+    <div class="col-sm-12 col-lg-4">
+        <%= f.submit "申請", class: "btn btn-primary btn-lg", data: { confirm: '送信してもよろしいですか？' } %>
+    </div>
+</div>
 <% end %>
 </div>
