@@ -17,23 +17,32 @@ class RequestsController < ApplicationController
 
   def create
       @request = Request.new(request_params)
+      userA = User.find(current_user.id)
+      @schedule = Schedule.find_by(schedule_date:@request.period, user_id: userA.id)
+
       if @request.period.blank?
         @request.errors.messages.store(:period, ["を指定してください"])
         back_page
+      elsif @schedule.nil?
+        case @request.request_type
+          when "2" then #勤怠変更申請
+            @request.errors.messages.store(:attendance, ["が指定した日に存在しません"])
+          else
+            @request.errors.messages.store(:schedule, ["が指定した日に存在しません"])
+        end
+        back_page        
       else
       error_count = []
       error_message = []
       errorA = 0
 
-      userA = User.find(current_user.id)
       documentA = Document.find(@request.request_type)
-      @schedule = Schedule.find_by(schedule_date:@request.period, user_id: userA.id)
 
      case @request.request_type
       when "1" then #スケジュール変更申請
         if @schedule.nil?
           error_count << "sch"
-          error_message << ["が存在しません"]
+          error_message << ["が指定した日に存在しません"]
         end
         if @request.start_time == ""
           error_count << "s"
@@ -61,7 +70,7 @@ class RequestsController < ApplicationController
         @attendance = Attendance.find_by(attendance_date:@request.period, user_id: userA.id)
         if @attendance.nil?
           error_count << "att"
-          error_message << ["が存在しません"]
+          error_message << ["が指定した日に存在しません"]
         end
         if @request.start_time == ""
           error_count << "s"
@@ -97,7 +106,7 @@ class RequestsController < ApplicationController
         paid_countA = @vacation.paid_count - (yukyu + 1)
         if @schedule.nil?
           error_count << "sch"
-          error_message << ["が存在しません"]
+          error_message << ["が指定した日に存在しません"]
         end
         if paid_countA < 0
           error_count << "pc"
@@ -118,7 +127,7 @@ class RequestsController < ApplicationController
         trans_countA = @vacation.trans_count - (hurikae + 1)
         if @schedule.nil?
           error_count << "sch"
-          error_message << ["が存在しません"]
+          error_message << ["が指定した日に存在しません"]
         end
         if trans_countA < 0
           error_count << "tc"
@@ -136,7 +145,7 @@ class RequestsController < ApplicationController
       when "5" then #休日出勤スケジュール変更申請
         if @schedule.nil?
           error_count << "sch"
-          error_message << ["が存在しません"]
+          error_message << ["が指定した日に存在しません"]
         end
         if @request.start_time == ""
           error_count << "s"
@@ -208,15 +217,15 @@ class RequestsController < ApplicationController
 
          case documentA.number
           when 1 then #スケジュール変更申請
-            contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日時：' + requestA.period.strftime("%m月%d日") + '\n修正後時刻：'  + requestA.start_time  + '～' + requestA.end_time + '\n修正後ステータス：' + requestA.status + '\n理由：'+ requestA.reason
+            contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日：' + requestA.period.strftime("%m月%d日") + '\n修正後時刻：'  + requestA.start_time  + '～' + requestA.end_time + '\n修正後ステータス：' + requestA.status + '\n理由：'+ requestA.reason
           when 2 then #勤怠変更申請
-            contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日時：' + requestA.period.strftime("%m月%d日") + '\n修正後時刻：'  + requestA.start_time  + '～' + requestA.end_time + '\n理由：'+ requestA.reason
+            contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日：' + requestA.period.strftime("%m月%d日") + '\n修正後時刻：'  + requestA.start_time  + '～' + requestA.end_time + '\n理由：'+ requestA.reason
           when 3 then #有給休暇申請
-            contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日時：' + requestA.period.strftime("%m月%d日") + '\n理由：'+ requestA.reason
+            contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日：' + requestA.period.strftime("%m月%d日") + '\n理由：'+ requestA.reason
           when 4 then #振替休日申請
-            contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日時：' + requestA.period.strftime("%m月%d日") + '\n理由：'+ requestA.reason
+            contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日：' + requestA.period.strftime("%m月%d日") + '\n理由：'+ requestA.reason
           when 5 then #休日出勤スケジュール変更申請
-            contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日時：' + requestA.period.strftime("%m月%d日") + '\n修正後時刻：'  + requestA.start_time  + '～' + requestA.end_time + '\n理由：'+ requestA.reason
+            contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日：' + requestA.period.strftime("%m月%d日") + '\n修正後時刻：'  + requestA.start_time  + '～' + requestA.end_time + '\n理由：'+ requestA.reason
          end
 
          Consent.create!(
@@ -232,6 +241,7 @@ class RequestsController < ApplicationController
       end
 
       if errorA == 1
+        @request.request_type = documentA.number.to_s
         back_page
       else
         @users = User.where(group: userA.group, admin: true)

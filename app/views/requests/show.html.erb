@@ -3,7 +3,7 @@
 
 <p>作成日：<%= @request.created_at.strftime("%m月%d日") %></p>
 <p>申請種類：<%= @request.request_type %></p>
-<p>修正日時：<%= @request.period.strftime("%m月%d日") %> <% unless @request.start_time == "" %> <%= @request.start_time %> ～ <%= @request.end_time %> <% end %> </p>
+<p>修正日　：<%= @request.period.strftime("%m月%d日") %> <% unless @request.start_time == "" %> <%= @request.start_time %> ～ <%= @request.end_time %> <% end %> </p>
 <% unless @request.status == "" %> <p>修正ステータス：<%= @request.status %></p> <% end %> 
 <p>理由：<%= @request.reason %></p>
 

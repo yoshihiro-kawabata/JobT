@@ -85,7 +85,7 @@ class SchedulesController < ApplicationController
   
         if (params[:schedule][:start_time].present? and params[:schedule][:end_time].present?) and params[:schedule][:start_time] == params[:schedule][:end_time]
           back_flg += 1
-          noticeA += '開始時間と終了時間と同じです　'
+          noticeA += '開始時間が終了時間と同じです　'
         end
     
       end
@@ -93,6 +93,7 @@ class SchedulesController < ApplicationController
       
       if back_flg > 0
         flash[:notice] = noticeA
+        render :edit
       else
         if @schedule.update(schedule_params)
             noticeA += @schedule.schedule_date.strftime("%Y年%m月%d日") + 'の予定を更新しました'
@@ -111,11 +112,16 @@ class SchedulesController < ApplicationController
                 @message.user_id = @user.id
                 @message.save         
             end
+
+            redirect_to schedule_path(@schedule.id)
+
+        else
+            flash[:notice] = 'スケジュールを更新できませんでした'
+            render :edit    
         end
       end
-      redirect_to schedule_path(@schedule.id)
     end
-
+  
   private
       def set_schedule
         @schedule = Schedule.find(params[:id])

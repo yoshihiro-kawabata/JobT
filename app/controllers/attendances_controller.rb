@@ -19,10 +19,10 @@ class AttendancesController < ApplicationController
 
         if @attendance.attendance_date > Date.today
             back_flg += 1
-            noticeA += '未来の打刻は修正できません　'
+            noticeA += '未来の日付は編集できません　'
         end
 
-        @schedule = Schedule.find_by(schedule_date: @attendance.attendance_date)
+        @schedule = Schedule.find_by(user_id: @user.id, schedule_date: @attendance.attendance_date)
         if @schedule.offday?
             back_flg += 1
             noticeA += @attendance.attendance_date.strftime("%Y年%m月%d日") + 'は休みです　'
@@ -73,7 +73,7 @@ class AttendancesController < ApplicationController
 
         if (params[:attendance][:start_time].present? and params[:attendance][:end_time].present?) and params[:attendance][:start_time] == params[:attendance][:end_time]
             back_flg += 1
-            noticeA += '開始時間と終了時間と同じです　'
+            noticeA += '開始時間が終了時間と同じです　'
         end
     
         if params[:attendance][:comment].blank?
@@ -83,6 +83,7 @@ class AttendancesController < ApplicationController
 
         if back_flg > 0
             flash[:notice] = noticeA
+            render :edit
         else
             if @attendance.update(attendance_params)
                 noticeA += @attendance.attendance_date.strftime("%Y年%m月%d日") + 'の勤怠を更新しました'
@@ -97,9 +98,13 @@ class AttendancesController < ApplicationController
                     @message.user_id = @user.id
                     @message.save         
                 end
+                back_attendance
+            
+            else
+                flash[:notice] = '勤怠を更新できませんでした'
+                render :edit    
             end
         end
-        back_attendance
     end
 
     def group

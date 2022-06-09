@@ -397,15 +397,15 @@ Document.create!(
 
   case documentA.number
   when 1 then #スケジュール変更申請
-    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日時：' + requestA.period.strftime("%m月%d日") + '\n修正後時刻：'  + requestA.start_time  + '～' + requestA.end_time + '\n修正後ステータス：' + requestA.status + '\n理由：'+ requestA.reason
+    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日：' + requestA.period.strftime("%m月%d日") + '\n修正後時刻：'  + requestA.start_time  + '～' + requestA.end_time + '\n修正後ステータス：' + requestA.status + '\n理由：'+ requestA.reason
   when 2 then #勤怠変更申請
-    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日時：' + requestA.period.strftime("%m月%d日") + '\n修正後時刻：'  + requestA.start_time  + '～' + requestA.end_time + '\n理由：'+ requestA.reason
+    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日：' + requestA.period.strftime("%m月%d日") + '\n修正後時刻：'  + requestA.start_time  + '～' + requestA.end_time + '\n理由：'+ requestA.reason
   when 3 then #有給休暇申請
-    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日時：' + requestA.period.strftime("%m月%d日") + '\n理由：'+ requestA.reason
+    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日：' + requestA.period.strftime("%m月%d日") + '\n理由：'+ requestA.reason
   when 4 then #振替休日申請
-    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日時：' + requestA.period.strftime("%m月%d日") + '\n理由：'+ requestA.reason
+    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日：' + requestA.period.strftime("%m月%d日") + '\n理由：'+ requestA.reason
   when 5 then #休日出勤スケジュール変更申請
-    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日時：' + requestA.period.strftime("%m月%d日") + '\n修正後時刻：'  + requestA.start_time  + '～' + requestA.end_time + '\n理由：'+ requestA.reason
+    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日：' + requestA.period.strftime("%m月%d日") + '\n修正後時刻：'  + requestA.start_time  + '～' + requestA.end_time + '\n理由：'+ requestA.reason
  end
 
   Consent.create!(
@@ -438,15 +438,15 @@ Document.create!(
 
   case documentA.number
   when 1 then #スケジュール変更申請
-    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日時：' + requestA.period.strftime("%m月%d日") + '\n修正後時刻：'  + requestA.start_time  + '～' + requestA.end_time + '\n修正後ステータス：' + requestA.status + '\n理由：'+ requestA.reason
+    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日：' + requestA.period.strftime("%m月%d日") + '\n修正後時刻：'  + requestA.start_time  + '～' + requestA.end_time + '\n修正後ステータス：' + requestA.status + '\n理由：'+ requestA.reason
   when 2 then #勤怠変更申請
-    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日時：' + requestA.period.strftime("%m月%d日") + '\n修正後時刻：'  + requestA.start_time  + '～' + requestA.end_time + '\n理由：'+ requestA.reason
+    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日：' + requestA.period.strftime("%m月%d日") + '\n修正後時刻：'  + requestA.start_time  + '～' + requestA.end_time + '\n理由：'+ requestA.reason
   when 3 then #有給休暇申請
-    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日時：' + requestA.period.strftime("%m月%d日") + '\n理由：'+ requestA.reason
+    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日：' + requestA.period.strftime("%m月%d日") + '\n理由：'+ requestA.reason
   when 4 then #振替休日申請
-    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日時：' + requestA.period.strftime("%m月%d日") + '\n理由：'+ requestA.reason
+    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日：' + requestA.period.strftime("%m月%d日") + '\n理由：'+ requestA.reason
   when 5 then #休日出勤スケジュール変更申請
-    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日時：' + requestA.period.strftime("%m月%d日") + '\n修正後時刻：'  + requestA.start_time  + '～' + requestA.end_time + '\n理由：'+ requestA.reason
+    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日：' + requestA.period.strftime("%m月%d日") + '\n修正後時刻：'  + requestA.start_time  + '～' + requestA.end_time + '\n理由：'+ requestA.reason
  end
 
   Consent.create!(
@@ -479,15 +479,15 @@ Document.create!(
 
   case documentA.number
   when 1 then #スケジュール変更申請
-    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日時：' + requestA.period.strftime("%m月%d日") + '\n修正後時刻：'  + requestA.start_time  + '～' + requestA.end_time + '\n修正後ステータス：' + requestA.status + '\n理由：'+ requestA.reason
+    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日：' + requestA.period.strftime("%m月%d日") + '\n修正後時刻：'  + requestA.start_time  + '～' + requestA.end_time + '\n修正後ステータス：' + requestA.status + '\n理由：'+ requestA.reason
   when 2 then #勤怠変更申請
-    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日時：' + requestA.period.strftime("%m月%d日") + '\n修正後時刻：'  + requestA.start_time  + '～' + requestA.end_time + '\n理由：'+ requestA.reason
+    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日：' + requestA.period.strftime("%m月%d日") + '\n修正後時刻：'  + requestA.start_time  + '～' + requestA.end_time + '\n理由：'+ requestA.reason
   when 3 then #有給休暇申請
-    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日時：' + requestA.period.strftime("%m月%d日") + '\n理由：'+ requestA.reason
+    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日：' + requestA.period.strftime("%m月%d日") + '\n理由：'+ requestA.reason
   when 4 then #振替休日申請
-    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日時：' + requestA.period.strftime("%m月%d日") + '\n理由：'+ requestA.reason
+    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日：' + requestA.period.strftime("%m月%d日") + '\n理由：'+ requestA.reason
   when 5 then #休日出勤スケジュール変更申請
-    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日時：' + requestA.period.strftime("%m月%d日") + '\n修正後時刻：'  + requestA.start_time  + '～' + requestA.end_time + '\n理由：'+ requestA.reason
+    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日：' + requestA.period.strftime("%m月%d日") + '\n修正後時刻：'  + requestA.start_time  + '～' + requestA.end_time + '\n理由：'+ requestA.reason
  end
 
   Consent.create!(
@@ -520,15 +520,15 @@ Document.create!(
 
   case documentA.number
   when 1 then #スケジュール変更申請
-    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日時：' + requestA.period.strftime("%m月%d日") + '\n修正後時刻：'  + requestA.start_time  + '～' + requestA.end_time + '\n修正後ステータス：' + requestA.status + '\n理由：'+ requestA.reason
+    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日：' + requestA.period.strftime("%m月%d日") + '\n修正後時刻：'  + requestA.start_time  + '～' + requestA.end_time + '\n修正後ステータス：' + requestA.status + '\n理由：'+ requestA.reason
   when 2 then #勤怠変更申請
-    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日時：' + requestA.period.strftime("%m月%d日") + '\n修正後時刻：'  + requestA.start_time  + '～' + requestA.end_time + '\n理由：'+ requestA.reason
+    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日：' + requestA.period.strftime("%m月%d日") + '\n修正後時刻：'  + requestA.start_time  + '～' + requestA.end_time + '\n理由：'+ requestA.reason
   when 3 then #有給休暇申請
-    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日時：' + requestA.period.strftime("%m月%d日") + '\n理由：'+ requestA.reason
+    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日：' + requestA.period.strftime("%m月%d日") + '\n理由：'+ requestA.reason
   when 4 then #振替休日申請
-    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日時：' + requestA.period.strftime("%m月%d日") + '\n理由：'+ requestA.reason
+    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日：' + requestA.period.strftime("%m月%d日") + '\n理由：'+ requestA.reason
   when 5 then #休日出勤スケジュール変更申請
-    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日時：' + requestA.period.strftime("%m月%d日") + '\n修正後時刻：'  + requestA.start_time  + '～' + requestA.end_time + '\n理由：'+ requestA.reason
+    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日：' + requestA.period.strftime("%m月%d日") + '\n修正後時刻：'  + requestA.start_time  + '～' + requestA.end_time + '\n理由：'+ requestA.reason
  end
 
   Consent.create!(
@@ -561,15 +561,15 @@ Document.create!(
 
   case documentA.number
   when 1 then #スケジュール変更申請
-    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日時：' + requestA.period.strftime("%m月%d日") + '\n修正後時刻：'  + requestA.start_time  + '～' + requestA.end_time + '\n修正後ステータス：' + requestA.status + '\n理由：'+ requestA.reason
+    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日：' + requestA.period.strftime("%m月%d日") + '\n修正後時刻：'  + requestA.start_time  + '～' + requestA.end_time + '\n修正後ステータス：' + requestA.status + '\n理由：'+ requestA.reason
   when 2 then #勤怠変更申請
-    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日時：' + requestA.period.strftime("%m月%d日") + '\n修正後時刻：'  + requestA.start_time  + '～' + requestA.end_time + '\n理由：'+ requestA.reason
+    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日：' + requestA.period.strftime("%m月%d日") + '\n修正後時刻：'  + requestA.start_time  + '～' + requestA.end_time + '\n理由：'+ requestA.reason
   when 3 then #有給休暇申請
-    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日時：' + requestA.period.strftime("%m月%d日") + '\n理由：'+ requestA.reason
+    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日：' + requestA.period.strftime("%m月%d日") + '\n理由：'+ requestA.reason
   when 4 then #振替休日申請
-    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日時：' + requestA.period.strftime("%m月%d日") + '\n理由：'+ requestA.reason
+    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日：' + requestA.period.strftime("%m月%d日") + '\n理由：'+ requestA.reason
   when 5 then #休日出勤スケジュール変更申請
-    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日時：' + requestA.period.strftime("%m月%d日") + '\n修正後時刻：'  + requestA.start_time  + '～' + requestA.end_time + '\n理由：'+ requestA.reason
+    contentA = requestA.request_type + '\n作成者：' + requestA.create_name + '\n修正日：' + requestA.period.strftime("%m月%d日") + '\n修正後時刻：'  + requestA.start_time  + '～' + requestA.end_time + '\n理由：'+ requestA.reason
  end
 
   Consent.create!(

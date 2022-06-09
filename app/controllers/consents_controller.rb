@@ -19,7 +19,6 @@ class ConsentsController < ApplicationController
       documentA = Document.find_by(name:@request.request_type)
       @schedule = Schedule.find_by(schedule_date:@request.period, user_id: @request.create_id)
 
-
       back_flg = 0
       noticeA = ""
 
@@ -27,22 +26,22 @@ class ConsentsController < ApplicationController
         case documentA.number
           when 1 then #スケジュール変更申請
             back_flg += 1
-            noticeA = "勤怠予定が欠席となっています。「スケジュール」から勤怠予定を変更して、再度承認してください。　"
+            noticeA = "申請作成者が指定した修正日の勤怠予定が欠席となっています。「スケジュール」から勤怠予定を変更して、再度承認してください。　"
           when 2 then #勤怠変更申請
             back_flg += 1
-            noticeA = "勤怠予定が欠席となっています。「スケジュール」から勤怠予定を変更して、再度承認してください。　"  
+            noticeA = "申請作成者が指定した修正日の勤怠予定が欠席となっています。「スケジュール」から勤怠予定を変更して、再度承認してください。　"  
           when 3 then #有給休暇申請
             back_flg += 1
-            noticeA = "勤怠予定が欠席となっています。「スケジュール」から勤怠予定を変更して、再度承認してください。　"  
+            noticeA = "申請作成者が指定した修正日の勤怠予定が欠席となっています。「スケジュール」から勤怠予定を変更して、再度承認してください。　"  
           when 4 then #振替休日申請
             back_flg += 1
-            noticeA = "勤怠予定が欠席となっています。「スケジュール」から勤怠予定を変更して、再度承認してください。　"
+            noticeA = "申請作成者が指定した修正日の勤怠予定が欠席となっています。「スケジュール」から勤怠予定を変更して、再度承認してください。　"
         end
-    else
+      else
         case documentA.number
           when 5 then #休日出勤スケジュール変更申請
             back_flg += 1
-            noticeA = "勤怠予定が出席となっています。「スケジュール」から勤怠予定を変更して、再度承認してください。　"
+            noticeA = "申請作成者が指定した修正日の勤怠予定が出席となっています。「スケジュール」から勤怠予定を変更して、再度承認してください。　"
         end
       end    
 
@@ -83,17 +82,18 @@ class ConsentsController < ApplicationController
                 @vacation.update(trans_count: trans_countA)
            end
           
-           @request.update(consent_flg: false)
-
-           @user = User.find(@request.create_id)
-           @message = Message.new
-           @message.content = '申請は承認されました。申請種類：' + @request.request_type + '\n作成日：' + @request.created_at.strftime('%m月%d日%H時%M分')
-           @message.create_name = current_user.name
-           @message.create_id = current_user.id
-           @message.user_name = @user.name
-           @message.user_id = @user.id
-           @message.save
-
+           if @request.update(consent_flg: false)
+               @user = User.find(@request.create_id)
+               @message = Message.new
+               @message.content = '申請は承認されました。申請種類：' + @request.request_type + '\n作成日：' + @request.created_at.strftime('%m月%d日%H時%M分')
+               @message.create_name = current_user.name
+               @message.create_id = current_user.id
+               @message.user_name = @user.name
+               @message.user_id = @user.id
+               @message.save
+           else
+            redirect_to consents_path, notice: '申請を更新できませんでした'
+           end
            redirect_to consents_path, notice: '申請を承認しました'
         else
            redirect_to consents_path, notice: '承認できませんでした'
