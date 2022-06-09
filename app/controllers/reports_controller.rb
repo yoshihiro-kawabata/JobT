@@ -19,19 +19,29 @@ class ReportsController < ApplicationController
     end
       
     def new
-      user = User.find(current_user.id)
-      @group = Group.find(user.group)
-
-      repo_check = Report.find_by(user_id:current_user.id, createdate: Date.today.strftime("%m月%d日"))
-      attend_check = Attendance.find_by(user_id: current_user.id, attendance_date: Date.today)
-
-      if attend_check.start_time.nil?
-         redirect_to jobs_home_path, notice: 'まだ出勤していません。'
+      @schedule = Schedule.find_by(user_id: current_user.id, schedule_date: Date.today)
+      if @schedule.offday?
+          if current_user.admin?
+              flash[:notice] = '今日の予定は欠席です。出勤する場合は「スケジュール」から今日の勤怠予定を「出席」に変更してください。'
+          else
+              flash[:notice] = '今日の予定は欠席です。出勤する場合は「休日出勤スケジュール変更申請」を申請してください。'
+          end
+          redirect_to jobs_home_path        
       else
-        if repo_check.nil?
-           @report = Report.new
+        user = User.find(current_user.id)
+        @group = Group.find(user.group)
+
+        repo_check = Report.find_by(user_id:current_user.id, createdate: Date.today.strftime("%m月%d日"))
+        attend_check = Attendance.find_by(user_id: current_user.id, attendance_date: Date.today)
+
+        if attend_check.start_time.nil?
+           redirect_to jobs_home_path, notice: 'まだ出勤していません。'
         else
-          redirect_to edit_report_path(repo_check.id), notice: '今日の日報は既に作成しています。'
+          if repo_check.nil?
+             @report = Report.new
+          else
+            redirect_to edit_report_path(repo_check.id), notice: '今日の日報は既に作成しています。'
+          end
         end
       end
     end

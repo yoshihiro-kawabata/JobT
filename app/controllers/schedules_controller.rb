@@ -10,7 +10,7 @@ class SchedulesController < ApplicationController
       @schedules = []
 
       @users.each do |user|
-        @schedules << @q.result.where(user_id: user.id).where(schedule_date: (Date.today.beginning_of_month)..(Date.today.end_of_month)).order("schedule_date ASC")
+        @schedules << @q.result.where(user_id: user.id).where(schedule_date: (Date.today)..(Date.today.end_of_month)).order("schedule_date ASC")
       end
     end
       
@@ -53,7 +53,7 @@ class SchedulesController < ApplicationController
 
         if params[:schedule][:status].blank?
           back_flg += 1
-          noticeA += 'ステータスが空白です　'
+          noticeA += 'ステータスを入力してください　'
         end
 
         if params[:schedule][:comment].blank?
@@ -70,17 +70,17 @@ class SchedulesController < ApplicationController
   
         if params[:schedule][:status].blank?
           back_flg += 1
-          noticeA += 'ステータスが空白です　'
+          noticeA += 'ステータスを入力してください　'
         end
   
         if params[:schedule][:start_time].blank?
           back_flg += 1
-          noticeA += '開始時間が空白です　'
+          noticeA += '開始時間を入力してください　'
         end
   
         if params[:schedule][:end_time].blank?
           back_flg += 1
-          noticeA += '終了時間が空白です　'
+          noticeA += '終了時間を入力してください　'
         end
   
         if (params[:schedule][:start_time].present? and params[:schedule][:end_time].present?) and params[:schedule][:start_time] == params[:schedule][:end_time]
@@ -102,9 +102,9 @@ class SchedulesController < ApplicationController
             if @user.id != current_user.id
                 @message = Message.new
                 if @schedule.offday?
-                  @message.content = @schedule.schedule_date.strftime("%Y年%m月%d日") + 'のスケジュールを更新しました。修正者：' + current_user.name + '\n修正日：' + Date.today.strftime('%m月%d日')  + '\n勤怠予定：欠席\nコメント：' + @schedule.comment
+                  @message.content = @schedule.schedule_date.strftime("%Y年%m月%d日") + 'のスケジュールを更新しました。\n修正者：' + current_user.name + '\n修正日：' + Date.today.strftime('%m月%d日')  + '\n勤怠予定：欠席\nコメント：' + @schedule.comment
                 else
-                  @message.content = @schedule.schedule_date.strftime("%Y年%m月%d日") + 'のスケジュールを更新しました。修正者：' + current_user.name + '\n修正日：' + Date.today.strftime('%m月%d日')  + '\n勤怠予定：出席\n修正後スケジュール時刻：' + @schedule.start_time + '～' + @schedule.end_time + '\nコメント：' + @schedule.comment
+                  @message.content = @schedule.schedule_date.strftime("%Y年%m月%d日") + 'のスケジュールを更新しました。\n修正者：' + current_user.name + '\n修正日：' + Date.today.strftime('%m月%d日')  + '\n勤怠予定：出席\n修正後スケジュール時刻：' + @schedule.start_time + '～' + @schedule.end_time + '\nコメント：' + @schedule.comment
                 end
                 @message.create_name = current_user.name
                 @message.create_id = current_user.id

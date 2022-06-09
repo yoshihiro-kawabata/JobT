@@ -1,5 +1,8 @@
 <div class="d-flex flex-wrap">
    <div class="col-sm-12 col-lg-6">
+      <% if @user_count_att == 0 %>
+         <h2>今日の出席者はいません</h2>
+      <% end %>
       <div style="width: 500px; height: 500px;">
       <%= pie_chart @attend_ratio, donut: true, suffix: "人", id: "users-chartA", width: "500px", height: "500px", colors: ["#a22041", "#7b7c7d"], legend: false %>
       <%= pie_chart @report_ratio, donut: true, suffix: "人", id: "users-chartB", width: "280px", height: "280px", colors: ["#006e54", "#7b7c7d"], legend: false %>

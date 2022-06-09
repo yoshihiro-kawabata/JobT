@@ -32,8 +32,8 @@
  <table>
     <tr>
       <th>名前</th>
-      <% (Date.today.beginning_of_month..Date.today.end_of_month).each do |date| %>
-        <th><%= date.strftime("%Y年%m月%d日") %></th>
+      <% @schedules[0].each do |schedule| %>
+        <th><%= schedule.schedule_date.strftime("%Y年%m月%d日") %></th>
       <% end %>
     </tr>
   <% uscount = 0 %>
@@ -50,7 +50,6 @@
                <div class="col-sm-12 col-lg-12">
                  予定：<%= @schedules[uscount]["#{s}".to_i].status %>
                </div>
-
                <% if @schedules[uscount]["#{s}".to_i].offday? %>
                <div class="col-sm-12 col-lg-4">
                </div>

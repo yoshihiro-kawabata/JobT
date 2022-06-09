@@ -43,28 +43,38 @@ class JobsController < ApplicationController
     end
 
     def leave
-        @attendance = Attendance.find_by(user_id: current_user.id, attendance_date: Date.today)
-        if @attendance.start_time.nil?
-            flash[:notice] = 'まだ出勤していません。'        
-            redirect_to jobs_home_path
+        @schedule = Schedule.find_by(user_id: current_user.id, schedule_date: Date.today)
+        if @schedule.offday?
+            if current_user.admin?
+                flash[:notice] = '今日の予定は欠席です。出勤する場合は「スケジュール」から今日の勤怠予定を「出席」に変更してください。'
+            else
+                flash[:notice] = '今日の予定は欠席です。出勤する場合は「休日出勤スケジュール変更申請」を申請してください。'
+            end
+            redirect_to jobs_home_path        
         else
-            if @attendance.end_time.nil?
-                @attendance.update(end_time: DateTime.current.strftime('%H:%M'))
-                flash[:notice] = '退勤打刻しました'        
-                @users = User.where(group: current_user.group).where.not(id: current_user.id)
-                @users.each do |user|
-                    @message = Message.new
-                    @message.content = DateTime.current.strftime('%H時%M分') + "に退勤しました。"
-                    @message.create_name = current_user.name
-                    @message.create_id = current_user.id
-                    @message.user_name = user.name
-                    @message.user_id = user.id
-                    @message.save
-                end
+            @attendance = Attendance.find_by(user_id: current_user.id, attendance_date: Date.today)
+            if @attendance.start_time.nil?
+                flash[:notice] = 'まだ出勤していません。'        
                 redirect_to jobs_home_path
             else
-                flash[:notice] = '既に退勤打刻しています。'        
-                redirect_to jobs_home_path        
+                if @attendance.end_time.nil?
+                    @attendance.update(end_time: DateTime.current.strftime('%H:%M'))
+                    flash[:notice] = '退勤打刻しました'        
+                    @users = User.where(group: current_user.group).where.not(id: current_user.id)
+                    @users.each do |user|
+                        @message = Message.new
+                        @message.content = DateTime.current.strftime('%H時%M分') + "に退勤しました。"
+                        @message.create_name = current_user.name
+                        @message.create_id = current_user.id
+                        @message.user_name = user.name
+                        @message.user_id = user.id
+                        @message.save
+                    end
+                    redirect_to jobs_home_path
+                else
+                    flash[:notice] = '既に退勤打刻しています。'        
+                    redirect_to jobs_home_path        
+                end
             end
         end
     end
@@ -74,7 +84,6 @@ class JobsController < ApplicationController
 
         #出席予定者数
         @user_count_att = @schedules.where(offday: false).count
-
 
         #欠席予定者数
         @user_members_holi = @schedules.where(offday: true)
@@ -91,6 +100,17 @@ class JobsController < ApplicationController
         
         @attendances = Attendance.where(group: current_user.group, attendance_date: Date.today).where.not(user_id: @holi_user_box)
 
+        #出勤管理者
+        admincount = 0
+        @admin_users = User.where(group: current_user.group, admin: true)
+        @admin_users.each do |au|
+            adatt = Attendance.find_by(user_id:au.id, attendance_date: Date.today)
+            sched = Schedule.find_by(user_id:au.id, schedule_date: Date.today)
+            if adatt.start_time.present? and !sched.offday?
+                admincount += 1
+            end
+        end
+
         #出勤者
         @attend_members = @attendances.where.not(start_time: nil)
         @attend_countA = @attend_members.count
@@ -99,11 +119,11 @@ class JobsController < ApplicationController
         @attend_ratio.store("未出勤", @user_count_att - @attend_countA)
 
         #日報提出者
-        @reports = Report.where(group: current_user.group, createdate: Date.today.strftime("%m月%d日"))
+        @reports = Report.where(group: current_user.group, createdate: Date.today.strftime("%m月%d日")).where.not(user_id: @holi_user_box)
         @report_countA = @reports.count
         @report_ratio = {}
-        @report_ratio.store("提出済", @report_countA)
-        @report_ratio.store("未提出", @user_count_att - @report_countA)
+        @report_ratio.store("提出済", @report_countA + admincount)
+        @report_ratio.store("未提出", @user_count_att - @report_countA - admincount)
 
         #退勤者
         @leave_members = @attendances.where.not(end_time: nil)

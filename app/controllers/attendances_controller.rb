@@ -63,12 +63,12 @@ class AttendancesController < ApplicationController
 
         if params[:attendance][:start_time].blank?
             back_flg += 1
-            noticeA += '開始時間が空白です　'
+            noticeA += '開始時間を入力してください　'
         end
 
         if params[:attendance][:end_time].blank?
             back_flg += 1
-            noticeA += '終了時間が空白です　'
+            noticeA += '終了時間を入力してください　'
         end
 
         if (params[:attendance][:start_time].present? and params[:attendance][:end_time].present?) and params[:attendance][:start_time] == params[:attendance][:end_time]
@@ -91,7 +91,7 @@ class AttendancesController < ApplicationController
 
                 if @user.id != current_user.id
                     @message = Message.new
-                    @message.content = @attendance.attendance_date.strftime("%Y年%m月%d日") + 'の勤怠を更新しました。修正者：' + current_user.name + '\n修正日：' + Date.today.strftime('%m月%d日')  + '\n修正後勤怠時刻：' + @attendance.start_time + '～' + @attendance.end_time + '\nコメント：' + @attendance.comment
+                    @message.content = @attendance.attendance_date.strftime("%Y年%m月%d日") + 'の勤怠を更新しました。\n修正者：' + current_user.name + '\n修正日：' + Date.today.strftime('%m月%d日')  + '\n修正後勤怠時刻：' + @attendance.start_time + '～' + @attendance.end_time + '\nコメント：' + @attendance.comment
                     @message.create_name = current_user.name
                     @message.create_id = current_user.id
                     @message.user_name = @user.name
@@ -113,7 +113,7 @@ class AttendancesController < ApplicationController
         @attendances = []
 
         @users.each do |user|
-            @attendances << @q.result.where(user_id: user.id).where(attendance_date: (Date.today.beginning_of_month)..(Date.today.end_of_month)).order("attendance_date ASC")
+            @attendances << @q.result.where(user_id: user.id).where(attendance_date: (Date.today)..(Date.today.end_of_month)).order("attendance_date ASC")
         end
     end
 

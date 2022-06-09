@@ -34,8 +34,8 @@
  <table>
     <tr>
       <th>名前</th>
-      <% (Date.today.beginning_of_month..Date.today.end_of_month).each do |date| %>
-        <th><%= date.strftime("%Y年%m月%d日") %></th>
+      <% @attendances[0].each do |attendance| %>
+        <th><%= attendance.attendance_date.strftime("%Y年%m月%d日") %></th>
       <% end %>
     </tr>
   <% uscount = 0 %>
