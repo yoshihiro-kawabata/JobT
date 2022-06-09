@@ -90,7 +90,7 @@ class RequestsController < ApplicationController
 
         if (@request.period > Date.today) or (start_timeA.to_time > Time.current or end_timeA.to_time > Time.current)
           error_count << "fut"
-          error_message << ["の修正はできません"]
+          error_message << ["の勤怠申請はできません"]
         end
 
         if @schedule.offday?
