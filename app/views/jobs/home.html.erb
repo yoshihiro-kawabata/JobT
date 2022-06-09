@@ -37,6 +37,7 @@
                <p>
                <h5>スケジュール<h5>
                <h5>勤怠予定：<% if @schedule.offday? %> 欠席 <% else %> 出席 <% end %><h5>
+               <% unless @schedule.offday? %> 
                <h5>開始予定：<%= @schedule.start_time %><h5>
                <h5>終了予定：<%= @schedule.end_time %><h5>
                <h5>実績<h5>
@@ -64,7 +65,7 @@
                <% else %>
                <h5>終了時間：<%= @attendance.end_time %><h5>
                <% end %>
-
+             <% end %>
 
    <script>
    function set2fig(num) {
