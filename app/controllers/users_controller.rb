@@ -2,7 +2,8 @@ class UsersController < ApplicationController
     skip_before_action :login_required
     skip_before_action :admin_required,  only: [:show, :edit, :update]
     before_action :set_user,  only: [:show, :edit, :update]
-
+    before_action :correct_user, only: [:show, :edit]
+  
       def new
           @user = User.new
           @templetes = Templete.all 
@@ -73,7 +74,6 @@ class UsersController < ApplicationController
       end
     
       def show
-        @user = User.find(params[:id])
       end
   
       def edit
@@ -90,11 +90,19 @@ class UsersController < ApplicationController
     
     private
       def set_user
-        @user = User.find(params[:id])
+        @user = User.find_by(id: params[:id])
       end
   
       def user_params
         params.require(:user).permit(:name, :number, :email, :admin, :password, :password_confirmation, :templete, :group)
+      end
+
+      def correct_user
+        if @user.present?
+          redirect_to current_user, notice: '操作に問題があります' unless current_user?(@user)
+        else
+          redirect_to current_user, notice: '操作に問題があります'
+        end
       end
   
 end
